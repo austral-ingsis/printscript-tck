@@ -1,16 +1,13 @@
 package interpreter;
 import implementation.CustomImplementationFactory;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import util.ErrorCollector;
 import util.PrintCollector;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
-
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 

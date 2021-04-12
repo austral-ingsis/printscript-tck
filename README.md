@@ -4,7 +4,8 @@ This repository provides a way for any PrintScript interpreter to test its compl
 This includes a collection of PrintScript files with their expected print results, as well as the validation result (valid or invalid).
 
 ### How to validate your implementation?
-- create a new branch with the following naming convention: [group number]-validation
-- Modify **build.gradle** to include your implementation as a dependency in the project
-- Within _src/main/java/implementation_, define an adapter of your lexer to comply with the [PrintScriptInterpreter](src/main/java/interpreter/PrintScriptInterpreter.java) interface.
-- Return your adapted implementation in [CustomImplementationFactory](src/main/java/implementation/CustomImplementationFactory.java)
+- Fork this repository and create a new branch with the following naming convention: ```group-[group number]-validation```.
+- Modify **build.gradle** to include your implementation as a dependency in the project.
+- Return your implementation in [CustomImplementationFactory](src/main/java/implementation/CustomImplementationFactory.java). 
+  Make sure to define a adapter of your interpreter to comply with the [PrintScriptInterpreter](src/main/java/interpreter/PrintScriptInterpreter.java) interface.
+- When all tests cases run correctly using ```./gradlew build```, create a pull request to the original repository for a final correction. 
