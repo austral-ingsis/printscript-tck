@@ -1,5 +1,6 @@
 package interpreter;
 import implementation.CustomImplementationFactory;
+import org.hamcrest.MatcherAssert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -8,8 +9,8 @@ import util.PrintCollector;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
-import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 @RunWith(Parameterized.class)
 public class InterpreterPrintStatementTest {
@@ -52,7 +53,7 @@ public class InterpreterPrintStatementTest {
 
     private List<String> readLines(String file) throws FileNotFoundException {
         Scanner s = new Scanner(new File(file));
-        ArrayList<String> list = new ArrayList<String>();
+        ArrayList<String> list = new ArrayList<>();
         while (s.hasNextLine()){
             list.add(s.nextLine());
         }

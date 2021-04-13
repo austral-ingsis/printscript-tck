@@ -1,23 +1,27 @@
 package interpreter;
+
 import implementation.CustomImplementationFactory;
 import org.hamcrest.Matcher;
+import org.hamcrest.MatcherAssert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import util.ErrorCollector;
-import util.PrintCollector;
+
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 @RunWith(Parameterized.class)
 public class InterpreterValidationTest {
@@ -54,13 +58,16 @@ public class InterpreterValidationTest {
     }
 
     @Test
-    public void testValidation() throws FileNotFoundException {
+    public void testValidation() {
         ErrorCollector errorCollector = new ErrorCollector();
         interpreter.execute(file, version, (msg) -> {}, errorCollector);
         boolean shouldBeValid = file.getName().startsWith("valid");
-        final Matcher<List<String>> errorMatcher =
-                shouldBeValid ? is(Collections.emptyList()) : not(Collections.emptyList());
+        final Matcher<List<String>> errorMatcher = getErrorMatcherForExpectedResult(shouldBeValid);
         assertThat(errorCollector.getErrors(), errorMatcher);
+    }
+
+    private Matcher<List<String>> getErrorMatcherForExpectedResult(boolean shouldBeValid) {
+        return shouldBeValid ? is(Collections.emptyList()) : not(Collections.emptyList());
     }
 
 }
