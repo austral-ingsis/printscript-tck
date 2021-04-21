@@ -23,6 +23,7 @@ java {
 
 dependencies {
     testImplementation 'junit:junit:4.13'
+    implementation 'edu.uni.austral.ingsist:cli:1.1.3'
 }
 
 test {
