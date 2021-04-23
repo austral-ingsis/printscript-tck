@@ -12,6 +12,6 @@ public class PrintEmitterAdaptor implements Printer {
   
   @Override
   public void print(String message) {
-    printer.print(message);
+    printer.print(message.trim());
   }
 }
