@@ -15,7 +15,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'edu.austral.ingsis:interpreting:1.3.0'
+    implementation 'edu.austral.ingsis:interpreting:1.4.0'
     testImplementation 'junit:junit:4.13'
 }
 

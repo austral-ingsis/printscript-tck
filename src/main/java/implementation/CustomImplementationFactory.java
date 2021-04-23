@@ -15,7 +15,7 @@ public class CustomImplementationFactory implements InterpreterFactory {
         return (src, version, emitter, handler) -> {
             try {
                 interpreter = new ConcreteInterpreter("PrintScript " + version, new File("rules.txt"));
-                interpreter.interpret(src, emitter::print);
+                interpreter.interpret(src, emitter::print, false);
             } catch (Exception e) {
                 handler.reportError(e.getMessage());
             }
