@@ -7,7 +7,7 @@ repositories {
     mavenCentral()
     maven {
         name = "GitHubPackages"
-        url = uri("https://maven.pkg.github.com/Maximilianoadaro/printscript")
+        url = uri("https://maven.pkg.github.com/MaximilianoAdaro/printscript")
         credentials {
             username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
             password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
