@@ -11,6 +11,6 @@ public class InterpreterAdapter implements PrintScriptInterpreter {
 
     @Override
     public void execute(File src, String version, PrintEmitter emitter, ErrorHandler handler) {
-        PrintScript.executeWithPrintAndErrorConsumers(new String[]{"-f " + src.getAbsolutePath()}, emitter::print, handler::reportError);
+        PrintScript.executeWithPrintAndErrorConsumers(src, version, emitter::print, handler::reportError);
     }
 }
