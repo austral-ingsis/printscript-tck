@@ -9,7 +9,7 @@ repositories {
         url = uri("https://maven.pkg.github.com/pedroaraoz/printScript")
         credentials {
             username = project.findProperty("gpr.user") ?: "pedroaraoz"
-            password = project.findProperty("gpr.key") ?: "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"
+            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
         }
     }
 }
@@ -17,9 +17,9 @@ repositories {
 
 dependencies {
     testImplementation 'junit:junit:4.13'
-    implementation 'edu.austral.ingsis:state:1.1.2'
-    implementation 'edu.austral.ingsis:printer:1.1.2'
-    implementation 'edu.austral.ingsis:abstractsyntaxtree:1.1.2'
+    implementation 'edu.austral.ingsis:state:1.1.3'
+    implementation 'edu.austral.ingsis:printer:1.1.3'
+    implementation 'edu.austral.ingsis:abstractsyntaxtree:1.1.3'
 }
 
 test {
