@@ -2,26 +2,20 @@ plugins {
     id 'java'
 }
 
-// TODO: uncomment to be able to fetch packages in your own repository
-//repositories {
-//    mavenCentral()
-//    maven {
-//        name = "GitHubPackages"
-//        url = uri("https://maven.pkg.github.com/<your-username>/printscript")
-//        credentials {
-//            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-//            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
-//        }
-//    }
-//}
-
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(15)
+repositories {
+    mavenCentral()
+    maven {
+        name = "GitHubPackages"
+        url = uri("https://maven.pkg.github.com/sofiasdz/TpIngSis")
+        credentials {
+            username = project.findProperty("gpr.user") ?: "sofiasdz"
+            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+        }
     }
 }
 
 dependencies {
+    implementation 'TpIngSis:parser:1.1-SNAPSHOT'
     testImplementation 'junit:junit:4.13'
 }
 
