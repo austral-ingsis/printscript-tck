@@ -15,7 +15,9 @@ public class PrintScriptInterpreterImpl implements PrintScriptInterpreter {
   public void execute(File src, String version, PrintEmitter emitter, ErrorHandler handler) {
     final String path = src.getPath();
     String command = "execute " + path + " " + version + " output-enabled=false";
-    final CLI cli = new CLI(new PrintEmitterAdaptor(emitter));
+    PrintEmitterAdaptor printEmitterAdaptor = new PrintEmitterAdaptor(emitter);
+    printEmitterAdaptor.setIntegerMode();
+    final CLI cli = new CLI(printEmitterAdaptor);
     
     try {
       cli.run(command);
