@@ -9,7 +9,7 @@ repositories {
         name = "GitHubPackages"
         url = uri("https://maven.pkg.github.com/matiasferron/printScript")
         credentials {
-            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+            username = "matiasferron"
             password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
         }
     }
@@ -17,7 +17,7 @@ repositories {
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(11)
+        languageVersion = JavaLanguageVersion.of(15)
     }
 }
 
