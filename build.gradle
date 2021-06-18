@@ -8,8 +8,8 @@ repositories {
         name = "GitHubPackages"
         url = uri("https://maven.pkg.github.com/sofiasdz/TpIngSis")
         credentials {
-            username = project.findProperty("gpr.user") ?: "sofiasdz"
-            password = project.findProperty("gpr.key") ?: "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"
+            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
 
         }
     }
