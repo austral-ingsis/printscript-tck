@@ -9,14 +9,14 @@ repositories {
         url = uri("https://maven.pkg.github.com/sofiasdz/TpIngSis")
         credentials {
             username = project.findProperty("gpr.user") ?: "sofiasdz"
-            password = project.findProperty("gpr.key") ?: "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"
+            password = project.findProperty("gpr.key") ?: "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"
 
         }
     }
 }
 
 dependencies {
-    implementation 'TpIngSis:parser:2.2-SNAPSHOT'
+    implementation 'TpIngSis:parser:2.3-SNAPSHOT'
     testImplementation 'junit:junit:4.13'
 }
 
