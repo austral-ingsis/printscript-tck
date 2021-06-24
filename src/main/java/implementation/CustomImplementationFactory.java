@@ -1,15 +1,18 @@
 package implementation;
 
 import interpreter.PrintScriptInterpreter;
+import cli.CLI;
 
 public class CustomImplementationFactory implements InterpreterFactory {
 
     @Override
     public PrintScriptInterpreter interpreter() {
-        // your PrintScript implementation should be returned here.
-        // make sure to ADAPT your implementation to PrintScriptInterpreter interface.
-        throw new NotImplementedException("Needs implementation"); // TODO: implement
-
-        // Dummy impl: return (src, version, emitter, handler) -> { };
+        return ((src, version, emitter, handler) -> {
+            try {
+                CLI.execute(src, version, emitter::print);
+            } catch (Exception e) {
+                handler.reportError(e.getMessage());
+            }
+        });
     }
 }
