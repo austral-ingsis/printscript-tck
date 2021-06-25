@@ -23,7 +23,7 @@ java {
 
 dependencies {
     testImplementation 'junit:junit:4.13'
-    implementation 'org.example:cli:1.1.15'
+    implementation 'org.example:cli:1.1.17'
 }
 
 test {
