@@ -3,17 +3,17 @@ plugins {
 }
 
 // TODO: uncomment to be able to fetch packages in your own repository
-//repositories {
-//    mavenCentral()
-//    maven {
-//        name = "GitHubPackages"
-//        url = uri("https://maven.pkg.github.com/<your-username>/printscript")
-//        credentials {
-//            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-//            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
-//        }
-//    }
-//}
+repositories {
+    mavenCentral()
+    maven {
+        name = "GitHubPackages"
+        url = uri("https://maven.pkg.github.com/Bautista-Baiocchi-lora/PrintScript")
+        credentials {
+            username = "Bautista-Baiocchi-lora"//project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+            password = "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"//project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+        }
+    }
+}
 
 java {
     toolchain {
@@ -23,6 +23,7 @@ java {
 
 dependencies {
     testImplementation 'junit:junit:4.13'
+    implementation 'org.example:cli:1.1.5'
 }
 
 test {
