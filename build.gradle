@@ -10,7 +10,7 @@ repositories {
         url = uri("https://maven.pkg.github.com/Bautista-Baiocchi-lora/PrintScript")
         credentials {
             username = "Bautista-Baiocchi-lora"//project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-            password = "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"//project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+            password = "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"//project.findProperty("gpr.key") ?: System.getenv("TOKEN")
         }
     }
 }
@@ -23,7 +23,7 @@ java {
 
 dependencies {
     testImplementation 'junit:junit:4.13'
-    implementation 'org.example:cli:1.1.13'
+    implementation 'org.example:cli:1.1.15'
 }
 
 test {
