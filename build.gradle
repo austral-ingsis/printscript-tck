@@ -24,7 +24,7 @@ java {
 
 dependencies {
     testImplementation 'junit:junit:4.13'
-    implementation 'edu.austral.ingsis:interpreter:2.0.0-SNAPSHOT'
+    implementation 'edu.austral.ingsis:interpreter:2.0.3'
 }
 
 test {
