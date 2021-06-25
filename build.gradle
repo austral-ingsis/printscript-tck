@@ -3,17 +3,17 @@ plugins {
 }
 
 // TODO: uncomment to be able to fetch packages in your own repository
-//repositories {
-//    mavenCentral()
-//    maven {
-//        name = "GitHubPackages"
-//        url = uri("https://maven.pkg.github.com/<your-username>/printscript")
-//        credentials {
-//            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-//            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
-//        }
-//    }
-//}
+repositories {
+    mavenCentral()
+    maven {
+        name = "GitHubPackages"
+        url = uri("https://maven.pkg.github.com/nickyfox/IngSisParser")
+        credentials {
+            username = project.findProperty("gpr.user") ?: "nickyfox"
+            password = project.findProperty("gpr.key") ?: "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"
+        }
+    }
+}
 
 java {
     toolchain {
@@ -23,6 +23,7 @@ java {
 
 dependencies {
     testImplementation 'junit:junit:4.13'
+    implementation 'com.printscript.ingsis:cli:1.0.23'
 }
 
 test {
