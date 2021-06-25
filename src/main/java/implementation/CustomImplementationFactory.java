@@ -1,6 +1,6 @@
 package implementation;
 
-import austral.ing.sis.App;
+import edu.austral.ingsis.interpreter.InterpreterRunner;
 import interpreter.PrintScriptInterpreter;
 
 public class CustomImplementationFactory implements InterpreterFactory {
@@ -15,8 +15,8 @@ public class CustomImplementationFactory implements InterpreterFactory {
         // Dummy impl:
         return (src, version, emitter, handler) -> {
             try {
-                App.run(src.getAbsolutePath(), version, emitter::print);
-            } catch (Exception e) {
+                InterpreterRunner.run(src.getAbsolutePath(), version, emitter::print);
+            } catch (RuntimeException e) {
                 handler.reportError(e.getMessage());
             }
         };
