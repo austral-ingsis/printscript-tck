@@ -10,8 +10,8 @@ repositories {
         name = "GitHubPackages"
         url = uri("https://maven.pkg.github.com/nickyfox/IngSisParser")
         credentials {
-            username = project.findProperty("gpr.user") ?: "nickyfox"
-            password = project.findProperty("gpr.key") ?: "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"
+            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
         }
     }
 }
