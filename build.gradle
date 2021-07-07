@@ -22,7 +22,7 @@ java {
 
 dependencies {
     testImplementation 'junit:junit:4.13'
-    implementation 'com.austral:cli:1.1.1'
+    implementation 'com.austral:cli:1.1.6'
 }
 
 test {
