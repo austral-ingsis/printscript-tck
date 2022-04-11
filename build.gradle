@@ -22,9 +22,14 @@ java {
 }
 
 dependencies {
-    testImplementation 'junit:junit:4.13'
+    testImplementation 'junit:junit:4.13.2'
+    implementation ':buildSrc'
 }
 
 test {
     useJUnit()
+}
+
+repositories {
+    mavenCentral()
 }
