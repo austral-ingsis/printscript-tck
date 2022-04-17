@@ -1,29 +1,32 @@
 plugins {
     id 'java'
+    id "com.github.eugenesy.scapegoat" version "0.2.0"
+
 }
 
-// TODO: uncomment to be able to fetch packages in your own repository
-//repositories {
-//    mavenCentral()
-//    maven {
-//        name = "GitHubPackages"
-//        url = uri("https://maven.pkg.github.com/<your-username>/printscript")
-//        credentials {
-//            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-//            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
-//        }
-//    }
-//}
+repositories {
+    gradlePluginPortal()
+    mavenCentral()
+    maven {
+        name = "GitHubPackages"
+        url = uri("https://maven.pkg.github.com/flor-resoagli/PrintScript")
+        credentials {
+//            find properties on gradle.properties file
+            username = System.getProperty("USERNAME")
+            password = System.getProperty("TOKEN")
+        }
+    }
+}
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(15)
+        languageVersion = JavaLanguageVersion.of(16)
     }
 }
 
 dependencies {
     testImplementation 'junit:junit:4.13.2'
-    implementation ':buildSrc'
+    implementation 'org.florresoagli:cli:0.0.3'
 }
 
 test {
