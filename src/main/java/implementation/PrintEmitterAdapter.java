@@ -4,7 +4,7 @@ import interpreter.PrintEmitter;
 
 import java.util.function.Consumer;
 
-class PrintEmitterAdapter implements Consumer<String> {
+public class PrintEmitterAdapter implements Consumer<String> {
 
     PrintEmitter emitter;
 
