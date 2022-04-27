@@ -40,6 +40,7 @@ public class InterpreterValidationTest {
     @Parameterized.Parameters(name = "version {0} - {1})")
     public static Collection<Object[]> data() throws IOException {
         final List<Object[]> result = getFilesForVersion("1.0");
+        result.addAll(getFilesForVersion("1.1"));
         return result;
     }
 

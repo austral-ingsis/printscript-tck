@@ -32,6 +32,8 @@ public class InterpreterPrintStatementTest {
                 {"1.0", "arithmetic-operations-decimal"},
                 {"1.0", "simple-declare-assign"},
                 {"1.0", "string-and-number-concat"},
+                {"1.1", "if-statement"},
+                {"1.1", "else-statement"}
         });
     }
 
