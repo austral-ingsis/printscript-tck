@@ -2,7 +2,6 @@ package interpreter;
 
 import implementation.CustomImplementationFactory;
 import org.hamcrest.Matcher;
-import org.hamcrest.MatcherAssert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -60,7 +59,7 @@ public class InterpreterValidationTest {
     @Test
     public void testValidation() {
         ErrorCollector errorCollector = new ErrorCollector();
-        interpreter.execute(file, version, (msg) -> {}, errorCollector);
+        interpreter.execute(file, version, (msg) -> {}, errorCollector, (name) -> name);
         boolean shouldBeValid = file.getName().startsWith("valid");
         final Matcher<List<String>> errorMatcher = getErrorMatcherForExpectedResult(shouldBeValid);
         assertThat(errorCollector.getErrors(), errorMatcher);
