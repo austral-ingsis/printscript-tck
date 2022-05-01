@@ -2,27 +2,39 @@ plugins {
     id 'java'
 }
 
-// TODO: uncomment to be able to fetch packages in your own repository
-//repositories {
-//    mavenCentral()
-//    maven {
-//        name = "GitHubPackages"
-//        url = uri("https://maven.pkg.github.com/<your-username>/printscript")
-//        credentials {
-//            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-//            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
-//        }
-//    }
-//}
+repositories {
+    mavenCentral()
+    maven {
+        name = "GitHubPackages"
+        url = uri("https://maven.pkg.github.com/agustinVon/PrintScript")
+        credentials {
+            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+        }
+    }
+    maven {
+        url = uri("https://maven.pkg.github.com/austral-ingsis/printscript-parser-common")
+        credentials {
+            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+        }
+    }
+}
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(15)
+        languageVersion = JavaLanguageVersion.of(16)
     }
 }
 
 dependencies {
+    implementation 'junit:junit:4.13.2'
     testImplementation 'junit:junit:4.13'
+    implementation 'org.agustinVon.ingsis.PrintScript:interpreter:1.1.2'
+    implementation 'org.agustinVon.ingsis.PrintScript:lexer:1.1.2'
+    implementation 'org.agustinVon.ingsis.PrintScript:parser:1.1.2'
+    implementation 'org.agustinVon.ingsis.PrintScript:commons:1.1.2'
+    implementation 'org.agustinVon.ingsis.PrintScript:app:1.1.2'
 }
 
 test {

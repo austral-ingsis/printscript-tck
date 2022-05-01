@@ -1,15 +1,31 @@
 package implementation;
 
+import PrintScript.JavaApp;
+import interpreter.ErrorHandler;
+import interpreter.PrintEmitter;
 import interpreter.PrintScriptInterpreter;
+import sources.FileProgramSource;
+
+import java.io.File;
 
 public class CustomImplementationFactory implements InterpreterFactory {
 
+    static class PrintScriptInterpreterImpl implements PrintScriptInterpreter {
+        @Override
+        public void execute(File src, String version, PrintEmitter emitter, ErrorHandler handler) {
+            String path = src.getPath();
+            FileProgramSource source = new FileProgramSource(path);
+            JavaApp cli = new JavaApp();
+            try{
+                emitter.print(cli.interpret(source));
+            } catch (Exception e) {
+                handler.reportError(e.getMessage());
+            }
+        }
+    }
+
     @Override
     public PrintScriptInterpreter interpreter() {
-        // your PrintScript implementation should be returned here.
-        // make sure to ADAPT your implementation to PrintScriptInterpreter interface.
-        throw new NotImplementedException("Needs implementation"); // TODO: implement
-
-        // Dummy impl: return (src, version, emitter, handler) -> { };
+        return new PrintScriptInterpreterImpl();
     }
 }
