@@ -30,10 +30,10 @@ java {
 
 dependencies {
     testImplementation 'junit:junit:4.13'
-    implementation 'org.tomtom.ingsis.printscript:lexer:1.1.0'
-    implementation 'org.tomtom.ingsis.printscript:parser:1.1.0'
-    implementation 'org.tomtom.ingsis.printscript:interpreter:1.1.1'
-    implementation 'org.tomtom.ingsis.printscript:ast:1.1.0'
+    implementation 'org.tomtom.ingsis.printscript:lexer:1.2.0'
+    implementation 'org.tomtom.ingsis.printscript:parser:1.2.1'
+    implementation 'org.tomtom.ingsis.printscript:interpreter:1.2.3'
+    implementation 'org.tomtom.ingsis.printscript:ast:1.2.0'
     implementation 'org.austral.ingsis.printscript:printscript-parser-common:0.1.3'
 }
 
