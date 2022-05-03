@@ -30,11 +30,11 @@ java {
 dependencies {
     implementation 'junit:junit:4.13.2'
     testImplementation 'junit:junit:4.13'
-    implementation 'org.agustinVon.ingsis.PrintScript:interpreter:1.1.2'
-    implementation 'org.agustinVon.ingsis.PrintScript:lexer:1.1.2'
-    implementation 'org.agustinVon.ingsis.PrintScript:parser:1.1.2'
-    implementation 'org.agustinVon.ingsis.PrintScript:commons:1.1.2'
-    implementation 'org.agustinVon.ingsis.PrintScript:app:1.1.2'
+    implementation 'org.agustinVon.ingsis.PrintScript:interpreter:1.1.8'
+    implementation 'org.agustinVon.ingsis.PrintScript:lexer:1.1.8'
+    implementation 'org.agustinVon.ingsis.PrintScript:parser:1.1.8'
+    implementation 'org.agustinVon.ingsis.PrintScript:commons:1.1.8'
+    implementation 'org.agustinVon.ingsis.PrintScript:app:1.1.8'
 }
 
 test {
