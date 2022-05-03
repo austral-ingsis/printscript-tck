@@ -1,6 +1,6 @@
 package interpreter;
 import implementation.CustomImplementationFactory;
-import org.hamcrest.MatcherAssert;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -46,7 +46,9 @@ public class InterpreterPrintStatementTest {
         interpreter.execute(srcFile, version, printCollector, errorCollector);
 
         assertThat(errorCollector.getErrors(), is(Collections.emptyList()));
+//        Assert.assertTrue(true);
         assertThat(printCollector.getMessages(), is(expectedOutput));
+
     }
 
     private List<String> readLines(String file) throws FileNotFoundException {

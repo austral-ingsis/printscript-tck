@@ -10,5 +10,6 @@ public interface PrintScriptInterpreter {
      * @param emitter interface where print statements must be called.
      * @param handler interface where all syntax and semantic error will be reported.
      */
-    void execute(File src, String version, PrintEmitter emitter, ErrorHandler handler);
+    void execute(File src, String version, org.florresoagli.printscript.Observer emitter, org.florresoagli.printscript.Observer handler);
+
 }

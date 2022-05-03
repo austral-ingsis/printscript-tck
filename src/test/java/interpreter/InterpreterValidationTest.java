@@ -2,11 +2,11 @@ package interpreter;
 
 import implementation.CustomImplementationFactory;
 import org.hamcrest.Matcher;
-import org.hamcrest.MatcherAssert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import util.ErrorCollector;
+import util.PrintCollector;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,6 +44,7 @@ public class InterpreterValidationTest {
     }
 
     private static List<Object[]> getFilesForVersion(String version) throws IOException {
+
         try (Stream<Path> paths = Files.walk(Paths.get(basePath + version + "/"))) {
             return paths
                     .filter(Files::isRegularFile)
@@ -59,7 +60,8 @@ public class InterpreterValidationTest {
     @Test
     public void testValidation() {
         ErrorCollector errorCollector = new ErrorCollector();
-        interpreter.execute(file, version, (msg) -> {}, errorCollector);
+        PrintCollector printCollector = new PrintCollector();
+        interpreter.execute(file, version, printCollector, errorCollector);
         boolean shouldBeValid = file.getName().startsWith("valid");
         final Matcher<List<String>> errorMatcher = getErrorMatcherForExpectedResult(shouldBeValid);
         assertThat(errorCollector.getErrors(), errorMatcher);
