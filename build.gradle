@@ -12,10 +12,8 @@ repositories {
         url = uri("https://maven.pkg.github.com/flor-resoagli/PrintScript")
         credentials {
 //            find properties on gradle.properties file
-            username = 'IsabelaCeriani'
-            password = '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'
-//            username = System.getProperty("USERNAME")
-//            password = System.getProperty("TOKEN")
+            username = System.getProperty("USERNAME")
+            password = System.getProperty("TOKEN")
         }
     }
 }
@@ -27,10 +25,12 @@ java {
 }
 
 dependencies {
-    testImplementation 'junit:junit:4.13.2'
-    implementation 'org.florresoagli:cli:0.0.9'
-    implementation 'org.florresoagli:parser:0.0.9'
-    implementation 'org.florresoagli:lexer:0.0.9'
+    testImplementation 'junit:junit:4.13'
+    implementation 'org.florresoagli:cli:0.1.7'
+    implementation 'org.florresoagli:parser:0.1.7'
+    implementation 'org.florresoagli:interpreter:0.1.7'
+    implementation 'org.florresoagli:lexer:0.1.7'
+
 
 
 }
@@ -39,6 +39,4 @@ test {
     useJUnit()
 }
 
-repositories {
-    mavenCentral()
-}
+
