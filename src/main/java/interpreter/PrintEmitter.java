@@ -1,5 +1,6 @@
 package interpreter;
 
-public interface PrintEmitter {
+
+public interface PrintEmitter  {
     void print(String message);
 }

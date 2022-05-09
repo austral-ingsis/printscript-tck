@@ -1,10 +1,8 @@
 package util;
 
 import interpreter.PrintEmitter;
-import org.florresoagli.printscript.Observer;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class PrintCollector implements PrintEmitter, org.florresoagli.printscript.Observer {

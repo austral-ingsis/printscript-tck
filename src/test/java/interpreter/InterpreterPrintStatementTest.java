@@ -1,6 +1,6 @@
 package interpreter;
-
 import implementation.CustomImplementationFactory;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -54,7 +54,7 @@ public class InterpreterPrintStatementTest {
 
         final PrintCollector printCollector = new PrintCollector();
         final ErrorCollector errorCollector = new ErrorCollector();
-        final InputProvider inputProvider = new QueueInputProvider(toQueue(input));
+        final org.florresoagli.printscript.InputProviderReader inputProvider = new QueueInputProvider(toQueue(input));
         interpreter.execute(srcFile, version, printCollector, errorCollector, inputProvider);
 
         assertThat(errorCollector.getErrors(), is(emptyList()));

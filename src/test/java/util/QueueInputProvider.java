@@ -4,7 +4,7 @@ import interpreter.InputProvider;
 
 import java.util.Queue;
 
-public class QueueInputProvider implements InputProvider {
+public class QueueInputProvider implements org.florresoagli.printscript.InputProviderReader  {
 
     final private Queue<String> messages;
 
@@ -13,6 +13,11 @@ public class QueueInputProvider implements InputProvider {
     }
 
     public String input(String name) {
+        return messages.poll();
+    }
+
+    @Override
+    public String readSingleLine() {
         return messages.poll();
     }
 }
