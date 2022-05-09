@@ -54,7 +54,7 @@ public class InterpreterPrintStatementTest {
 
         final PrintCollector printCollector = new PrintCollector();
         final ErrorCollector errorCollector = new ErrorCollector();
-        final InputProvider inputProvider = new QueueInputProvider(toQueue(input));
+        final org.florresoagli.printscript.Reader inputProvider = new QueueInputProvider(toQueue(input));
         interpreter.execute(srcFile, version, printCollector, errorCollector, inputProvider);
 
         assertThat(errorCollector.getErrors(), is(emptyList()));

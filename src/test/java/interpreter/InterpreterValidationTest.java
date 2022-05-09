@@ -5,8 +5,10 @@ import org.hamcrest.Matcher;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import util.EmptyReader;
 import util.ErrorCollector;
 import util.PrintCollector;
+import util.QueueInputProvider;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,6 +24,7 @@ import java.util.stream.Stream;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static util.Queues.toQueue;
 
 @RunWith(Parameterized.class)
 public class InterpreterValidationTest {
@@ -60,7 +63,7 @@ public class InterpreterValidationTest {
     @Test
     public void testValidation() {
         ErrorCollector errorCollector = new ErrorCollector();
-        interpreter.execute(file, version, (msg) -> {}, errorCollector, (name) -> name);
+        interpreter.execute(file, version, errorCollector, errorCollector, new EmptyReader());
         boolean shouldBeValid = file.getName().startsWith("valid");
         final Matcher<List<String>> errorMatcher = getErrorMatcherForExpectedResult(shouldBeValid);
         assertThat(errorCollector.getErrors(), errorMatcher);
