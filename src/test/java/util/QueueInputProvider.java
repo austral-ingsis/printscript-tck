@@ -1,11 +1,10 @@
 package util;
 
 import interpreter.InputProvider;
-import org.florresoagli.printscript.Reader$class;
 
 import java.util.Queue;
 
-public class QueueInputProvider implements org.florresoagli.printscript.Reader  {
+public class QueueInputProvider implements org.florresoagli.printscript.InputProviderReader  {
 
     final private Queue<String> messages;
 
