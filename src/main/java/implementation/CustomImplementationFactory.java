@@ -10,14 +10,14 @@ public class CustomImplementationFactory implements InterpreterFactory {
 
     @Override
     public PrintScriptInterpreter interpreter() {
-        return (src, version, emitter, handler) -> {
+        return (src, version, emitter, handler, provider) -> {
             String source = null;
             try {
                 source = Files.readString(src.toPath(), StandardCharsets.US_ASCII);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            new PrintScript(new PrintEmitterAdapter(emitter), new ErrorHandlerAdapter(handler), version, false).interpret(source);
+            new PrintScript(new PrintEmitterAdapter(emitter), new ErrorHandlerAdapter(handler), provider::input, version, false).interpret(source);
         };
     }
 }
