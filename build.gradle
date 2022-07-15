@@ -9,18 +9,15 @@ repositories {
         name = "GitHubPackages"
         url = uri("https://maven.pkg.github.com/manumasjoan/printscript")
         credentials {
-            //username = /*project.findProperty("user") as String?*/ System.getenv("GITHUB_ACTOR")
-            //password = /*project.findProperty("token") as String?*/ System.getenv("GITHUB_TOKEN")
-            username = /*project.findProperty("user") as String?*/ System.getenv("GITUSER")
-            password = /*project.findProperty("token") as String?*/ System.getenv("TOKEN")
+            username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")
+            password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
         }
     }
-
     maven {
         url = uri("https://maven.pkg.github.com/austral-ingsis/printscript-parser-common")
         credentials {
-            username = /*project.findProperty("user") as String?*/ System.getenv("GITHUB_ACTOR")
-            password = /*project.findProperty("token") as String?*/ System.getenv("GITHUB_TOKEN")
+            username = System.getenv("GITHUB_ACTOR")
+            password = System.getenv("GITHUB_TOKEN")
         }
     }
 }
