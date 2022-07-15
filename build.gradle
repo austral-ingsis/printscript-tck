@@ -2,22 +2,24 @@ plugins {
     id 'java'
 }
 
-// TODO: uncomment to be able to fetch packages in your own repository
-//repositories {
-//    mavenCentral()
-//    maven {
-//        name = "GitHubPackages"
-//        url = uri("https://maven.pkg.github.com/<your-username>/printscript")
-//        credentials {
-//            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-//            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
-//        }
-//    }
-//}
+repositories {
+    mavenCentral()
+    maven {
+        name = "GitHubPackages"
+        url = uri("https://maven.pkg.github.com/austral-ingsis/printscript")
+        credentials {
+            username = System.getenv("USERNAME")
+            password = System.getenv("TOKEN")
+        }
+    }
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(15)
+    maven {
+        name = "GitHubPackages"
+        url = uri("https://maven.pkg.github.com/austral-ingsis/printscript-parser-common")
+        credentials {
+            username = System.getenv("USERNAME")
+            password = System.getenv("TOKEN")
+        }
     }
 }
 
@@ -27,4 +29,11 @@ dependencies {
 
 test {
     useJUnit()
+}
+
+dependencies {
+    implementation 'org.austral.ingsis.printscript:printscript-parser-common:0.1.6'
+    implementation 'org.austral.ingsis.printscript:interpreter:0.1.0-SNAPSHOT'
+    implementation 'org.austral.ingsis.printscript:parser:0.1.0-SNAPSHOT'
+    implementation 'org.austral.ingsis.printscript:lexer:0.1.0-SNAPSHOT'
 }
