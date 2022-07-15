@@ -34,10 +34,10 @@ java {
 dependencies {
     testImplementation 'junit:junit:4.13'
 
-    implementation 'printscript:lexer:1.1.6'
-    implementation 'printscript:interpreter:1.1.6'
-    implementation 'printscript:parser:1.1.6'
-    implementation 'printscript:cli:1.1.6'
+    implementation 'printscript:lexer:1.1.7'
+    implementation 'printscript:interpreter:1.1.7'
+    implementation 'printscript:parser:1.1.7'
+    implementation 'printscript:cli:1.1.7'
 
     implementation 'org.austral.ingsis.printscript:printscript-parser-common:0.1.3'
 
