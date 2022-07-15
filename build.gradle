@@ -3,17 +3,27 @@ plugins {
 }
 
 // TODO: uncomment to be able to fetch packages in your own repository
-//repositories {
-//    mavenCentral()
-//    maven {
-//        name = "GitHubPackages"
-//        url = uri("https://maven.pkg.github.com/<your-username>/printscript")
-//        credentials {
-//            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-//            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
-//        }
-//    }
-//}
+repositories {
+    mavenCentral()
+    maven {
+        name = "GitHubPackages"
+        url = uri("https://maven.pkg.github.com/manumasjoan/printscript")
+        credentials {
+            //username = /*project.findProperty("user") as String?*/ System.getenv("GITHUB_ACTOR")
+            //password = /*project.findProperty("token") as String?*/ System.getenv("GITHUB_TOKEN")
+            username = /*project.findProperty("user") as String?*/ System.getenv("GITUSER")
+            password = /*project.findProperty("token") as String?*/ System.getenv("TOKEN")
+        }
+    }
+
+    maven {
+        url = uri("https://maven.pkg.github.com/austral-ingsis/printscript-parser-common")
+        credentials {
+            username = /*project.findProperty("user") as String?*/ System.getenv("GITHUB_ACTOR")
+            password = /*project.findProperty("token") as String?*/ System.getenv("GITHUB_TOKEN")
+        }
+    }
+}
 
 java {
     toolchain {
@@ -23,6 +33,15 @@ java {
 
 dependencies {
     testImplementation 'junit:junit:4.13'
+
+    implementation 'printscript:lexer:1.1.6'
+    implementation 'printscript:interpreter:1.1.6'
+    implementation 'printscript:parser:1.1.6'
+    implementation 'printscript:cli:1.1.6'
+
+    implementation 'org.austral.ingsis.printscript:printscript-parser-common:0.1.3'
+
+
 }
 
 test {
