@@ -29,11 +29,11 @@ java {
 }
 
 dependencies {
-    implementation 'org.maurokinderknecht.ingsis.printscript:printscript:1.1.4'
-    implementation 'org.maurokinderknecht.ingsis.printscript:lexer:1.1.4'
-    implementation 'org.maurokinderknecht.ingsis.printscript:parser:1.1.4'
-    implementation 'org.maurokinderknecht.ingsis.printscript:interpreter:1.1.4'
-    implementation 'org.maurokinderknecht.ingsis.printscript:common:1.1.4'
+    implementation 'org.maurokinderknecht.ingsis.printscript:printscript:1.1.5'
+    implementation 'org.maurokinderknecht.ingsis.printscript:lexer:1.1.5'
+    implementation 'org.maurokinderknecht.ingsis.printscript:parser:1.1.5'
+    implementation 'org.maurokinderknecht.ingsis.printscript:interpreter:1.1.5'
+    implementation 'org.maurokinderknecht.ingsis.printscript:common:1.1.5'
     implementation 'org.austral.ingsis.printscript:printscript-parser-common:0.1.6'
     testImplementation 'junit:junit:4.13'
 }
