@@ -2,18 +2,17 @@ plugins {
     id 'java'
 }
 
-// TODO: uncomment to be able to fetch packages in your own repository
-//repositories {
-//    mavenCentral()
-//    maven {
-//        name = "GitHubPackages"
-//        url = uri("https://maven.pkg.github.com/<your-username>/printscript")
-//        credentials {
-//            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-//            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
-//        }
-//    }
-//}
+repositories {
+    mavenCentral()
+    maven {
+        name = "GitHubPackages"
+        url = uri("https://maven.pkg.github.com/Nachoferra1894/printscript")
+        credentials {
+            username = project.findProperty("USERNAME") ?: System.getenv("USERNAME")
+            password = project.findProperty("TOKEN") ?: System.getenv("TOKEN")
+        }
+    }
+}
 
 java {
     toolchain {
@@ -24,6 +23,12 @@ java {
 dependencies {
     testImplementation 'junit:junit:4.13'
 }
+
+dependencies {
+    implementation 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.20'
+    implementation 'edu.austral.ingsis.prinstcript:runner:1.0-SNAPSHOT'
+}
+
 
 test {
     useJUnit()
