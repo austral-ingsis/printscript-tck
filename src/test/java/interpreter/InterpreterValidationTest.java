@@ -8,6 +8,8 @@ import org.junit.runners.Parameterized;
 import util.ErrorCollector;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -57,9 +59,10 @@ public class InterpreterValidationTest {
     }
 
     @Test
-    public void testValidation() {
+    public void testValidation() throws FileNotFoundException {
         ErrorCollector errorCollector = new ErrorCollector();
-        interpreter.execute(file, version, (msg) -> {}, errorCollector, (name) -> name);
+        final var fileInputStream = new FileInputStream(file);
+        interpreter.execute(fileInputStream, version, (msg) -> {}, errorCollector, (name) -> name);
         boolean shouldBeValid = file.getName().startsWith("valid");
         final Matcher<List<String>> errorMatcher = getErrorMatcherForExpectedResult(shouldBeValid);
         assertThat(errorCollector.getErrors(), errorMatcher);
