@@ -2,27 +2,36 @@ plugins {
     id 'java'
 }
 
-// TODO: uncomment to be able to fetch packages in your own repository
-//repositories {
-//    mavenCentral()
-//    maven {
-//        name = "GitHubPackages"
-//        url = uri("https://maven.pkg.github.com/<your-username>/printscript")
-//        credentials {
-//            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-//            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
-//        }
-//    }
-//}
+repositories {
+    mavenCentral()
+    maven {
+        name = "GitHubPackages"
+        url = uri("https://maven.pkg.github.com/ricardolopezb/printscript")
+        credentials {
+            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+        }
+    }
+}
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(15)
+        languageVersion = JavaLanguageVersion.of(17)
     }
 }
 
 dependencies {
+    implementation 'printscript:common:1.1.0-SNAPSHOT'
+    implementation 'printscript:app:1.1.0-SNAPSHOT'
+    implementation 'printscript:lexer:1.1.0-SNAPSHOT'
+    implementation 'printscript:parser:1.1.0-SNAPSHOT'
+    implementation 'printscript:interpreter:1.1.0-SNAPSHOT'
+    implementation 'printscript:formatter:1.1.0-SNAPSHOT'
+    implementation 'printscript:linter:1.1.0-SNAPSHOT'
     testImplementation 'junit:junit:4.13'
+
+
+
 }
 
 test {
