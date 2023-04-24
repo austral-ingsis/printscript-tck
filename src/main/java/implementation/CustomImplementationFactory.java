@@ -1,15 +1,24 @@
 package implementation;
 
+import common.providers.token.TokenProvider;
+import interpreter.ErrorHandler;
+import interpreter.InputProvider;
+import interpreter.PrintEmitter;
 import interpreter.PrintScriptInterpreter;
+import lexer.provider.FileTokenProvider;
+
+import java.io.File;
 
 public class CustomImplementationFactory implements InterpreterFactory {
 
     @Override
     public PrintScriptInterpreter interpreter() {
-        // your PrintScript implementation should be returned here.
+
+
         // make sure to ADAPT your implementation to PrintScriptInterpreter interface.
-        throw new NotImplementedException("Needs implementation"); // TODO: implement
+        return new CustomInterpreter();
 
         // Dummy impl: return (src, version, emitter, handler) -> { };
     }
 }
+
