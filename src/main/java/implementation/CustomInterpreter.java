@@ -14,14 +14,14 @@ import org.jetbrains.annotations.NotNull;
 import printscript.v1.app.StreamedExecution;
 
 import java.io.File;
+import java.io.InputStream;
 
 public class CustomInterpreter implements PrintScriptInterpreter {
 
 
     @Override
-    public void execute(File src, String version, PrintEmitter emitter, ErrorHandler handler, InputProvider provider) {
+    public void execute(InputStream src, String version, PrintEmitter emitter, ErrorHandler handler, InputProvider provider) {
         Outputter out = new PrintCollectorOutputter(emitter);
-
         try{
             new StreamedExecution(src, version, out).execute();
         } catch (Exception e){
