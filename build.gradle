@@ -21,13 +21,13 @@ java {
 }
 
 dependencies {
-    implementation 'printscript:common:1.1.8-SNAPSHOT'
-    implementation 'printscript:app:1.1.8-SNAPSHOT'
-    implementation 'printscript:lexer:1.1.8-SNAPSHOT'
-    implementation 'printscript:parser:1.1.8-SNAPSHOT'
-    implementation 'printscript:interpreter:1.1.8-SNAPSHOT'
-    implementation 'printscript:formatter:1.1.8-SNAPSHOT'
-    implementation 'printscript:linter:1.1.8-SNAPSHOT'
+    implementation 'printscript:common:1.1.9-SNAPSHOT'
+    implementation 'printscript:app:1.1.9-SNAPSHOT'
+    implementation 'printscript:lexer:1.1.9-SNAPSHOT'
+    implementation 'printscript:parser:1.1.9-SNAPSHOT'
+    implementation 'printscript:interpreter:1.1.9-SNAPSHOT'
+    implementation 'printscript:formatter:1.1.9-SNAPSHOT'
+    implementation 'printscript:linter:1.1.9-SNAPSHOT'
     testImplementation 'junit:junit:4.13'
 
 
