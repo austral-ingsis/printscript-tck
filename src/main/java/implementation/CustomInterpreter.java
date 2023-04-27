@@ -1,19 +1,15 @@
 package implementation;
 
-import common.providers.token.TokenProvider;
+import implementation.io.InputProviderInputter;
+import implementation.io.PrintCollectorOutputter;
 import interpreter.ErrorHandler;
 import interpreter.InputProvider;
 import interpreter.PrintEmitter;
 import interpreter.PrintScriptInterpreter;
-import interpreter.implementation.FunctionInterpreter;
-import interpreter.implementation.Interpreter;
-import interpreter.output.ConsolePrintOutputter;
+import interpreter.input.Inputter;
 import interpreter.output.Outputter;
-import lexer.provider.FileTokenProvider;
-import org.jetbrains.annotations.NotNull;
 import printscript.v1.app.StreamedExecution;
 
-import java.io.File;
 import java.io.InputStream;
 
 public class CustomInterpreter implements PrintScriptInterpreter {
@@ -22,8 +18,11 @@ public class CustomInterpreter implements PrintScriptInterpreter {
     @Override
     public void execute(InputStream src, String version, PrintEmitter emitter, ErrorHandler handler, InputProvider provider) {
         Outputter out = new PrintCollectorOutputter(emitter);
+        Inputter in = new InputProviderInputter(provider);
         try{
-            new StreamedExecution(src, version, out).execute();
+            new StreamedExecution(src, version, in, out).execute();
+        } catch (Error e){
+            handler.reportError(e.getMessage());
         } catch (Exception e){
             handler.reportError(e.getMessage());
         }
@@ -32,14 +31,5 @@ public class CustomInterpreter implements PrintScriptInterpreter {
     }
 }
 
-class PrintCollectorOutputter implements Outputter {
-    private final PrintEmitter printEmitter;
-    public PrintCollectorOutputter(PrintEmitter printEmitter){
-        this.printEmitter = printEmitter;
-    }
 
-    @Override
-    public void output(@NotNull String s) {
-        this.printEmitter.print(s);
-    }
-}
+
