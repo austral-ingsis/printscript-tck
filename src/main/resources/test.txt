@@ -1,0 +1,4 @@
+let test: string = "Hello World";
+println(test);
+let test2: string = readInput("escribi algo");
+let a: boolean = true;
