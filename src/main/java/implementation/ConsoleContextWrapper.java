@@ -19,6 +19,7 @@ public class ConsoleContextWrapper implements ContextProvider {
     @Override
     public void emit(@NotNull String s) {
         printEmitter.print(s);
+        consoleContext.emit(s);
     }
 
     @NotNull
@@ -30,8 +31,7 @@ public class ConsoleContextWrapper implements ContextProvider {
     @NotNull
     @Override
     public String read(@NotNull String s) {
-        inputProvider.input(s);
-        return consoleContext.read(s);
+        return consoleContext.read(inputProvider.input(s));
     }
 
     @Override
