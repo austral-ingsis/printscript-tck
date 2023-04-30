@@ -9,8 +9,8 @@ repositories {
         name = "GitHubPackages"
         url = uri("https://maven.pkg.github.com/matiaslcoulougian/printscript-language")
         credentials {
-            username = "matiaslcoulougian"
-            password = "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"
+            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
         }
     }
 }
@@ -22,7 +22,7 @@ test {
 
 dependencies {
     testImplementation 'junit:junit:4.13.1'
-    implementation 'printscript-language:app:0.0.8-SNAPSHOT'
+    implementation 'printscript-language:app:0.0.9-SNAPSHOT'
 }
 
 test {
