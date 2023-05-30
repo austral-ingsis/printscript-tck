@@ -6,25 +6,25 @@ repositories {
     mavenCentral()
     maven {
         name = "GitHubPackages"
-        url = uri("https://maven.pkg.github.com/Nachoferra1894/printscript")
+        url = uri("https://maven.pkg.github.com/Nachoferra1894/printscriptasda")
         credentials {
-            username = project.findProperty("USERNAME") ?: System.getenv("USERNAME")
-            password = project.findProperty("TOKEN") ?: System.getenv("TOKEN")
+            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
         }
     }
-}
-
-test {
-    minHeapSize = "5m" // initial heap size
-    maxHeapSize = "7m" // maximum heap size
 }
 
 dependencies {
     testImplementation 'junit:junit:4.13.1'
     implementation 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.20'
+    implementation 'edu.austral.ingsis.prinstcript:lib:1.0-SNAPSHOT'
+    implementation 'edu.austral.ingsis.prinstcript:interpreter:1.0-SNAPSHOT'
     implementation 'edu.austral.ingsis.prinstcript:runner:1.0-SNAPSHOT'
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0-Beta"
 }
 
 test {
+    minHeapSize = "5m" // initial heap size
+    maxHeapSize = "7m" // maximum heap size
     useJUnit()
 }

@@ -1,15 +1,42 @@
 package implementation;
 
+import input.InputStreamInput;
+import input.LexerInput;
+import interpreter.ErrorHandler;
+import interpreter.InputProvider;
+import interpreter.PrintEmitter;
 import interpreter.PrintScriptInterpreter;
+import kotlin.Unit;
+import printscript.CommonPrintScriptRunner;
+import printscript.PrintscriptRunner;
+import version.Version;
+import version.VersionClassesKt;
+
+import java.io.InputStream;
 
 public class CustomImplementationFactory implements InterpreterFactory {
 
+
     @Override
     public PrintScriptInterpreter interpreter() {
-        // your PrintScript implementation should be returned here.
-        // make sure to ADAPT your implementation to PrintScriptInterpreter interface.
-        throw new NotImplementedException("Needs implementation"); // TODO: implement
-
-        // Dummy impl: return (src, version, emitter, handler) -> { };
+        return new PrintScriptInterpreter() {
+            @Override
+            public void execute(InputStream src, String version, PrintEmitter emitter, ErrorHandler handler, InputProvider provider) {
+                Version v = VersionClassesKt.getVersionFromString(version);
+                PrintscriptRunner printscriptRunner = new CommonPrintScriptRunner(v);
+                LexerInput input = new InputStreamInput(src);
+                printscriptRunner.runExecution(input.getFlow(), (String newValue) -> print(emitter, newValue), (String newValue) -> provide(provider, newValue),null);
+            }
+        };
     }
+
+    private Unit print(PrintEmitter emitter, String newValue) {
+        return emitter.print(newValue);
+    }
+
+    private String provide(InputProvider provider, String newValue) {
+        return provider.input(newValue);
+    }
+
+
 }
