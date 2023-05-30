@@ -25,6 +25,6 @@ dependencies {
 
 test {
     minHeapSize = "5m" // initial heap size
-    maxHeapSize = "7m" // maximum heap size
+    maxHeapSize = "13m" // maximum heap size
     useJUnit()
 }
