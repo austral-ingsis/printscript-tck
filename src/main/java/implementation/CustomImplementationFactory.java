@@ -22,7 +22,8 @@ public class CustomImplementationFactory implements InterpreterFactory {
         return new PrintScriptInterpreter() {
             @Override
             public void execute(InputStream src, String version, PrintEmitter emitter, ErrorHandler handler, InputProvider provider) {
-                Version v = VersionClassesKt.getVersionFromString(version);
+                String stringV = version.equals("1.0") ? "v1" : version.equals("1.1") ? "v2" : null;
+                Version v = VersionClassesKt.getVersionFromString(stringV);
                 PrintscriptRunner printscriptRunner = new CommonPrintScriptRunner(v);
                 LexerInput input = new InputStreamInput(src);
                 printscriptRunner.runExecution(input.getFlow(), (String newValue) -> print(emitter, newValue), (String newValue) -> provide(provider, newValue),null);

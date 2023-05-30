@@ -62,14 +62,13 @@ public class InterpreterValidationTest {
     @Test
     public void testValidation() throws FileNotFoundException {
         ErrorCollector errorCollector = new ErrorCollector();
-//        final var fileInputStream = new FileInputStream(file);
-//        interpreter.execute(fileInputStream, version, (msg) -> {
-//            return null;
-//        }, errorCollector, (name) -> name);
-//        boolean shouldBeValid = file.getName().startsWith("valid");
-//        final Matcher<List<String>> errorMatcher = getErrorMatcherForExpectedResult(shouldBeValid);
-//        assertThat(errorCollector.getErrors(), errorMatcher);
-        assertEquals(true,true);
+        final var fileInputStream = new FileInputStream(file);
+        interpreter.execute(fileInputStream, version, (msg) -> {
+            return null;
+        }, errorCollector, (name) -> name);
+        boolean shouldBeValid = file.getName().startsWith("valid");
+        final Matcher<List<String>> errorMatcher = getErrorMatcherForExpectedResult(shouldBeValid);
+        assertThat(errorCollector.getErrors(), errorMatcher);
     }
 
     private Matcher<List<String>> getErrorMatcherForExpectedResult(boolean shouldBeValid) {
