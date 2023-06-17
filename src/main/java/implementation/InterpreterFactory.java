@@ -1,6 +1,6 @@
 package implementation;
-import interpreter.PrintScriptInterpreter;
+import interpreter.PrintScriptInterpreterr;
 
 public interface InterpreterFactory {
-    PrintScriptInterpreter interpreter();
+    PrintScriptInterpreterr interpreter();
 }

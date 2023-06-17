@@ -21,7 +21,7 @@ import static util.Queues.toQueue;
 @RunWith(Parameterized.class)
 public class InterpreterPrintStatementTest {
 
-    private final PrintScriptInterpreter interpreter = new CustomImplementationFactory().interpreter();
+    private final PrintScriptInterpreterr interpreter = new CustomImplementationFactory().interpreter();
 
     @SuppressWarnings("WeakerAccess")
     @Parameterized.Parameter(value = 0)
