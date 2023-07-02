@@ -6,7 +6,10 @@ import interpreter.ErrorHandler;
 import interpreter.InputProvider;
 import interpreter.PrintEmitter;
 import interpreter.PrintScriptInterpreter;
+import interpreterUtils.Printer;
+import interpreterUtils.ReadInput;
 import kotlin.Unit;
+import org.jetbrains.annotations.NotNull;
 import printscript.CommonPrintScriptRunner;
 import printscript.PrintscriptRunner;
 import version.Version;
@@ -22,11 +25,40 @@ public class CustomImplementationFactory implements InterpreterFactory {
         return new PrintScriptInterpreter() {
             @Override
             public void execute(InputStream src, String version, PrintEmitter emitter, ErrorHandler handler, InputProvider provider) {
-                String stringV = version.equals("1.0") ? "v1" : version.equals("1.1") ? "v2" : null;
+                String stringV = version.equals("1.0") ? "v1" : "v2";
                 Version v = VersionClassesKt.getVersionFromString(stringV);
-                PrintscriptRunner printscriptRunner = new CommonPrintScriptRunner(v);
+                PrintscriptRunner printscriptRunner = new CommonPrintScriptRunner(printerAdapter(emitter),v,readInputAdapter(provider));
                 LexerInput input = new InputStreamInput(src);
-                printscriptRunner.runExecution(input.getFlow(), (String newValue) -> print(emitter, newValue), (String newValue) -> provide(provider, newValue),null);
+                printscriptRunner.runExecution(input.getFlow(), errorHandlerAdapter(handler));
+            }
+        };
+    }
+
+    private Printer printerAdapter(PrintEmitter emitter) {
+        return new Printer() {
+            @Override
+            public void print(@NotNull String message) {
+                emitter.print(message);
+            }
+        };
+    }
+
+    private ReadInput readInputAdapter(InputProvider inputProvider) {
+        return new ReadInput() {
+            @NotNull
+            @Override
+            public String read(@NotNull String s) {
+                return inputProvider.input(s);
+            }
+        };
+    }
+
+
+    private errorHandler.ErrorHandler errorHandlerAdapter(ErrorHandler handler) {
+        return new errorHandler.ErrorHandler() {
+            @Override
+            public void reportError(String message) {
+                handler.reportError(message);
             }
         };
     }
