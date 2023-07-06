@@ -1,5 +1,7 @@
 package interpreter;
 
+import kotlin.Unit;
+
 public interface PrintEmitter {
-    void print(String message);
+    Unit print(String message);
 }

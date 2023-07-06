@@ -1,6 +1,7 @@
 package util;
 
 import interpreter.PrintEmitter;
+import kotlin.Unit;
 
 import java.util.function.Predicate;
 
@@ -13,12 +14,13 @@ public class PrintCounter implements PrintEmitter {
     }
 
     @Override
-    public void print(String message) {
+    public Unit print(String message) {
         if (valuePredicate.test(message)) {
             count++;
         } else {
             throw new UnexpectedMessageException(message);
         }
+        return null;
     }
 
     public int getCount() {
