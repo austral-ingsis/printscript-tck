@@ -29,7 +29,12 @@ public class CustomImplementationFactory implements InterpreterFactory {
                 Version v = VersionClassesKt.getVersionFromString(stringV);
                 PrintscriptRunner printscriptRunner = new CommonPrintScriptRunner(printerAdapter(emitter),v,readInputAdapter(provider));
                 LexerInput input = new InputStreamInput(src);
-                printscriptRunner.runExecution(input.getFlow(), errorHandlerAdapter(handler));
+
+                try {
+                    printscriptRunner.runExecution(input.getFlow(), errorHandlerAdapter(handler));
+                } catch (OutOfMemoryError error) {
+                    handler.reportError(error.getMessage());
+                }
             }
         };
     }
