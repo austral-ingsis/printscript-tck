@@ -22,15 +22,7 @@ test {
 
 dependencies {
     testImplementation 'junit:junit:4.13.1'
-    implementation 'PrintScript:app:1.0.6'
-    implementation 'PrintScript:ast:1.0.6'
-    implementation 'PrintScript:interpreter:1.0.6'
-    implementation 'PrintScript:lexer:1.0.6'
-    implementation 'PrintScript:formatter:1.0.6'
-    implementation 'PrintScript:parser:1.0.6'
-    implementation 'PrintScript:staticcodeanalyser:1.0.6'
-    implementation 'PrintScript:token:1.0.6'
-    implementation 'PrintScript:validlistoftokens:1.0.6'
+    implementation 'PrintScript:app:1.0.8'
 }
 
 test {
