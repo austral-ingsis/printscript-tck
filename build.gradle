@@ -6,7 +6,7 @@ repositories {
     mavenCentral()
     maven {
         name = "GitHubPackages"
-        url = uri("https://maven.pkg.github.com/ricardolopezb/printscript")
+        url = uri("https://maven.pkg.github.com/ingsis-group-6/printscript")
         credentials {
             username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
             password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
@@ -22,7 +22,7 @@ java {
 
 test {
     minHeapSize = "5m" // initial heap size
-    maxHeapSize = "7m" // maximum heap size
+    maxHeapSize = "8m" // maximum heap size
 }
 
 dependencies {
