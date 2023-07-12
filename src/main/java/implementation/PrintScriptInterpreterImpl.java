@@ -1,10 +1,7 @@
 package implementation;
-
-import app.MyPrintScriptApp;
-import app.PrintScriptApp;
-import app.interpreter.PrintScriptInterpretStates;
-import app.printer.PrintScriptInterpretStatesPrinter;
-import app.printer.Printer;
+import app.interpreter.Interpret;
+import app.interpreter.PrintScriptInterpetI;
+import app.printer.interpret.PrintScriptInterpretStatesPrinter;
 import interpreter.ErrorHandler;
 import interpreter.InputProvider;
 import interpreter.PrintEmitter;
@@ -16,9 +13,10 @@ public class PrintScriptInterpreterImpl implements PrintScriptInterpreterr {
     @Override
     public void execute(InputStream src, String version, PrintEmitter emitter, ErrorHandler handler, InputProvider provider) {
         if (version.equals("1.0")) {
-            PrintScriptInterpretStatesPrinter value = new PrintScriptInterpretStatesPrinter(s -> {emitter.print(s);return null;});
-            PrintScriptApp app = new MyPrintScriptApp(value);
-            app.interpret(src);
+            PrintScriptInterpetI printScriptInterpetI = new PrintScriptInterpetI("");
+            PrintScriptInterpretStatesPrinter interpretStatesPrinter = new PrintScriptInterpretStatesPrinter(s -> {emitter.print(s);return null;});
+            Interpret interpret = new Interpret(interpretStatesPrinter, printScriptInterpetI);
+            interpret.interpret(src);
         } else {
             System.out.println("Not implemented yet. Come back soon!");
         }

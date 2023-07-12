@@ -22,7 +22,7 @@ test {
 
 dependencies {
     testImplementation 'junit:junit:4.13.1'
-    implementation 'PrintScript:app:1.0.9'
+    implementation 'PrintScript:app:1.0.13'
 }
 
 test {
