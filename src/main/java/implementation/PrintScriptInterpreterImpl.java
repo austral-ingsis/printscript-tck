@@ -14,7 +14,14 @@ public class PrintScriptInterpreterImpl implements PrintScriptInterpreterr {
     public void execute(InputStream src, String version, PrintEmitter emitter, ErrorHandler handler, InputProvider provider) {
         if (version.equals("1.0")) {
             PrintScriptInterpetI printScriptInterpetI = new PrintScriptInterpetI("");
-            PrintScriptInterpretStatesPrinter interpretStatesPrinter = new PrintScriptInterpretStatesPrinter(s -> {emitter.print(s);return null;});
+            PrintScriptInterpretStatesPrinter interpretStatesPrinter = new PrintScriptInterpretStatesPrinter(s -> {
+                if (s.endsWith(".0")) {
+                    emitter.print(s.substring(0, s.length()-2));
+                } else {
+                    emitter.print(s);
+                }
+                return null;
+            });
             Interpret interpret = new Interpret(interpretStatesPrinter, printScriptInterpetI);
             interpret.interpret(src);
         } else {
