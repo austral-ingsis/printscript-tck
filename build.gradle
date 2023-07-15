@@ -22,9 +22,9 @@ test {
 
 dependencies {
     testImplementation 'junit:junit:4.13.1'
-    implementation 'PrintScript:app:1.1.1'
-    implementation 'PrintScript:lexer:1.1.1'
-    implementation 'PrintScript:token:1.1.1'
+    implementation 'PrintScript:app:1.1.4'
+    implementation 'PrintScript:lexer:1.1.4'
+    implementation 'PrintScript:token:1.1.4'
 }
 
 test {
