@@ -28,7 +28,17 @@ public class PrintScriptInterpreterImpl implements PrintScriptInterpreterr {
             Interpret interpret = new Interpret(interpretStatesPrinter, printScriptInterpetI);
             interpret.interpret(src);
         } else {
-            System.out.println("Not implemented yet. Come back soon!");
+            PrintScriptInterpetI printScriptInterpetI = new PrintScriptInterpetI("1.1", new CustomErrorHandler(handler));
+            PrintScriptInterpretStatesPrinter interpretStatesPrinter = new PrintScriptInterpretStatesPrinter(s -> {
+                if (s.endsWith(".0")) {
+                    emitter.print(s.substring(0, s.length()-2));
+                } else {
+                    emitter.print(s);
+                }
+                return null;
+            });
+            Interpret interpret = new Interpret(interpretStatesPrinter, printScriptInterpetI);
+            interpret.interpret(src);
         }
     }
 
