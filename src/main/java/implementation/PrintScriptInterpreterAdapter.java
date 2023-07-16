@@ -35,7 +35,7 @@ public class PrintScriptInterpreterAdapter implements PrintScriptInterpreter {
                 interpreterWithIterator.interpretNextAST();
             }
         }
-        catch (Throwable e) {
+        catch (Error | Exception e) {
             handler.reportError(e.getMessage());
         }
     }
