@@ -19,7 +19,7 @@ public class ConsoleContextWrapper implements ContextProvider {
     @Override
     public void emit(@NotNull String s) {
         printEmitter.print(s);
-        consoleContext.emit(s);
+        // consoleContext.emit(s);
     }
 
     @NotNull
