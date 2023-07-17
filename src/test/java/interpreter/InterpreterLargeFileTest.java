@@ -17,8 +17,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class InterpreterLargeFileTest {
 
     private static final String MESSAGE = "This is a text";
-    private static final String LINE = "println(\"" + MESSAGE + "\");\n";
-    private static final int NUMBER_OF_LINES = 32 * 1024;
+    private static final String LINE = "print(\"" + MESSAGE + "\");\n";
+    private static final int NUMBER_OF_LINES = 32 * 1024 * 16;
     private final PrintScriptInterpreter interpreter = new CustomImplementationFactory().interpreter();
 
     @Test

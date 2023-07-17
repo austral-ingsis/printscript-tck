@@ -18,11 +18,12 @@ repositories {
 
 test {
     minHeapSize = "5m" // initial heap size
-    maxHeapSize = "7m" // maximum heap size
+    maxHeapSize = "13m" // maximum heap size
 }
 
 dependencies {
     testImplementation 'junit:junit:4.13.1'
+    implementation 'ingsis-printscript:cli:0.1.4'
 }
 
 test {
