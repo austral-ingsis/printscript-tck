@@ -6,23 +6,24 @@ plugins {
 repositories {
     mavenLocal()
     mavenCentral()
-//    maven {
-//        name = "GitHubPackages"
-//        url = uri("https://maven.pkg.github.com/<your-username>/printscript")
-//        credentials {
-//            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-//            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
-//        }
-//    }
+    maven {
+        name = "GitHubPackages"
+        url = uri("https://maven.pkg.github.com/IgnacioChalub/ingsis-printscript")
+        credentials {
+            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+        }
+    }
 }
 
 test {
     minHeapSize = "5m" // initial heap size
-    maxHeapSize = "7m" // maximum heap size
+    maxHeapSize = "13m" // maximum heap size
 }
 
 dependencies {
     testImplementation 'junit:junit:4.13.1'
+    implementation 'ingsis-printscript:cli:0.1.4'
 }
 
 test {
