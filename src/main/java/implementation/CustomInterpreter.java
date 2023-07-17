@@ -62,6 +62,7 @@ public class CustomInterpreter implements PrintScriptInterpreter {
                     }
                 }
 
+
                 try{
                     List<Token> tokens = lexer.tokenize(line);
                     VisitableAST tree = parser.parse(tokens);
