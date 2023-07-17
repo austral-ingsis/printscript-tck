@@ -28,7 +28,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class InterpreterValidationTest {
 
     private static final String basePath = "src/test/resources/validation/";
-    private final PrintScriptInterpreter interpreter = new CustomImplementationFactory().interpreter();
+    private final PrintScriptInterpreterr interpreter = new CustomImplementationFactory().interpreter();
 
     @SuppressWarnings("WeakerAccess")
     @Parameterized.Parameter(value = 0)
