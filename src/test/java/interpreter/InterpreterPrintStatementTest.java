@@ -9,6 +9,7 @@ import util.PrintCollector;
 import util.QueueInputProvider;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.*;
 
@@ -55,7 +56,8 @@ public class InterpreterPrintStatementTest {
         final PrintCollector printCollector = new PrintCollector();
         final ErrorCollector errorCollector = new ErrorCollector();
         final InputProvider inputProvider = new QueueInputProvider(toQueue(input));
-        interpreter.execute(srcFile, version, printCollector, errorCollector, inputProvider);
+        final var fileInputStream = new FileInputStream(srcFile);
+        interpreter.execute(fileInputStream, version, printCollector, errorCollector, inputProvider);
 
         assertThat(errorCollector.getErrors(), is(emptyList()));
         assertThat(printCollector.getMessages(), is(expectedOutput));
