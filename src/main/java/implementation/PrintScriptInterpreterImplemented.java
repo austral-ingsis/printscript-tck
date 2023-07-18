@@ -24,17 +24,31 @@ public class PrintScriptInterpreterImplemented implements PrintScriptInterpreter
         InterpreterV2 interpreterV2 = new InterpreterV2(new PrintEmitterAdapter(emitter), new InputProviderAdapter(provider));
 
         try {
-            String code = "";
-            int actual = src.read();
-            while (actual != -1) {
-                code += String.valueOf((char) actual);
-                actual = src.read();
-            }
             if (version.equals("1.0")) {
-                List<Token> tokens = lexer.lex(new StringInput(code));
-                AbstractSyntaxTree ast = parser.parse(tokens);
-                interpreterV1.interpret(ast);
+                String code = "";
+                int actual = src.read();
+                while (actual != -1) {
+                    code += String.valueOf((char) actual);
+                    if ((char) actual == ';') {
+                        List<Token> tokens = lexer.lex(new StringInput(code));
+                        AbstractSyntaxTree ast = parser.parse(tokens);
+                        interpreterV1.interpret(ast);
+                        code = "";
+                    }
+                    actual = src.read();
+                }
+                if (code.length() > 0) {
+                    List<Token> tokens = lexer.lex(new StringInput(code));
+                    AbstractSyntaxTree ast = parser.parse(tokens);
+                    interpreterV1.interpret(ast);
+                }
             } else {
+                String code = "";
+                int actual = src.read();
+                while (actual != -1) {
+                    code += String.valueOf((char) actual);
+                    actual = src.read();
+                }
                 List<Token> tokens = lexerV2.lex(new StringInput(code));
                 AbstractSyntaxTree ast = parserV2.parse(tokens);
                 interpreterV2.interpret(ast);
