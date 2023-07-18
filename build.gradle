@@ -27,9 +27,9 @@ test {
 
 dependencies {
     testImplementation 'junit:junit:4.13'
-    implementation 'org.idm.ingsis.printscript:lexer:1.0.1'
-    implementation 'org.idm.ingsis.printscript:parser:1.0.1'
-    implementation 'org.idm.ingsis.printscript:interpreter:1.0.1'
+    implementation 'org.idm.ingsis.printscript:lexer:1.0.3'
+    implementation 'org.idm.ingsis.printscript:parser:1.0.3'
+    implementation 'org.idm.ingsis.printscript:interpreter:1.0.3'
 }
 
 test {

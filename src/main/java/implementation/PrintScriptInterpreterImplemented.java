@@ -10,12 +10,12 @@ import parser.Parser;
 import parser.ParserV1;
 import parser.ParserV2;
 
-import java.io.File;
+import java.io.InputStream;
 import java.util.List;
 
 public class PrintScriptInterpreterImplemented implements PrintScriptInterpreter {
-    @Override
-    public void execute(File src, String version, PrintEmitter emitter, ErrorHandler handler, InputProvider provider) {
+
+    public void execute(InputStream src, String version, PrintEmitter emitter, ErrorHandler handler, InputProvider provider) {
         Lexer lexer = new LexerV1();
         Lexer lexerV2 = new LexerV2();
         Parser parser = new ParserV1();
@@ -24,12 +24,18 @@ public class PrintScriptInterpreterImplemented implements PrintScriptInterpreter
         InterpreterV2 interpreterV2 = new InterpreterV2(new PrintEmitterAdapter(emitter), new InputProviderAdapter(provider));
 
         try {
+            String code = "";
+            int actual = src.read();
+            while (actual != -1) {
+                code += String.valueOf((char) actual);
+                actual = src.read();
+            }
             if (version.equals("1.0")) {
-                List<Token> tokens = lexer.lex(new FileInput(src.getPath()));
+                List<Token> tokens = lexer.lex(new StringInput(code));
                 AbstractSyntaxTree ast = parser.parse(tokens);
                 interpreterV1.interpret(ast);
             } else {
-                List<Token> tokens = lexerV2.lex(new FileInput(src.getPath()));
+                List<Token> tokens = lexerV2.lex(new StringInput(code));
                 AbstractSyntaxTree ast = parserV2.parse(tokens);
                 interpreterV2.interpret(ast);
             }
