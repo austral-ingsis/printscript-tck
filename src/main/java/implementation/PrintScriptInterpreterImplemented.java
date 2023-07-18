@@ -24,9 +24,9 @@ public class PrintScriptInterpreterImplemented implements PrintScriptInterpreter
         InterpreterV2 interpreterV2 = new InterpreterV2(new PrintEmitterAdapter(emitter), new InputProviderAdapter(provider));
 
         try {
+            String code = "";
+            int actual = src.read();
             if (version.equals("1.0")) {
-                String code = "";
-                int actual = src.read();
                 while (actual != -1) {
                     code += String.valueOf((char) actual);
                     if ((char) actual == ';') {
@@ -43,8 +43,6 @@ public class PrintScriptInterpreterImplemented implements PrintScriptInterpreter
                     interpreterV1.interpret(ast);
                 }
             } else {
-                String code = "";
-                int actual = src.read();
                 while (actual != -1) {
                     code += String.valueOf((char) actual);
                     actual = src.read();
