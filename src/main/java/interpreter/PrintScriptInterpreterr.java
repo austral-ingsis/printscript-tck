@@ -1,10 +1,8 @@
 package interpreter;
 
-import java.io.File;
 import java.io.InputStream;
-import java.io.Reader;
 
-public interface PrintScriptInterpreter {
+public interface PrintScriptInterpreterr {
     /**
      * executes a PrintScript file handling its resulting messages and errors.
      * @param src Source file.
