@@ -5,7 +5,7 @@ import interpreter.ErrorHandler
 import interpreter.InputProvider
 import interpreter.PrintEmitter
 
-class InterpreterRuner {
+class InterpreterRunner {
     fun runConsumerInterpreter(consumer: ASTNodeConsumerInterpreter, emitter: PrintEmitter, handler: ErrorHandler,  provider: InputProvider) {
         var result = consumer.consume()
         while (result !is ConsumerResponseEnd) {
@@ -21,7 +21,7 @@ class InterpreterRuner {
                     return
                 }
 
-                is ConsumerResponseImput -> {
+                is ConsumerResponseInput -> {
                     emitter.print(result.msg)
                     val input: String = provider.input(result.msg)
                     consumer.getValue(input)

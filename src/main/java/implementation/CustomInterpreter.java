@@ -12,7 +12,7 @@ public class CustomInterpreter implements PrintScriptInterpreter {
     public void execute(InputStream src, String version, PrintEmitter emitter, ErrorHandler handler, InputProvider provider){
         try {
             ASTNodeConsumerInterpreter interpreter = initializeInterpreter(version, src);
-            new InterpreterRuner().runConsumerInterpreter(interpreter, emitter, handler, provider);
+            new InterpreterRunner().runConsumerInterpreter(interpreter, emitter, handler, provider);
         }catch (Throwable e) {
             handler.reportError(e.getMessage());
         }
