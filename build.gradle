@@ -1,19 +1,24 @@
 plugins {
     id 'java'
+    id 'org.jetbrains.kotlin.jvm' version '1.9.0'
 }
 
-// TODO: uncomment to be able to fetch packages in your own repository
 repositories {
-    mavenLocal()
     mavenCentral()
-//    maven {
-//        name = "GitHubPackages"
-//        url = uri("https://maven.pkg.github.com/<your-username>/printscript")
-//        credentials {
-//            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-//            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
-//        }
-//    }
+    maven {
+        name = "GitHubPackages"
+        url = uri("https://maven.pkg.github.com/ing-sis-suarez/PrintScript")
+        credentials {
+            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+        }
+    }
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(15)
+    }
 }
 
 test {
@@ -23,8 +28,27 @@ test {
 
 dependencies {
     testImplementation 'junit:junit:4.13.1'
+    implementation 'printscript:astn:1.1.3-SNAPSHOT'
+    implementation 'printscript:formater:1.1.4-SNAPSHOT'
+    implementation 'printscript:cli:1.1.4-SNAPSHOT'
+    implementation 'printscript:lexer:1.1.4-SNAPSHOT'
+    implementation 'printscript:parser:1.1.3-SNAPSHOT'
+    implementation 'printscript:interpreter:1.1.3-SNAPSHOT'
+    implementation 'printscript:token:1.1.3-SNAPSHOT'
+    implementation 'printscript:utilities:1.1.3-SNAPSHOT'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 }
 
 test {
     useJUnit()
+}
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
