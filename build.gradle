@@ -1,30 +1,46 @@
 plugins {
     id 'java'
+    id 'org.jetbrains.kotlin.jvm' version '1.9.0'
 }
-
-// TODO: uncomment to be able to fetch packages in your own repository
 repositories {
-    mavenLocal()
     mavenCentral()
-//    maven {
-//        name = "GitHubPackages"
-//        url = uri("https://maven.pkg.github.com/<your-username>/printscript")
-//        credentials {
-//            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-//            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
-//        }
-//    }
+    maven {
+        name = "GitHubPackages"
+        url = uri("https://maven.pkg.github.com/marcocastagnaro/IngSis")
+        credentials {
+            username = project.findProperty("gpr.user") as String ?: System.getenv("GITHUB_ACTOR")
+            password = project.findProperty("gpr.key") as String ?: System.getenv("GITHUB_TOKEN")
+        }
+    }
 }
 
 test {
     minHeapSize = "5m" // initial heap size
-    maxHeapSize = "7m" // maximum heap size
+    maxHeapSize = "10m" // maximum heap size
 }
 
 dependencies {
     testImplementation 'junit:junit:4.13.1'
+    implementation 'ingsis:interpreter:1.0.0-SNAPSHOT'
+    implementation 'ingsis:parser:1.0.0-SNAPSHOT'
+    implementation 'ingsis:ast:1.0.0-SNAPSHOT'
+    implementation 'ingsis:token:1.0.0-SNAPSHOT'
+    implementation 'ingsis:lexer:1.0.0-SNAPSHOT'
+//    implementation 'ingsis:staticCodeeAnalyzer:1.0.0-SNAPSHOT'
+//    implementation 'ingsis:formatter:1.0.0-SNAPSHOT'
+//    implementation 'ingsis:cli:1.0.0-SNAPSHOT'
 }
 
 test {
     useJUnit()
+}
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
