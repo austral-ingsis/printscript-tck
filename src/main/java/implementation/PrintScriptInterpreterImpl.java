@@ -14,6 +14,7 @@ import lexer.factory.LexerBuilder;
 import parser.parser.Parser;
 import parser.parserBuilder.PrintScriptOnePointZeroParserBuilder;
 import token.Token;
+import token.TokenType;
 
 import java.io.*;
 import java.util.HashMap;
@@ -27,12 +28,15 @@ public class PrintScriptInterpreterImpl implements PrintScriptInterpreter {
         Lexer lexer = new LexerBuilder().build(version);
         Parser parser = new PrintScriptOnePointZeroParserBuilder().build();
         interpreter.interpreter.PrintScriptInterpreter interpreter = new InterpreterBuilder().build(version);
-        Map<Variable, Object> variables = new HashMap<>();
+        Map<Variable, Object> variables = addInputToSymbolTable(provider);
 
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(src))) {
-            String line;
+        BufferedReader reader = new BufferedReader(new InputStreamReader(src));
+        String line;
+        try {
             while ((line = reader.readLine()) != null) {
+
                 line = preprocessLine(reader, line);
+
                 try {
                     List<Token> tokens = lexer.lex(line);
                     AstNode ast = parser.createAST(tokens);
@@ -40,15 +44,32 @@ public class PrintScriptInterpreterImpl implements PrintScriptInterpreter {
                     if (result instanceof PrintResult) {
                         String toPrint = ((PrintResult) result).getToPrint();
                         emitter.print(toPrint);
-                        System.out.println("Printed: " + toPrint);
+                        //System.out.println("Printed: " + toPrint);
                     }
-                } catch (Exception e) {
-                    handler.reportError(e.getMessage());
+                } catch (Error | Exception e){
+                    if(e instanceof OutOfMemoryError) {
+                        handler.reportError("Java heap space");
+                        break;
+                    } else {
+                        handler.reportError(e.getMessage());
+
+                    }
                 }
             }
-        } catch (IOException e) {
-            handler.reportError(e.getMessage());
+            reader.close();
+        } catch (Exception | OutOfMemoryError e) {
+            if(e instanceof OutOfMemoryError) {
+                handler.reportError("Java heap space");
+            }
         }
+    }
+
+
+    private Map<Variable, Object> addInputToSymbolTable(InputProvider provider){
+        Map<Variable, Object> variables = new HashMap<>();
+        String input = provider.input("");
+        variables.put(new Variable("input", TokenType.STRINGTYPE, TokenType.CONST), input);
+        return variables;
     }
 
     private String readIfBlock(BufferedReader reader, String line) throws IOException {
@@ -76,7 +97,7 @@ public class PrintScriptInterpreterImpl implements PrintScriptInterpreter {
         if (isIfStatement(line)) {
             processedLine = readIfBlock(reader, line);
         }
-        System.out.println("Preprocessed line: " + processedLine);
+        //System.out.println("Preprocessed line: " + processedLine);
         return processedLine;
     }
 
