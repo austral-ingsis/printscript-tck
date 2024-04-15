@@ -21,11 +21,11 @@ test {
 
 dependencies {
     testImplementation 'junit:junit:4.13.1'
-    implementation 'ingsis:interpreter:1.0.0-SNAPSHOT'
-    implementation 'ingsis:parser:1.0.0-SNAPSHOT'
-    implementation 'ingsis:ast:1.0.0-SNAPSHOT'
-    implementation 'ingsis:token:1.0.0-SNAPSHOT'
-    implementation 'ingsis:lexer:1.0.0-SNAPSHOT'
+    implementation 'ingsis:interpreter:1.1.1-SNAPSHOT'
+    implementation 'ingsis:parser:1.1.1-SNAPSHOT'
+    implementation 'ingsis:ast:1.1.0-SNAPSHOT'
+    implementation 'ingsis:token:1.1.0-SNAPSHOT'
+    implementation 'ingsis:lexer:1.1.1-SNAPSHOT'
 //    implementation 'ingsis:staticCodeeAnalyzer:1.0.0-SNAPSHOT'
 //    implementation 'ingsis:formatter:1.0.0-SNAPSHOT'
 //    implementation 'ingsis:cli:1.0.0-SNAPSHOT'

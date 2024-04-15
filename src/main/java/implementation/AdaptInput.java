@@ -11,15 +11,10 @@ public class AdaptInput implements InputReaderType {
         this.in = in;
     }
 
-    @NotNull
-//    @Override
-    public String input(String name) {
-        return in.input(name);
-    }
 
     @NotNull
     @Override
-    public String getInput() {
-        return "";
+    public String input(@NotNull String s) {
+        return in.input(s);
     }
 }

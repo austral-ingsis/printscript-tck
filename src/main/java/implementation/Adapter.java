@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.List;
 
 class Adapter implements PrintScriptInterpreter {
@@ -18,15 +19,15 @@ class Adapter implements PrintScriptInterpreter {
             //Todo : agregar version
             List<AbstractSyntaxTree> ast = getAsts(src, provider, handler);
             Interpreter interpreter = new Interpreter(getInputReaderType(provider));
-            emitter.print(interpreter.execute(ast).getString());
+            List<String> response = Arrays.stream(interpreter.execute(ast).getString().split("\n")).toList();
+            response.forEach(emitter::print);
         }
         catch (Exception e) {
             handler.reportError(e.getMessage());
         }
     }
     private InputReaderType getInputReaderType(InputProvider provider){
-        AdaptInput adaptInput = new AdaptInput(provider);
-        return adaptInput;
+        return new AdaptInput(provider);
     }
 
     private String getString(InputStream src) throws IOException {
