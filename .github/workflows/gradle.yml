@@ -19,10 +19,7 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Gradle Clean
-        run: |
-          ./gradlew clean 
-          ./gradlew --stop 
-          rm -rf ~/.gradle
+        run: ./gradlew clean
       - name: Build with Gradle
         run: ./gradlew build
         env:
