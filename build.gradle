@@ -1,30 +1,51 @@
 plugins {
     id 'java'
+    id 'org.jetbrains.kotlin.jvm' version '1.9.10'
 }
 
 // TODO: uncomment to be able to fetch packages in your own repository
 repositories {
     mavenLocal()
     mavenCentral()
-//    maven {
-//        name = "GitHubPackages"
-//        url = uri("https://maven.pkg.github.com/<your-username>/printscript")
-//        credentials {
-//            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-//            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
-//        }
-//    }
+    maven {
+        name = "GitHubPackages"
+        url = uri("https://maven.pkg.github.com/tomasfreile/printscript")
+        credentials {
+            username = System.getenv("GITHUB_ACTOR")
+            password = System.getenv("GITHUB_TOKEN")
+        }
+    }
+
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(20)
+        }
+    }
 }
 
-test {
-    minHeapSize = "5m" // initial heap size
-    maxHeapSize = "7m" // maximum heap size
-}
 
-dependencies {
-    testImplementation 'junit:junit:4.13.1'
-}
+    test {
+        minHeapSize = "5m" // initial heap size
+        maxHeapSize = "7m" // maximum heap size
+    }
 
-test {
-    useJUnit()
-}
+    dependencies {
+        implementation 'PrintScript:lexer:1.0.8'
+        implementation 'PrintScript:sca:1.0.8'
+        implementation 'PrintScript:commons:1.0.8'
+        implementation 'PrintScript:interpreter:1.0.8'
+        implementation 'PrintScript:parser:1.0.8'
+        implementation 'PrintScript:formatter:1.0.8'
+        testImplementation 'junit:junit:4.13.1'
+    }
+
+    tasks.register("printEnv") {
+        doLast {
+            println "USERNAME: " + System.getenv("GITHUB_ACTOR")
+            println "TOKEN: " + System.getenv("GITHUB_TOKEN")
+        }
+    }
+
+    test {
+        useJUnit()
+    }

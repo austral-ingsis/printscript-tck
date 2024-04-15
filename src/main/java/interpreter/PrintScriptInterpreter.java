@@ -1,8 +1,10 @@
 package interpreter;
 
-import java.io.File;
+import interpreter.ErrorHandler;
+import interpreter.InputProvider;
+import interpreter.PrintEmitter;
+
 import java.io.InputStream;
-import java.io.Reader;
 
 public interface PrintScriptInterpreter {
     /**

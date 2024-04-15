@@ -43,6 +43,7 @@ public class InterpreterPrintStatementTest {
                 {"1.1", "else-statement-true"},
                 {"1.1", "else-statement-false"},
                 {"1.1", "read-input"}
+//                {"1.0", "myTest"}
         });
     }
 
