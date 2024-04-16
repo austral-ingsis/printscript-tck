@@ -30,12 +30,12 @@ repositories {
     }
 
     dependencies {
-        implementation 'PrintScript:lexer:1.0.8'
-        implementation 'PrintScript:sca:1.0.8'
-        implementation 'PrintScript:commons:1.0.8'
-        implementation 'PrintScript:interpreter:1.0.8'
-        implementation 'PrintScript:parser:1.0.8'
-        implementation 'PrintScript:formatter:1.0.8'
+        implementation 'PrintScript:lexer:1.0.11-SNAPSHOT'
+        implementation 'PrintScript:sca:1.0.11-SNAPSHOT'
+        implementation 'PrintScript:commons:1.0.11-SNAPSHOT'
+        implementation 'PrintScript:interpreter:1.0.11-SNAPSHOT'
+        implementation 'PrintScript:parser:1.0.11-SNAPSHOT'
+        implementation 'PrintScript:formatter:1.0.11-SNAPSHOT'
         testImplementation 'junit:junit:4.13.1'
     }
 
