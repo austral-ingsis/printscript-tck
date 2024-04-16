@@ -92,7 +92,7 @@ public class PrintScriptInterpreterImpl implements PrintScriptInterpreter {
     }
 
     private String readIfBlock(BufferedReader reader, String line) throws IOException {
-        String result = line;
+        String result;
         String ifBlock = reader.readLine();
         String line3 = reader.readLine();
 
