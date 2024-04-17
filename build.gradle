@@ -2,7 +2,6 @@ plugins {
     id 'java'
 }
 
-// TODO: uncomment to be able to fetch packages in your own repository
 repositories {
     mavenLocal()
     mavenCentral()
@@ -23,11 +22,11 @@ test {
 
 dependencies {
     testImplementation 'junit:junit:4.13.1'
-    implementation 'printscript:common:0.0.1-SNAPSHOT'
-    implementation 'printscript:interpreter:0.0.1-SNAPSHOT'
-    implementation 'printscript:parser:0.0.1-SNAPSHOT'
-    implementation 'printscript:lexer:0.0.1-SNAPSHOT'
-    implementation 'printscript:utils:0.0.1-SNAPSHOT'
+    implementation 'printscript:common:0.0.2-SNAPSHOT'
+    implementation 'printscript:interpreter:0.0.2-SNAPSHOT'
+    implementation 'printscript:parser:0.0.2-SNAPSHOT'
+    implementation 'printscript:lexer:0.0.2-SNAPSHOT'
+    implementation 'printscript:utils:0.0.2-SNAPSHOT'
 }
 
 test {

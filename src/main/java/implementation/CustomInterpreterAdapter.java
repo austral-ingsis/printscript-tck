@@ -66,6 +66,9 @@ public class CustomInterpreterAdapter implements PrintScriptInterpreter {
                     environment = output.getEnvironment();
                 }
             }
+            if (reader.hasRemainingTokens()) {
+                handler.reportError("Unexpected tokens at the end of the file");
+            }
         } catch (Error | Exception e) {
             handler.reportError(e.getMessage());
         }
