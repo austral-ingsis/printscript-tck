@@ -7,7 +7,7 @@ repositories {
         name = "GitHubPackages"
         url = uri("https://maven.pkg.github.com/marcocastagnaro/IngSis")
         credentials {
-            username = project.findProperty("gpr.user") as String ?: System.getenv("ACTOR")
+            username ="marcocastagnaro"
             password = project.findProperty("gpr.key") as String ?: System.getenv("TOKEN")
         }
     }
