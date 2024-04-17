@@ -25,12 +25,11 @@ repositories {
     }
 
     dependencies {
-        implementation 'PrintScript:lexer:1.0.14'
-        implementation 'PrintScript:sca:1.0.14'
-        implementation 'PrintScript:commons:1.0.14'
-        implementation 'PrintScript:interpreter:1.0.14'
-        implementation 'PrintScript:parser:1.0.14'
-        implementation 'PrintScript:formatter:1.0.14'
+        implementation 'PrintScript:lexer:1.1.6'
+        implementation 'PrintScript:commons:1.1.6'
+        implementation 'PrintScript:interpreter:1.1.6'
+        implementation 'PrintScript:parser:1.1.6'
+        implementation 'PrintScript:cli:1.1.6'
         testImplementation 'junit:junit:4.13.2'
     }
 

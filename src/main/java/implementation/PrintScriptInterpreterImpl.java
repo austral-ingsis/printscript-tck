@@ -1,6 +1,7 @@
 package implementation;
 
 import ast.AstNode;
+import cli.FileReader;
 import interpreter.ErrorHandler;
 import interpreter.InputProvider;
 import interpreter.PrintEmitter;
@@ -39,33 +40,44 @@ public class PrintScriptInterpreterImpl implements PrintScriptInterpreter {
         interpreter.interpreter.PrintScriptInterpreter interpreter = new InterpreterBuilder().build(version);
         Map<Variable, Object> variables = addInputToSymbolTable(provider);
 
-
-        BufferedReader reader = new BufferedReader(new InputStreamReader(src));
-        String line;
         try {
-            while ((line = reader.readLine()) != null) {
 
-                line = preprocessLine(reader, line);
 
-                try {
-                    List<Token> tokens = lexer.lex(line);
-                    AstNode ast = parser.createAST(tokens);
-                    InterpreterResult result = (InterpreterResult) interpreter.interpret(ast, variables);
-                    printResults(result, emitter);
-                } catch (Error | Exception e){
-                    if(e instanceof OutOfMemoryError) {
-                        handler.reportError("Java heap space");
+            FileReader reader = new FileReader(src, version);
+            while (reader.hasNextLine()) {
+                List<List<Token>> statementsInLine = reader.getNextLine();
+                InterpreterResult result;
+                for (List<Token> statement : statementsInLine) {
+                    AstNode ast = null;
+                    try {
+                        ast = parser.createAST(statement);
+                    } catch (Error | Exception e) {
+                        if(e instanceof OutOfMemoryError) {
+                            handler.reportError("Java heap space");
+                        } else {
+                            handler.reportError(e.getMessage());
+                        }
                         break;
-                    } else {
-                        handler.reportError(e.getMessage());
+                    }
+
+                    try {
+                        result = (InterpreterResult) interpreter.interpret(ast, variables);
+                        printResults(result, emitter);
+                    } catch (Error | Exception e) {
+                        if(e instanceof OutOfMemoryError) {
+                            handler.reportError("Java heap space");
+                        } else {
+                            handler.reportError(e.getMessage());
+                        }
                         break;
                     }
                 }
             }
-            reader.close();
-        } catch (Exception | OutOfMemoryError e) {
+        } catch (Error | Exception e) {
             if(e instanceof OutOfMemoryError) {
                 handler.reportError("Java heap space");
+            } else {
+                handler.reportError(e.getMessage());
             }
         }
     }
@@ -89,34 +101,6 @@ public class PrintScriptInterpreterImpl implements PrintScriptInterpreter {
         String input = provider.input("");
         variables.put(new Variable("input", TokenType.STRINGTYPE, TokenType.CONST), input);
         return variables;
-    }
-
-    private String readIfBlock(BufferedReader reader, String line) throws IOException {
-        String result;
-        String ifBlock = reader.readLine();
-        String line3 = reader.readLine();
-
-        if (line3 != null && line3.trim().equals("} else {")) {
-            String elseBlock = reader.readLine();
-            String elseEnd = reader.readLine();
-            result = line + ifBlock + line3 + elseBlock + elseEnd;
-        } else {
-            result = line + ifBlock + line3;
-        }
-        return result;
-    }
-
-    private boolean isIfStatement(String line) {
-        return line.startsWith("if(") || line.startsWith("if (");
-    }
-
-    private String preprocessLine(BufferedReader reader, String line) throws IOException {
-        String processedLine = line;
-        if (isIfStatement(line)) {
-            processedLine = readIfBlock(reader, line);
-        }
-        //System.out.println("line: " + processedLine);
-        return processedLine;
     }
 
 }
