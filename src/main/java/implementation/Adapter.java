@@ -3,6 +3,7 @@ import interpreter.PrintScriptInterpreter;
 import interpreter.*;
 import org.example.*;
 import org.example.inputReader.InputReaderType;
+import org.example.parser.Parser;
 import org.example.splittingStrategy.StrategyMapper;
 
 import java.io.*;
@@ -19,7 +20,7 @@ class Adapter implements PrintScriptInterpreter {
 
     private void exec(InputStream src, String version, PrintEmitter emitter, ErrorHandler handler, InputProvider provider) {
         try {
-            Lexer lexer = new Lexer(new ValueMapper(), new StrategyMapper());
+            Lexer lexer = new Lexer(version, new StrategyMapper());
             Interpreter interpreter = new Interpreter(getInputReaderType(provider));
             String fileInString = getString(src);
 
@@ -29,7 +30,7 @@ class Adapter implements PrintScriptInterpreter {
             }
             if (separatedByConditionals.size() <= 1) {
                 InputStream inputStream = new ByteArrayInputStream(fileInString.getBytes(StandardCharsets.UTF_8));
-                executeByLine(inputStream, emitter, handler, provider);
+                executeByLine(inputStream,version, emitter, handler, provider);
             }
             else {
                 for (String branch : separatedByConditionals) {
@@ -48,9 +49,9 @@ class Adapter implements PrintScriptInterpreter {
         }
     }
 
-    private void executeByLine(InputStream src, PrintEmitter emitter, ErrorHandler handler, InputProvider provider) {
+    private void executeByLine(InputStream src, String version, PrintEmitter emitter, ErrorHandler handler, InputProvider provider) {
         try{
-            Lexer lexer = new Lexer(new ValueMapper(), new StrategyMapper());
+            Lexer lexer = new Lexer(version, new StrategyMapper());
             Interpreter interpreter = new Interpreter(getInputReaderType(provider));
             BufferedReader reader = new BufferedReader(new InputStreamReader(src));
             String line;
