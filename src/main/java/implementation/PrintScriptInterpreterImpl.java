@@ -14,6 +14,7 @@ import interpreter.variable.Variable;
 import lexer.Lexer;
 import lexer.factory.LexerBuilder;
 import parser.parser.Parser;
+import parser.parserBuilder.PrintScriptParserBuilder;
 import parser.parserBuilder.printScript10.PrintScript10ParserBuilder;
 import parser.parserBuilder.printScript11.PrintScript11ParserBuilder;
 import token.Token;
@@ -28,23 +29,14 @@ public class PrintScriptInterpreterImpl implements PrintScriptInterpreter {
 
     @Override
     public void execute(InputStream src, String version, PrintEmitter emitter, ErrorHandler handler, InputProvider provider) {
-        Lexer lexer = new LexerBuilder().build(version);
-        Parser parser;
-        if (version.equals("1.0")) {
-            parser = new PrintScript10ParserBuilder().build();
-        } else if (version.equals("1.1")) {
-            parser = new PrintScript11ParserBuilder().build();
-        } else {
-            throw new IllegalArgumentException("Invalid version");
-        }
+        Parser parser = new PrintScriptParserBuilder().build(version);
         interpreter.interpreter.PrintScriptInterpreter interpreter = new InterpreterBuilder().build(version);
         Map<Variable, Object> variables = addInputToSymbolTable(provider);
 
         try {
 
-
             FileReader reader = new FileReader(src, version);
-            while (reader.hasNextLine()) {
+            while (reader.canContinue()) {
                 List<List<Token>> statementsInLine = reader.getNextLine();
                 InterpreterResult result;
                 for (List<Token> statement : statementsInLine) {
@@ -84,7 +76,6 @@ public class PrintScriptInterpreterImpl implements PrintScriptInterpreter {
 
     private void printResults(InterpreterResult result, PrintEmitter emmiter) {
         if (result instanceof PrintResult) {
-            //System.out.println(((PrintResult) result).getToPrint());
             emmiter.print(((PrintResult) result).getToPrint());
         } else if (result instanceof MultipleResults) {
             for (InterpreterResult subResult : ((MultipleResults) result).getValues()) {
