@@ -6,14 +6,14 @@ plugins {
 repositories {
     mavenLocal()
     mavenCentral()
-//    maven {
-//        name = "GitHubPackages"
-//        url = uri("https://maven.pkg.github.com/<your-username>/printscript")
-//        credentials {
-//            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-//            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
-//        }
-//    }
+    maven {
+        name = 'GitHubPackages'
+        url = uri("https://maven.pkg.github.com/chanflito/PrintScript")
+        credentials {
+            username = project.findProperty('gpr.user') ?: System.getenv('GITHUB_ACTOR')
+            password = project.findProperty('gpr.key') ?: System.getenv('GITHUB_TOKEN')
+        }
+    }
 }
 
 test {
@@ -22,6 +22,11 @@ test {
 }
 
 dependencies {
+    implementation 'PrintScript:lexer:1.1.2-SNAPSHOT'
+    implementation 'PrintScript:interpreter:1.1.2-SNAPSHOT'
+    implementation 'PrintScript:parser:1.1.2-SNAPSHOT'
+    implementation 'PrintScript:common:1.1.2-SNAPSHOT'
+    implementation 'PrintScript:util:1.1.2-SNAPSHOT'
     testImplementation 'junit:junit:4.13.1'
 }
 
