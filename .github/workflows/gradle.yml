@@ -23,5 +23,5 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build
         env:
-          USERNAME: tomasfreile
-          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_ACTOR: tomasfreile
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
