@@ -20,7 +20,7 @@ test {
 
 dependencies {
     testImplementation 'junit:junit:4.13.1'
-    implementation 'ingsis:interpreter:1.1.3-SNAPSHOT'
+    implementation 'ingsis:interpreter:1.1.4-SNAPSHOT'
     implementation 'ingsis:parser:1.1.4-SNAPSHOT'
     implementation 'ingsis:ast:1.1.1-SNAPSHOT'
     implementation 'ingsis:token:1.1.2-SNAPSHOT'
