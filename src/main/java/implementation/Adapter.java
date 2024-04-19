@@ -65,7 +65,7 @@ class Adapter implements PrintScriptInterpreter {
                 newLine += reader.readLine();
             }
         }
-        line += " " + newLine;
+        line += " " + newLine + " ";
         return line;
     }
 
