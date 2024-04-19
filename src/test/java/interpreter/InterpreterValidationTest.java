@@ -62,6 +62,7 @@ public class InterpreterValidationTest {
     public void testValidation() throws FileNotFoundException {
         ErrorCollector errorCollector = new ErrorCollector();
         final var fileInputStream = new FileInputStream(file);
+        System.out.println("file name " + file.getName());
         interpreter.execute(fileInputStream, version, (msg) -> {}, errorCollector, (name) -> name);
         boolean shouldBeValid = file.getName().startsWith("valid");
         final Matcher<List<String>> errorMatcher = getErrorMatcherForExpectedResult(shouldBeValid);
