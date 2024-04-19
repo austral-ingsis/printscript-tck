@@ -1,5 +1,6 @@
 package implementation;
 
+import interpreter.OutputAdapter;
 import interpreter.PrintScriptInterpreter;
 
 public class CustomImplementationFactory implements InterpreterFactory {
@@ -8,8 +9,18 @@ public class CustomImplementationFactory implements InterpreterFactory {
     public PrintScriptInterpreter interpreter() {
         // your PrintScript implementation should be returned here.
         // make sure to ADAPT your implementation to PrintScriptInterpreter interface.
-        throw new NotImplementedException("Needs implementation"); // TODO: implement
+        return (src, version, emitter, handler, provider) -> {
+            try{
+                OutputAdapter outputAdapter = new OutputAdapter(emitter);
+                Adapter exe = new Adapter();
+                exe.execute(src, parseVersion(version), outputAdapter);
+            } catch (Exception | Error e){
+                handler.reportError(e.getMessage());
+            }
+        };
+    }
 
-        // Dummy impl: return (src, version, emitter, handler) -> { };
+    private String parseVersion(String version) {
+        return "v1";
     }
 }

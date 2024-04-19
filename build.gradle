@@ -1,19 +1,20 @@
 plugins {
     id 'java'
+    id 'org.jetbrains.kotlin.jvm'
 }
 
 // TODO: uncomment to be able to fetch packages in your own repository
 repositories {
     mavenLocal()
     mavenCentral()
-//    maven {
-//        name = "GitHubPackages"
-//        url = uri("https://maven.pkg.github.com/<your-username>/printscript")
-//        credentials {
-//            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-//            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
-//        }
-//    }
+    maven {
+        name = "GitHubPackages"
+        url = uri("https://maven.pkg.github.com/maxigeist/printscript")
+        credentials {
+            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+        }
+    }
 }
 
 test {
@@ -23,8 +24,20 @@ test {
 
 dependencies {
     testImplementation 'junit:junit:4.13.1'
+    implementation 'PrintScript:app:1.0.6-SNAPSHOT'
+    implementation 'PrintScript:cli:1.0.6-SNAPSHOT'
+    implementation 'PrintScript:parser:1.0.6-SNAPSHOT'
+    implementation 'PrintScript:lexer:1.0.6-SNAPSHOT'
+    implementation 'PrintScript:interpreter:1.0.6-SNAPSHOT'
+    implementation 'PrintScript:formatter:1.0.6-SNAPSHOT'
+    implementation 'PrintScript:sca:1.0.6-SNAPSHOT'
+    implementation 'PrintScript:components:1.0.6-SNAPSHOT'
+    implementation 'PrintScript:utils:1.0.6-SNAPSHOT'
 }
 
 test {
     useJUnit()
+}
+kotlin {
+    jvmToolchain(19)
 }
