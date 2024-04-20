@@ -22,10 +22,10 @@ test {
 }
 
 dependencies {
-    implementation 'PrintScript:lexer:1.1.8-SNAPSHOT'
-    implementation 'PrintScript:interpreter:1.1.8-SNAPSHOT'
-    implementation 'PrintScript:parser:1.1.8-SNAPSHOT'
-    implementation 'PrintScript:common:1.1.8-SNAPSHOT'
+    implementation 'PrintScript:lexer:1.1.9-SNAPSHOT'
+    implementation 'PrintScript:interpreter:1.1.9-SNAPSHOT'
+    implementation 'PrintScript:parser:1.1.9-SNAPSHOT'
+    implementation 'PrintScript:common:1.1.9-SNAPSHOT'
     testImplementation 'junit:junit:4.13.1'
 }
 

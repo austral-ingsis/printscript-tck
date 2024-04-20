@@ -32,9 +32,12 @@ public class CustomImplementationFactory implements InterpreterFactory {
                 while (parserIterator.hasNext()){
                     AST ast = parserIterator.next();
                     InterpreterManager interpreterManager=
-                            new InterpreterManager(interpreters, new EmitterAdapter(emitter),
+                            new InterpreterManager(
+                                    interpreters,
+                                    new EmitterAdapter(emitter),
                                     new KotlinEnvReader(),
-                                    new KotlinInputReader());
+                                    new InputReaderAdapter(provider)
+                            );
                     Interpreter interpreter=interpreterManager.getInterpreter(ast,null);
                     InterpretResult interpretResult= interpreter.interpret(ast,  context,interpreterManager);
                     if (interpretResult instanceof  InterpretResult.ContextResult){

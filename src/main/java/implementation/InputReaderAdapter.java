@@ -11,9 +11,10 @@ public class InputReaderAdapter implements InputReader {
         this.inputProvider = inputProvider;
     }
 
+
     @NotNull
     @Override
-    public Object read() {
-        return inputProvider;
+    public Object read(@NotNull String s) {
+        return inputProvider.input(s);
     }
 }
