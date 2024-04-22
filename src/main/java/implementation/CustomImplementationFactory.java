@@ -3,6 +3,7 @@ package implementation;
 import edu.austral.ingsis.gradle.common.ast.newast.AST;
 
 import edu.austral.ingsis.gradle.interpreter.*;
+import edu.austral.ingsis.gradle.interpreter.factory.InterpreterList;
 import edu.austral.ingsis.gradle.interpreter.util.*;
 import edu.austral.ingsis.gradle.iterator.FileBuffer;
 import edu.austral.ingsis.gradle.iterator.LexerIterator;
@@ -25,77 +26,49 @@ public class CustomImplementationFactory implements InterpreterFactory {
 
     @Override
     public PrintScriptInterpreter interpreter() {
-        return (src, version, emitter, handler,provider) -> {
-            execute(version,emitter,provider,src,handler);
+        return (src, version, emitter, handler, provider) -> {
+            execute(version, emitter, provider, src, handler);
         };
     }
 
     private void execute(String version, PrintEmitter emitter, InputProvider provider, InputStream src, ErrorHandler handler) {
-        try{
-            FileBuffer fileBuffer= new FileBuffer(src);
-            Lexer lexer= new LexerDirector().createComposeLexer(version);
-            LexerIterator lexerIterator= new LexerIterator(lexer,fileBuffer.getFileBuffered());
-            ComposeParser composeParser= HelperKt.createComposeParser();
-            ParserIterator parserIterator= new ParserIterator(lexerIterator,composeParser);
-            Context context= new Context();
-            List<Interpreter> interpreters= edu.austral.ingsis.gradle.interpreter.util.HelperKt.
-                    createInterpreterManager().getInterpreters();
-            InterpreterManager interpreterManager=
-                    new InterpreterManager(
-                            interpreters,
+        try {
+            FileBuffer fileBuffer = new FileBuffer(src);
+            Lexer lexer = new LexerDirector().createComposeLexer(version);
+            LexerIterator lexerIterator = new LexerIterator(lexer, fileBuffer.getFileBuffered());
+            ComposeParser composeParser = HelperKt.createComposeParser();
+            ParserIterator parserIterator = new ParserIterator(lexerIterator, composeParser);
+            edu.austral.ingsis.gradle.interpreter.factory.InterpreterFactory
+                    interpreterFactory =
+                    new edu.austral.ingsis.gradle.interpreter.factory.
+                            InterpreterFactory(
+                            new InterpreterList().getInterpreters(),
                             new EmitterAdapter(emitter),
                             new KotlinEnvReader(),
                             new InputReaderAdapter(provider)
                     );
-            AST ast =null;
-            Interpreter interpreter=null;
-            InterpretResult interpretResult=null;
+            AST ast = null;
             while (parserIterator.hasNext()) {
-                try{
+                try {
                     ast = parserIterator.next();
-                }
-                catch (Error | Exception e) {
+                } catch (Error | Exception e) {
                     if (e instanceof OutOfMemoryError) {
                         handler.reportError("Java heap space");
                     } else {
                         handler.reportError(e.getMessage());
                     }
                 }
-                try{
-                    interpreter = interpreterManager.getInterpreter(ast, null);
-                }
-                catch (Error | Exception e) {
-                    if (e instanceof OutOfMemoryError) {
-                        handler.reportError("Java heap space");
-                    } else {
-                        handler.reportError(e.getMessage());
+                try {
+                    InterpretResult result = interpreterFactory.interpret(ast);
+                    if (result instanceof InterpretResult.ContextResult) {
+                        interpreterFactory.updateContext(((InterpretResult.ContextResult) result).getContext());
+
                     }
-                }
-                try{
-                    interpretResult = interpreter.interpret(ast, context, interpreterManager);
-                }
-                catch (Error | Exception e) {
-                    if (e instanceof OutOfMemoryError) {
-                        handler.reportError("Java heap space");
-                    } else {
-                        handler.reportError(e.getMessage());
-                    }
-                }
-                if (interpretResult instanceof InterpretResult.ContextResult) {
-                    try{
-                        context = context.update(((InterpretResult.ContextResult) interpretResult).getContext());
-                    }
-                    catch (Error | Exception e) {
-                        if (e instanceof OutOfMemoryError) {
-                            handler.reportError("Java heap space");
-                        } else {
-                            handler.reportError(e.getMessage());
-                        }
-                    }
+                } catch (Error | Exception e) {
+                    handler.reportError(e.getMessage());
                 }
             }
-        }
-        catch (Error | Exception e) {
+        } catch (Error | Exception e) {
             handler.reportError(e.getMessage());
         }
     }
