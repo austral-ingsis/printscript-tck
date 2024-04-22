@@ -10,7 +10,7 @@ repositories {
         name = 'GitHubPackages'
         url = uri("https://maven.pkg.github.com/chanflito/printscript")
         credentials {
-            username = System.getenv('GITHUB_ACTOR')
+            username = "chanflito"
             password = System.getenv('GITHUB_TOKEN')
         }
     }
