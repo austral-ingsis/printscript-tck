@@ -26,16 +26,7 @@ public class CustomImplementationFactory implements InterpreterFactory {
     @Override
     public PrintScriptInterpreter interpreter() {
         return (src, version, emitter, handler,provider) -> {
-            try{
-                execute(version,emitter,provider,src,handler);
-            }
-            catch (Error | Exception e) {
-                if (e instanceof OutOfMemoryError) {
-                    handler.reportError("Java heap space");
-                } else {
-                    handler.reportError(e.getMessage());
-                }
-            }
+            execute(version,emitter,provider,src,handler);
         };
     }
 
@@ -56,21 +47,56 @@ public class CustomImplementationFactory implements InterpreterFactory {
                             new KotlinEnvReader(),
                             new InputReaderAdapter(provider)
                     );
+            AST ast =null;
+            Interpreter interpreter=null;
+            InterpretResult interpretResult=null;
             while (parserIterator.hasNext()) {
-                AST ast = parserIterator.next();
-                Interpreter interpreter = interpreterManager.getInterpreter(ast, null);
-                InterpretResult interpretResult = interpreter.interpret(ast, context, interpreterManager);
+                try{
+                    ast = parserIterator.next();
+                }
+                catch (Error | Exception e) {
+                    if (e instanceof OutOfMemoryError) {
+                        handler.reportError("Java heap space");
+                    } else {
+                        handler.reportError(e.getMessage());
+                    }
+                }
+                try{
+                    interpreter = interpreterManager.getInterpreter(ast, null);
+                }
+                catch (Error | Exception e) {
+                    if (e instanceof OutOfMemoryError) {
+                        handler.reportError("Java heap space");
+                    } else {
+                        handler.reportError(e.getMessage());
+                    }
+                }
+                try{
+                    interpretResult = interpreter.interpret(ast, context, interpreterManager);
+                }
+                catch (Error | Exception e) {
+                    if (e instanceof OutOfMemoryError) {
+                        handler.reportError("Java heap space");
+                    } else {
+                        handler.reportError(e.getMessage());
+                    }
+                }
                 if (interpretResult instanceof InterpretResult.ContextResult) {
-                    context = context.update(((InterpretResult.ContextResult) interpretResult).getContext());
+                    try{
+                        context = context.update(((InterpretResult.ContextResult) interpretResult).getContext());
+                    }
+                    catch (Error | Exception e) {
+                        if (e instanceof OutOfMemoryError) {
+                            handler.reportError("Java heap space");
+                        } else {
+                            handler.reportError(e.getMessage());
+                        }
+                    }
                 }
             }
         }
         catch (Error | Exception e) {
-            if (e instanceof OutOfMemoryError) {
-                handler.reportError("Java heap space");
-            } else {
-                handler.reportError(e.getMessage());
-            }
+            handler.reportError(e.getMessage());
         }
     }
 }
