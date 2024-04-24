@@ -1,7 +1,10 @@
 package implementation;
 
+import interpreter.InputAdapter;
 import interpreter.OutputAdapter;
 import interpreter.PrintScriptInterpreter;
+
+import java.util.Objects;
 
 public class CustomImplementationFactory implements InterpreterFactory {
 
@@ -13,7 +16,7 @@ public class CustomImplementationFactory implements InterpreterFactory {
             try{
                 OutputAdapter outputAdapter = new OutputAdapter(emitter);
                 Adapter exe = new Adapter();
-                exe.execute(src, parseVersion(version), outputAdapter);
+                exe.execute(src, parseVersion(version), outputAdapter, new InputAdapter(provider));
             } catch (Exception | Error e){
                 handler.reportError(e.getMessage());
             }
@@ -21,6 +24,6 @@ public class CustomImplementationFactory implements InterpreterFactory {
     }
 
     private String parseVersion(String version) {
-        return "v1";
+        return Objects.equals(version, "1.0") ? "v1" : "v2";
     }
 }
