@@ -19,13 +19,14 @@ repositories {
 
 test {
     minHeapSize = "5m" // initial heap size
-    maxHeapSize = "7m" // maximum heap size
+    maxHeapSize = "13m" // maximum heap size
 }
 
 dependencies {
     testImplementation 'junit:junit:4.13.1'
-    implementation 'org.IngsisMEGE:printscript:1.1.0'
+    implementation 'org.IngsisMEGE:printscript:1.1.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    testImplementation 'org.IngsisMEGE:printscript:1.1.1'
 }
 
 test {
