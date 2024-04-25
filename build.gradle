@@ -24,9 +24,14 @@ test {
 
 dependencies {
     testImplementation 'junit:junit:4.13.1'
+    implementation 'org.IngsisMEGE:ast:1.1.1'
+    implementation 'org.IngsisMEGE:parser:1.1.1'
+    implementation 'org.IngsisMEGE:lexer:1.1.1'
+    implementation 'org.IngsisMEGE:interpreter:1.1.1'
+    implementation 'org.IngsisMEGE:formatter:1.1.1'
+    implementation 'org.IngsisMEGE:sca:1.1.1'
     implementation 'org.IngsisMEGE:printscript:1.1.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-    testImplementation 'org.IngsisMEGE:printscript:1.1.1'
 }
 
 test {

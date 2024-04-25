@@ -1,10 +1,23 @@
 package implementation
 
+import astn.AST
+import impl.ParserImpl
+import interfaces.Parser
 import interpreter.*
-import org.example.PrintScript
+import lexer.LexerImpl
+import lexer.TokenRegexRule
+import interpreter.InterpreterImpl
+import org.example.lexer.Lexer
+import org.example.utils.JSONManager
 import java.io.*
+import java.util.*
 
-class PrintScriptAdapter : PrintScriptInterpreter {
+class PrintScriptAdapter : PrintScriptInterpreter{
+    private var lexer: Lexer = LexerImpl(loadLexerRules())
+    private val parser: Parser = ParserImpl()
+    private val interpreter: Interpreter = InterpreterImpl({ loadInput() }, { enterIfScope() }, { mergeScopes() })
+    private var storedVariables: List<MutableMap<String, Value>> = listOf(mutableMapOf())
+    private val outputs: Queue<String> = LinkedList()
 
     override fun execute(
         src: InputStream,
@@ -13,26 +26,26 @@ class PrintScriptAdapter : PrintScriptInterpreter {
         handler: ErrorHandler,
         provider: InputProvider
     ) {
-        val printScript = PrintScript()
         try {
             val filePath = inputStreamToFile(src)
-            val outputFile = File.createTempFile("output", ".txt", File("src/main/resources"))
-            val writer = PrintWriter(outputFile, "UTF-8")
-            writer.println(provider.input("file path"))
-            writer.close()
-
-            if (version == "1.0") {
-                printScript.updateRegexRules("src/main/resources/LexerDefaultRegex.json")
-            } else if (version == "1.1") {
-                printScript.updateRegexRules("src/main/resources/LexerFullRules.json")
+            updateLexerRules(version)
+            val outputFile = writeInputToFile(provider)
+            addLinesToQueue(outputFile.path)
+            val file = File(filePath)
+            var numberLine = 0
+            file.forEachLine { line ->
+                if (line.isNotBlank()) {
+                    processLine(line, numberLine, emitter)
+                    while (!lexer.isLineFinished()) {
+                        processLine(line, numberLine, emitter)
+                    }
+                    numberLine++
+                }
             }
-            val result = printScript.start(filePath, outputFile.path).trimEnd('\n')
-            val output = separateOutput(result)
-            for (line in output) {
-                emitter.print(line)
+            if (lexer.stillHaveTokens()) {
+                throw Exception("File does not end with a separator")
             }
-            outputFile.delete()
-        } catch (e: OutOfMemoryError ) {
+        } catch (e: OutOfMemoryError) {
             handler.reportError("Java heap space")
         } catch (e: Exception) {
             handler.reportError("An error occurred while executing the script: ${e.message}")
@@ -52,7 +65,86 @@ class PrintScriptAdapter : PrintScriptInterpreter {
         return tempFile.absolutePath
     }
 
-    private fun separateOutput(output: String): List<String> {
-        return output.split("\n")
+    private fun updateLexerRules(version: String) {
+        val newRulesPath = when (version) {
+            "1.0" -> "src/main/resources/LexerDefaultRegex.json"
+            "1.1" -> "src/main/resources/LexerFullRules.json"
+            else -> throw IllegalArgumentException("Unsupported version: $version")
+        }
+        val file = File(newRulesPath)
+        if (!file.exists()) {
+            throw FileNotFoundException("File not found: $newRulesPath")
+        }
+        val json = file.readText()
+        val newRegexRules = JSONManager.jsonToMap<TokenRegexRule>(json)
+        lexer = LexerImpl(newRegexRules)
     }
+
+    private fun processLine(line: String, numberLine: Int, emitter: PrintEmitter) {
+        val ast = lexAndParse(line, numberLine)
+        val result = interpreter.readAST(ast, storedVariables.last())
+
+        result.trim().split("\n").forEach {
+            if (it.isNotBlank()) {
+                emitter.print(it)
+            }
+        }
+    }
+    private fun addLinesToQueue(filePath: String) {
+        val file = File(filePath)
+        if (file.exists()) {
+            file.bufferedReader().useLines { lines ->
+                lines.forEach { line ->
+                    outputs.add(line)
+                }
+            }
+        } else {
+            return
+        }
+    }
+
+    private fun lexAndParse(line: String, numberLine: Int): AST {
+        val tokens = lexer.lex(line, numberLine)
+        return parser.parse(tokens)
+    }
+
+    private fun loadLexerRules(): Map<String, TokenRegexRule> {
+        val file = File("src/main/resources/LexerFullRules.json")
+        val json = file.readText()
+        return JSONManager.jsonToMap<TokenRegexRule>(json)
+    }
+
+    private fun enterIfScope() {
+        val newStoredVariables = mutableListOf<MutableMap<String, Value>>()
+        newStoredVariables.addAll(storedVariables)
+        newStoredVariables.add(storedVariables.last().toMutableMap())
+        storedVariables = newStoredVariables
+    }
+
+    private fun mergeScopes() {
+        val hasToUpdate = storedVariables[storedVariables.size - 2]
+        val updated = storedVariables.last()
+
+        for ((key, value) in updated) {
+            if (hasToUpdate.containsKey(key)) {
+                hasToUpdate[key] = value
+            }
+        }
+
+        storedVariables = storedVariables.dropLast(1)
+    }
+    private fun loadInput(): String {
+        return if (outputs.isEmpty()) {
+            ""
+        } else {
+            outputs.remove()
+        }
+    }
+    private fun writeInputToFile(provider: InputProvider) : File {
+    val outputFile = File.createTempFile("output", ".txt", File("src/main/resources"))
+    PrintWriter(outputFile, "UTF-8").use { writer ->
+        writer.println(provider.input("file path"))
+    }
+        return outputFile
+}
 }
