@@ -16,18 +16,24 @@ class PrintScriptAdapter : PrintScriptInterpreter {
         val printScript = PrintScript()
         try {
             val filePath = inputStreamToFile(src)
-            if (provider is QueueInputProvider) {
-                provider.setFilePath(filePath)
-            }
             val outputFile = File.createTempFile("output", ".txt", File("src/main/resources"))
+            val writer = PrintWriter(outputFile, "UTF-8")
+            writer.println(provider.input("file path"))
+            writer.close()
+
             if (version == "1.0") {
                 printScript.updateRegexRules("src/main/resources/LexerDefaultRegex.json")
             } else if (version == "1.1") {
                 printScript.updateRegexRules("src/main/resources/LexerFullRules.json")
             }
             val result = printScript.start(filePath, outputFile.path).trimEnd('\n')
-            emitter.print(result)
-            outputFile.deleteOnExit()
+            val output = separateOutput(result)
+            for (line in output) {
+                emitter.print(line)
+            }
+            outputFile.delete()
+        } catch (e: OutOfMemoryError ) {
+            handler.reportError("Java heap space")
         } catch (e: Exception) {
             handler.reportError("An error occurred while executing the script: ${e.message}")
         }
@@ -44,5 +50,9 @@ class PrintScriptAdapter : PrintScriptInterpreter {
             }
         }
         return tempFile.absolutePath
+    }
+
+    private fun separateOutput(output: String): List<String> {
+        return output.split("\n")
     }
 }
