@@ -24,15 +24,15 @@ test {
 
 dependencies {
     testImplementation 'junit:junit:4.13.1'
-    implementation 'PrintScript:app:1.1.3-SNAPSHOT'
-    implementation 'PrintScript:cli:1.1.3-SNAPSHOT'
-    implementation 'PrintScript:parser:1.1.3-SNAPSHOT'
-    implementation 'PrintScript:lexer:1.1.3-SNAPSHOT'
-    implementation 'PrintScript:interpreter:1.1.3-SNAPSHOT'
-    implementation 'PrintScript:formatter:1.1.3-SNAPSHOT'
-    implementation 'PrintScript:sca:1.1.3-SNAPSHOT'
-    implementation 'PrintScript:components:1.1.3-SNAPSHOT'
-    implementation 'PrintScript:utils:1.1.3-SNAPSHOT'
+    implementation 'PrintScript:app:1.1.4-SNAPSHOT'
+    implementation 'PrintScript:cli:1.1.4-SNAPSHOT'
+    implementation 'PrintScript:parser:1.1.4-SNAPSHOT'
+    implementation 'PrintScript:lexer:1.1.4-SNAPSHOT'
+    implementation 'PrintScript:interpreter:1.1.4-SNAPSHOT'
+    implementation 'PrintScript:formatter:1.1.4-SNAPSHOT'
+    implementation 'PrintScript:sca:1.1.4-SNAPSHOT'
+    implementation 'PrintScript:components:1.1.4-SNAPSHOT'
+    implementation 'PrintScript:utils:1.1.4-SNAPSHOT'
 }
 
 test {

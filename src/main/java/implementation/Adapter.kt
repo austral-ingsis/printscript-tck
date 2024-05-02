@@ -1,6 +1,7 @@
 package implementation
 
 import cli.Cli
+import cli.ExecutionCli
 import cli.Version
 import interpreter.InputAdapter
 import interpreter.OutputAdapter
@@ -17,10 +18,10 @@ class Adapter {
         cli.executeInputStream(inputStream)
     }
 
-    private fun startCli(outputAdapter: OutputAdapter, version: String, inputAdapter: InputAdapter): Cli {
+    private fun startCli(outputAdapter: OutputAdapter, version: String, inputAdapter: InputAdapter): ExecutionCli {
         if (version == "v1") {
-            return Cli(outputAdapter, Version.VERSION_1, inputAdapter)
+            return ExecutionCli(outputAdapter, Version.VERSION_1, inputAdapter)
         }
-        return Cli(outputAdapter, Version.VERSION_2, inputAdapter)
+        return ExecutionCli(outputAdapter, Version.VERSION_2, inputAdapter)
     }
 }
