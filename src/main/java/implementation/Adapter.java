@@ -27,6 +27,7 @@ public class Adapter implements PrintScriptInterpreter {
         try {
             Lexer lexer = new LexerImpl(version);
             Interpreter interpreter = new InterpreterImpl();
+            ParserImpl parser = new ParserImpl();
             String fileInString = this.getString(src);
 
             List<String> separatedByConditionals = new ArrayList<>(Arrays.stream(fileInString.split("if\\(")).toList());
@@ -38,8 +39,7 @@ public class Adapter implements PrintScriptInterpreter {
             } else {
                 for (String branch : separatedByConditionals) {
                     List<Token> tokens = lexer.tokenize(branch);
-                    ParserImpl parser = new ParserImpl(tokens);
-                    ProgramNode ast = parser.parse();
+                    ProgramNode ast = parser.parse(tokens);
                     String response = interpreter.interpret(ast);
                     if (!response.isBlank()) {
                         Arrays.stream(response.split("\n")).forEach(emitter::print);
@@ -47,7 +47,7 @@ public class Adapter implements PrintScriptInterpreter {
                 }
 
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             handler.reportError(e.getMessage());
         }
     }
@@ -57,8 +57,8 @@ public class Adapter implements PrintScriptInterpreter {
             Interpreter interpreter = new InterpreterImpl();
             Lexer lexer = new LexerImpl(version);
             List<Token> tokens = lexer.tokenize(src);
-            ParserImpl parser = new ParserImpl(tokens);
-            ProgramNode ast = parser.parse();
+            ParserImpl parser = new ParserImpl();
+            ProgramNode ast = parser.parse(tokens);
             String response = interpreter.interpret(ast);
             System.out.println(response);
             if (!response.isBlank()) emitter.print(response);
