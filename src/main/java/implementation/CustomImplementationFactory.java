@@ -1,15 +1,15 @@
 package implementation;
 
-import edu.austral.ingsis.gradle.common.ast.newast.AST;
-
-import edu.austral.ingsis.gradle.interpreter.*;
-import edu.austral.ingsis.gradle.interpreter.factory.InterpreterList;
+import edu.austral.ingsis.gradle.common.ast.AST;
+import edu.austral.ingsis.gradle.interpreter.ComposeInterpreter;
+import edu.austral.ingsis.gradle.interpreter.Interpreter;
 import edu.austral.ingsis.gradle.interpreter.util.*;
 import edu.austral.ingsis.gradle.iterator.FileBuffer;
 import edu.austral.ingsis.gradle.iterator.LexerIterator;
 import edu.austral.ingsis.gradle.iterator.ParserIterator;
 import edu.austral.ingsis.gradle.lexer.Lexer;
 import edu.austral.ingsis.gradle.lexer.director.LexerDirector;
+import edu.austral.ingsis.gradle.parser.builder.BuilderKt;
 import edu.austral.ingsis.gradle.parser.impl.ComposeParser;
 import edu.austral.ingsis.gradle.parser.util.HelperKt;
 import interpreter.ErrorHandler;
@@ -18,9 +18,8 @@ import interpreter.PrintEmitter;
 import interpreter.PrintScriptInterpreter;
 
 
-import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.util.List;
+
 
 public class CustomImplementationFactory implements InterpreterFactory {
 
@@ -36,36 +35,19 @@ public class CustomImplementationFactory implements InterpreterFactory {
             FileBuffer fileBuffer = new FileBuffer(src);
             Lexer lexer = new LexerDirector().createComposeLexer(version);
             LexerIterator lexerIterator = new LexerIterator(lexer, fileBuffer.getFileBuffered());
-            ComposeParser composeParser = HelperKt.createComposeParser();
+            ComposeParser composeParser = BuilderKt.createComposeParser();
             ParserIterator parserIterator = new ParserIterator(lexerIterator, composeParser);
-            edu.austral.ingsis.gradle.interpreter.factory.InterpreterFactory
-                    interpreterFactory =
-                    new edu.austral.ingsis.gradle.interpreter.factory.
-                            InterpreterFactory(
-                            new InterpreterList().getInterpreters(),
-                            new EmitterAdapter(emitter),
-                            new KotlinEnvReader(),
-                            new InputReaderAdapter(provider)
-                    );
-            AST ast = null;
-            while (parserIterator.hasNext()) {
-                try {
-                    ast = parserIterator.next();
-                } catch (Error | Exception e) {
-                    if (e instanceof OutOfMemoryError) {
-                        handler.reportError("Java heap space");
-                    } else {
-                        handler.reportError(e.getMessage());
-                    }
-                }
-                try {
-                    InterpretResult result = interpreterFactory.interpret(ast);
-                    if (result instanceof InterpretResult.ContextResult) {
-                        interpreterFactory.updateContext(((InterpretResult.ContextResult) result).getContext());
+            ComposeInterpreter interpreter = new ComposeInterpreter(
+                    new InterpreterList().getInterpreters(),
+                    new EmitterAdapter(emitter),
+                    new KotlinEnvReader(),
+                    new InputReaderAdapter(provider),
+                    new Context());
 
-                    }
-                } catch (Error | Exception e) {
-                    handler.reportError(e.getMessage());
+            while (parserIterator.hasNext()) {
+                AST ast = parserIterator.next();
+                if (ast != null) {
+                    interpreter = interpreter.interpretAndUpdateContext(ast);
                 }
             }
         } catch (Error | Exception e) {
