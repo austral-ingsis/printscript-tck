@@ -38,15 +38,7 @@ public class Adapter implements PrintScriptInterpreter {
                 for (String branch : separatedByConditionals) {
                     List<Token> tokens = lexer.tokenize(branch);
                     ProgramNode ast = parser.parse(tokens);
-                    PrintStream ps = new PrintStream(baos);
-                    PrintStream oldOut = System.out;
-                    System.setOut(ps);
-                    interpreter.interpret(ast);
-                    System.setOut(oldOut);
-                    String response = baos.toString().replace("\r","").trim();
-                    if (!response.isBlank()) {
-                        Arrays.stream(response.split("\n")).forEach(emitter::print);
-                    }
+                    checkInput(emitter, provider, interpreter, ast, baos);
                 }
             }
         } catch (Exception e) {
@@ -58,19 +50,36 @@ public class Adapter implements PrintScriptInterpreter {
         try {
             Interpreter interpreter = new InterpreterImpl();
             Lexer lexer = new LexerImpl(version);
-            List<Token> tokens = lexer.tokenize(src);
             ParserImpl parser = new ParserImpl();
-            ProgramNode ast = parser.parse(tokens);
+            ProgramNode ast = parser.parse(lexer.tokenize(src));
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            PrintStream ps = new PrintStream(baos);
-            PrintStream oldOut = System.out;
-            System.setOut(ps);
-            interpreter.interpret(ast);
-            System.setOut(oldOut);
-            String response = baos.toString().trim();
-            if (!response.isBlank()) emitter.print(response);
+            checkInput(emitter, provider, interpreter, ast, baos);
         } catch (Exception | Error e) {
             handler.reportError(e.getMessage());
+        }
+    }
+
+    private void checkInput(PrintEmitter emitter, InputProvider provider, Interpreter interpreter, ProgramNode ast, ByteArrayOutputStream baos) {
+        PrintStream ps = new PrintStream(baos);
+        PrintStream oldOut = System.out;
+        System.setOut(ps);
+        var input = provider.input("asd");
+        if (input != null) {
+            interpreter.interpret(ast, true, input);
+            System.setOut(oldOut);
+            String response = baos.toString().replace("\r","");
+            String[] lines = response.split("\n");
+            for (String line : lines) {
+                emitter.print(line);
+            }
+        }
+        else {
+            interpreter.interpret(ast, false, "");
+            System.setOut(oldOut);
+            String response = baos.toString().replace("\r","").trim();
+            if (!response.isBlank()) {
+                Arrays.stream(response.split("\n")).forEach(emitter::print);
+            }
         }
     }
 
