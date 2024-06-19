@@ -22,7 +22,6 @@ public class PrintscriptAdapter implements PrintScriptInterpreter {
             InterpreterImpl interpreter = new InterpreterImpl(new HashMap<>(), version, new OutputAdapter(emitter), new InputAdapter(provider));
             PrintScriptChunkReader chunkReader = new PrintScriptChunkReader();
 
-//            String lines = inputStreamToString(src);
             BufferedReader reader = new BufferedReader(new InputStreamReader(src));
             String line;
             while((line = reader.readLine()) != null) {
@@ -35,11 +34,6 @@ public class PrintscriptAdapter implements PrintScriptInterpreter {
                     interpreter = interpreter.interpret(ast);
                 }
             }
-//            List<String> chunkLines = chunkReader.readChunksFromString(lines);
-//            List<ASTNode> astNodes = validate(chunkLines, version, handler);
-//            for (ASTNode ast : astNodes) {
-//                interpreter = interpreter.interpret(ast);
-//            }
 
         }catch (Exception | Error e){
             handler.reportError(e.getMessage());
@@ -68,16 +62,6 @@ public class PrintscriptAdapter implements PrintScriptInterpreter {
             }
         }
         return successfulASTs;
-    }
-
-    private String inputStreamToString(InputStream inputStream) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-        StringBuilder out = new StringBuilder();
-        String line;
-        while ((line = reader.readLine()) != null) {
-            out.append(line).append("\n");
-        }
-        return out.toString();
     }
 
     private String handleIf(String line, BufferedReader reader) throws IOException {
