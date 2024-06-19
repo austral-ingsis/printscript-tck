@@ -35,7 +35,10 @@ public class PrintscriptAdapter implements PrintScriptInterpreter {
                 }
             }
 
-        }catch (Exception | Error e){
+        }catch(OutOfMemoryError e) {
+            handler.reportError("Java heap space");
+        }
+        catch (Exception | Error e){
             handler.reportError(e.getMessage());
         }
     }
