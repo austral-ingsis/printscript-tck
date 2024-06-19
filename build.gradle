@@ -23,12 +23,12 @@ test {
 
 dependencies {
     testImplementation 'junit:junit:4.13.1'
-    implementation 'printscript:ast:1.0.0-SNAPSHOT'
-    implementation 'printscript:interpreter:1.0.0-SNAPSHOT'
-    implementation 'printscript:lexer:1.0.0-SNAPSHOT'
-    implementation 'printscript:parser:1.0.0-SNAPSHOT'
-    implementation 'printscript:util:1.0.0-SNAPSHOT'
-    implementation 'printscript:token:1.0.0-SNAPSHOT'
+    implementation 'com.github.SantiPe02:ast:1.0.0-SNAPSHOT'
+    implementation 'com.github.SantiPe02:interpreter:1.0.0-SNAPSHOT'
+    implementation 'com.github.SantiPe02:lexer:1.0.0-SNAPSHOT'
+    implementation 'com.github.SantiPe02:parser:1.0.0-SNAPSHOT'
+    implementation 'com.github.SantiPe02:util:1.0.0-SNAPSHOT'
+    implementation 'com.github.SantiPe02:token:1.0.0-SNAPSHOT'
 }
 
 test {
