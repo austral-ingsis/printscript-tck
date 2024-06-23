@@ -4,11 +4,11 @@ import interpreter.ErrorHandler;
 import interpreter.InputProvider;
 import interpreter.PrintEmitter;
 import interpreter.PrintScriptInterpreter;
+import lexer.director.LexerDirector;
 import org.example.ast.nodes.ProgramNode;
 import org.example.interpreter.Interpreter;
 import org.example.interpreter.InterpreterImpl;
 import org.example.lexer.Lexer;
-import org.example.lexer.LexerImpl;
 import org.example.parser.ParserImpl;
 import org.example.token.Token;
 
@@ -22,7 +22,7 @@ public class Adapter implements PrintScriptInterpreter {
     @Override
     public void execute(InputStream src, String version, PrintEmitter emitter, ErrorHandler handler, InputProvider provider) {
         try {
-            Lexer lexer = new LexerImpl(version);
+            Lexer lexer = new LexerDirector().createLexer(version);
             Interpreter interpreter = new InterpreterImpl();
             ParserImpl parser = new ParserImpl();
             String fileInString = this.getString(src);
@@ -49,7 +49,7 @@ public class Adapter implements PrintScriptInterpreter {
     private void executeByLine(String src, String version, PrintEmitter emitter, ErrorHandler handler, InputProvider provider) {
         try {
             Interpreter interpreter = new InterpreterImpl();
-            Lexer lexer = new LexerImpl(version);
+            Lexer lexer = new LexerDirector().createLexer(version);
             ParserImpl parser = new ParserImpl();
             ProgramNode ast = parser.parse(lexer.tokenize(src));
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
