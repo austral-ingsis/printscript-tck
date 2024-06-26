@@ -1,30 +1,39 @@
 plugins {
     id 'java'
+    id 'org.jetbrains.kotlin.jvm'
 }
 
-// TODO: uncomment to be able to fetch packages in your own repository
 repositories {
     mavenLocal()
     mavenCentral()
-//    maven {
-//        name = "GitHubPackages"
-//        url = uri("https://maven.pkg.github.com/<your-username>/printscript")
-//        credentials {
-//            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-//            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
-//        }
-//    }
+    maven {
+        name = "GitHubPackages"
+        url = uri("https://maven.pkg.github.com/IngSis-Group-9/print-script")
+        credentials {
+            username = project.findProperty("gpr.user")
+            password = project.findProperty("gpr.key")
+        }
+    }
 }
 
 test {
     minHeapSize = "5m" // initial heap size
-    maxHeapSize = "7m" // maximum heap size
+    maxHeapSize = "9m" // maximum heap size
 }
 
 dependencies {
     testImplementation 'junit:junit:4.13.1'
+    implementation 'printscript:lexer:1.0.7'
+    implementation 'printscript:parser:1.0.7'
+    implementation 'printscript:interpreter:1.0.7'
+    implementation 'printscript:ast:1.0.7'
+    implementation 'printscript:token:1.0.7'
 }
 
 test {
     useJUnit()
+}
+
+kotlin {
+    jvmToolchain(19)
 }
