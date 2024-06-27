@@ -2,7 +2,6 @@ plugins {
     id 'java'
 }
 
-// TODO: uncomment to be able to fetch packages in your own repository
 repositories {
     mavenLocal()
     mavenCentral()
@@ -13,6 +12,7 @@ repositories {
             username = project.findProperty("GITHUB_ACTOR") ?: System.getenv("USERNAME")
             password = project.findProperty("GITHUB_TOKEN") ?: System.getenv("TOKEN")
         }
+
     }
 }
 
@@ -23,12 +23,13 @@ test {
 
 dependencies {
     testImplementation 'junit:junit:4.13.1'
-    implementation 'com.github.SantiPe02:ast:1.0.0-SNAPSHOT'
-    implementation 'com.github.SantiPe02:interpreter:1.0.0-SNAPSHOT'
-    implementation 'com.github.SantiPe02:lexer:1.0.0-SNAPSHOT'
-    implementation 'com.github.SantiPe02:parser:1.0.0-SNAPSHOT'
-    implementation 'com.github.SantiPe02:util:1.0.0-SNAPSHOT'
-    implementation 'com.github.SantiPe02:token:1.0.0-SNAPSHOT'
+    implementation 'com.github.SantiPe02:ast:1.1.0-SNAPSHOT'
+    implementation 'com.github.SantiPe02:token:1.1.0-SNAPSHOT'
+    implementation 'com.github.SantiPe02:util:1.1.0-SNAPSHOT'
+    implementation 'com.github.SantiPe02:parser:1.1.0-SNAPSHOT'
+    implementation 'com.github.SantiPe02:lexer:1.1.0-SNAPSHOT'
+    implementation 'com.github.SantiPe02:interpreter:1.1.0-SNAPSHOT'
+    implementation 'com.github.SantiPe02:largefilereading:1.1.0-SNAPSHOT'
 }
 
 test {
