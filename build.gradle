@@ -1,6 +1,8 @@
 plugins {
     id 'java'
+    id 'org.jetbrains.kotlin.jvm' version '1.9.10'
 }
+
 
 repositories {
     mavenLocal()
@@ -30,6 +32,8 @@ dependencies {
     implementation 'com.github.SantiPe02:lexer:1.1.0-SNAPSHOT'
     implementation 'com.github.SantiPe02:interpreter:1.1.0-SNAPSHOT'
     implementation 'com.github.SantiPe02:largefilereading:1.1.0-SNAPSHOT'
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
 }
 
 test {
