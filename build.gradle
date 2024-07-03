@@ -17,8 +17,8 @@ repositories {
 }
 
 test {
-    minHeapSize = "5m" // initial heap size
-    maxHeapSize = "7m" // maximum heap size
+    minHeapSize = "256m" // initial heap size
+    maxHeapSize = "1024m" // maximum heap size
 }
 
 dependencies {
@@ -31,6 +31,7 @@ dependencies {
     implementation 'printscript:linter:1.1.1-SNAPSHOT'
     implementation 'printscript:formatter:1.1.1-SNAPSHOT'
     implementation 'printscript:sca:1.1.1-SNAPSHOT'
+    implementation 'com.github.ajalt.clikt:clikt:4.3.0'
 }
 test {
     useJUnit()
