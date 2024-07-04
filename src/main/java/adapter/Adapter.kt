@@ -4,13 +4,14 @@ import interpreter.InputAdapter
 import interpreter.OutputAdapter
 import java.io.InputStream
 import Cli
+import InterpreterFactory
+import emitter.PrinterEmitter
 import implementation.LexerSingleton
 import interpreter.ErrorHandler
 import interpreter.InputProvider
 import interpreter.OutputAdapterJava
 import parser.Parser
 import reader.EnvFileReader
-import strategy.InterpreterManagerImplStrategy
 import variable.VariableMap
 
 class Adapter {
@@ -20,15 +21,16 @@ class Adapter {
             val tokens = lexer.getToken()
             val parser = Parser(tokens)
             val ast = parser.generateAST()
-
             val envVariableMap = EnvFileReader("cli/src/main/kotlin/.envTest").readEnvFile()
-            val interpreter = InterpreterManagerImplStrategy(VariableMap(HashMap()), envVariableMap)
-            emitter.print(interpreter.interpret(ast))
+            val interpreter = InterpreterFactory(version , VariableMap(HashMap()), envVariableMap, provider).buildInterpreter()
+            val interpretedList = interpreter.interpret(ast)
+            for (interpreted in interpretedList.second) {
+                emitter.print(interpreted)
+            }
         } catch (e: Exception) {
-            handler.reportError(e.message ?: "Unknown error")
+            handler.reportError(e.message)
         } catch (e: Error) {
-            handler.reportError(e.message ?: "Unknown error")
+            handler.reportError(e.message)
         }
-
     }
 }
