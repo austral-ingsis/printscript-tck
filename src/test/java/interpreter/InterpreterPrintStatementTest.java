@@ -11,6 +11,7 @@ import util.QueueInputProvider;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.*;
 
 import static java.util.Collections.emptyList;
@@ -47,7 +48,7 @@ public class InterpreterPrintStatementTest {
     }
 
     @Test
-    public void testPrintStatement() throws FileNotFoundException {
+    public void testPrintStatement() throws IOException {
         final String testDirectory = "src/test/resources/print-statement/" + version + "/" + directory + "/";
         final File srcFile = new File(testDirectory + "main.ps");
         final List<String> expectedOutput = readLines(testDirectory + "output.txt");

@@ -6,14 +6,14 @@ plugins {
 repositories {
     mavenLocal()
     mavenCentral()
-//    maven {
-//        name = "GitHubPackages"
-//        url = uri("https://maven.pkg.github.com/<your-username>/printscript")
-//        credentials {
-//            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-//            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
-//        }
-//    }
+    maven {
+        name = "GitHubPackages"
+        url = uri("https://maven.pkg.github.com/HiluLagos/PrintScript")
+        credentials {
+            username = System.getenv("GITHUB_ACTOR")
+            password = System.getenv("GITHUB_TOKEN")
+        }
+    }
 }
 
 test {
@@ -23,6 +23,8 @@ test {
 
 dependencies {
     testImplementation 'junit:junit:4.13.1'
+    implementation 'edu.austral.ingsis:runner:1.0.10'
+    implementation 'edu.austral.ingsis:interpreter:1.0.10'
 }
 
 test {
