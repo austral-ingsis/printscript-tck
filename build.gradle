@@ -1,19 +1,19 @@
 plugins {
     id 'java'
+    id 'org.jetbrains.kotlin.jvm' version "2.0.20"
 }
 
-// TODO: uncomment to be able to fetch packages in your own repository
 repositories {
     mavenLocal()
     mavenCentral()
-//    maven {
-//        name = "GitHubPackages"
-//        url = uri("https://maven.pkg.github.com/<your-username>/printscript")
-//        credentials {
-//            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-//            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
-//        }
-//    }
+    maven {
+        name = "GitHubPackages"
+        url = uri("https://maven.pkg.github.com/PabloBaratta/PrintScript")
+        credentials {
+            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+        }
+    }
 }
 
 test {
@@ -23,8 +23,22 @@ test {
 
 dependencies {
     testImplementation 'junit:junit:4.13.1'
+    implementation 'org.example:lexer:1.0.0-SNAPSHOT'
+    implementation 'org.example:parser:1.0.0-SNAPSHOT'
+    implementation 'org.example:interpreter:1.0.0-SNAPSHOT'
+    //aca importamos los modulos que necesitemos, deberia ser solo el runner
 }
 
 test {
     useJUnit()
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+kotlin {
+    jvmToolchain(21)
 }
