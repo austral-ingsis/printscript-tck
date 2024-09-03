@@ -1,6 +1,7 @@
 package implementation;
 
 import com.google.gson.JsonObject;
+import edu.Report;
 import edu.Runner;
 import interpreter.ErrorHandler;
 import interpreter.PrintScriptLinter;
@@ -18,6 +19,14 @@ public class MyPrintScriptLinter implements PrintScriptLinter {
     Iterator<String> input = createIterator(src);
     Runner runner = new Runner(version);
     JsonObject c = createConfig(config);
+    Report report = runner.analyze(input, c);
+    handleReport(report, handler);
+  }
+
+  private void handleReport(Report report, ErrorHandler handler) {
+    for (String message: report.getMessages()) {
+      handler.reportError(message);
+    }
   }
 
   private Iterator<String> createIterator(InputStream src) {
@@ -29,11 +38,18 @@ public class MyPrintScriptLinter implements PrintScriptLinter {
 
   private JsonObject createConfig(InputStream config) {
     BufferedReader reader = new BufferedReader(new InputStreamReader(config));
-    JsonObject c = new JsonObject();
+    JsonObject jsonConfig = new JsonObject();
+
     reader.lines().forEach(line -> {
-      String[] parts = line.split(":");
-      c.addProperty(parts[0], parts[1]);
+      String[] parts = line.split("\\s*:\\s*");
+      if (parts.length == 2) {
+        String key = parts[0].trim().replace("\"", "");
+        String value = parts[1].trim().replace("\"", "");
+        jsonConfig.addProperty(key, value);
+      }
     });
-    return c;
+
+    return jsonConfig;
   }
+
 }

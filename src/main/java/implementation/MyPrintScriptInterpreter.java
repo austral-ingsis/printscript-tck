@@ -18,9 +18,15 @@ public class MyPrintScriptInterpreter implements PrintScriptInterpreter {
   public void execute(InputStream src, String version, PrintEmitter emitter, ErrorHandler handler, InputProvider provider){
     Iterator<String> input = createIterator(src);
     openCollectors(emitter, handler, provider);
-    Runner runner = new Runner(version);
-    runner.execute(input);
-    closeCollectors(emitter, handler, provider);
+    try {
+      Runner runner = new Runner(version);
+      runner.execute(input);
+    } catch (RuntimeException e) {
+      System.err.println("Runtime error: " + e.getMessage());
+      e.printStackTrace(System.err);
+    } finally {
+      closeCollectors(emitter, handler, provider);
+    }
   }
 
   private void closeCollectors(PrintEmitter emitter, ErrorHandler handler, InputProvider provider) {
