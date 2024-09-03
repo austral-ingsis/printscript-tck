@@ -2,18 +2,23 @@ plugins {
     id 'java'
 }
 
-// TODO: uncomment to be able to fetch packages in your own repository
 repositories {
     mavenLocal()
     mavenCentral()
-//    maven {
-//        name = "GitHubPackages"
-//        url = uri("https://maven.pkg.github.com/<your-username>/printscript")
-//        credentials {
-//            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-//            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
-//        }
-//    }
+    maven {
+        name = "GitHubPackages"
+        url = uri("https://maven.pkg.github.com/santosbogo/printscript")
+        credentials {
+            username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")
+            password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
+        }
+    }
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
 }
 
 test {
@@ -23,6 +28,13 @@ test {
 
 dependencies {
     testImplementation 'junit:junit:4.13.1'
+    implementation 'com.github.santosbogo.PrintScript:lexer:1.0.0-SNAPSHOT'
+    implementation 'com.github.santosbogo.PrintScript:parser:1.0.0-SNAPSHOT'
+    implementation 'com.github.santosbogo.PrintScript:interpreter:1.0.0-SNAPSHOT'
+    implementation 'com.github.santosbogo.PrintScript:cli:1.0.0-SNAPSHOT'
+    implementation 'com.github.santosbogo.PrintScript:formatter:1.0.0-SNAPSHOT'
+    implementation 'com.github.santosbogo.PrintScript:linter:1.0.0-SNAPSHOT'
+    implementation 'com.github.santosbogo.PrintScript:shared:1.0.0-SNAPSHOT'
 }
 
 test {
