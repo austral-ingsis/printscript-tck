@@ -23,8 +23,8 @@ test {
 
 dependencies {
     testImplementation 'junit:junit:4.13.1'
-    implementation 'edu.austral.ingsis:runner:1.0.10'
-    implementation 'edu.austral.ingsis:interpreter:1.0.10'
+    implementation 'edu.austral.ingsis:runner:1.0.11'
+    implementation 'edu.austral.ingsis:interpreter:1.0.11'
 }
 
 test {
