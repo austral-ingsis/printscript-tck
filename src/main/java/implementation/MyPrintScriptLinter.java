@@ -6,7 +6,6 @@ import interpreter.ErrorHandler;
 import interpreter.PrintScriptLinter;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Iterator;
@@ -18,7 +17,7 @@ public class MyPrintScriptLinter implements PrintScriptLinter {
   public void lint(InputStream src, String version, InputStream config, ErrorHandler handler) {
     Iterator<String> input = createIterator(src);
     Runner runner = new Runner(version);
-    runner.analyze(input, createConfig(config));
+    JsonObject c = createConfig(config);
   }
 
   private Iterator<String> createIterator(InputStream src) {

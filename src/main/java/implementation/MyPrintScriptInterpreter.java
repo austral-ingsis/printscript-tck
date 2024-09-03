@@ -1,12 +1,12 @@
 package implementation;
 
-import edu.Runner;
 import implementation.handlers.ErrorHandlerStream;
 import implementation.handlers.PrintEmitterStream;
 import interpreter.ErrorHandler;
 import interpreter.InputProvider;
 import interpreter.PrintEmitter;
 import interpreter.PrintScriptInterpreter;
+import edu.Runner;
 
 import java.io.*;
 import java.util.Iterator;
@@ -17,8 +17,8 @@ public class MyPrintScriptInterpreter implements PrintScriptInterpreter {
   @Override
   public void execute(InputStream src, String version, PrintEmitter emitter, ErrorHandler handler, InputProvider provider){
     Iterator<String> input = createIterator(src);
-    Runner runner = new Runner(version);
     openCollectors(emitter, handler, provider);
+    Runner runner = new Runner(version);
     runner.execute(input);
     closeCollectors(emitter, handler, provider);
   }
