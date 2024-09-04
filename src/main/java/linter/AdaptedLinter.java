@@ -1,5 +1,7 @@
-package interpreter;
+package linter;
 
+import interpreter.ErrorHandler;
+import interpreter.PrintScriptLinter;
 import runner.Operations;
 
 import java.io.IOException;
@@ -9,21 +11,22 @@ import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import error.Error;
 
-public class AdaptedInterpreter implements PrintScriptInterpreter{
+public class AdaptedLinter implements PrintScriptLinter {
     Operations runner = new Operations();
     @Override
-    public void execute(InputStream src, String version, PrintEmitter emitter, ErrorHandler handler, InputProvider provider) {
+    public void lint(InputStream src, String version, InputStream config, ErrorHandler handler) {
         try {
             String input = decode(src);
             try {
-                List<String> output = runner.execute(input);
-                for (String result : output) {
-                    emitter.print(result);
+                List<Error> output = runner.analyze(input);
+                for ( Error error : output){
+                    handler.reportError(error.toString());
                 }
             }
             catch (Exception e) {
-                handler.reportError(e.getMessage());
+                return;
             }
         }
         catch (IOException e) {return;}
@@ -40,3 +43,4 @@ public class AdaptedInterpreter implements PrintScriptInterpreter{
         return out.toString();
     }
 }
+

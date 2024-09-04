@@ -1,29 +1,30 @@
-package interpreter;
+package formatter;
 
+import interpreter.PrintScriptFormatter;
 import runner.Operations;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-
-public class AdaptedInterpreter implements PrintScriptInterpreter{
+public class AdaptedFormatter implements PrintScriptFormatter {
     Operations runner = new Operations();
     @Override
-    public void execute(InputStream src, String version, PrintEmitter emitter, ErrorHandler handler, InputProvider provider) {
+    public void format(InputStream src, String version, InputStream config, Writer writer) {
         try {
             String input = decode(src);
             try {
-                List<String> output = runner.execute(input);
-                for (String result : output) {
-                    emitter.print(result);
+                String output = runner.format(input);
+                for ( char letter : output.toCharArray()){
+                    writer.append(letter);
                 }
             }
             catch (Exception e) {
-                handler.reportError(e.getMessage());
+                return;
             }
         }
         catch (IOException e) {return;}
