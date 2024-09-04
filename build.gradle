@@ -21,12 +21,6 @@ java {
     }
 }
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
-    }
-}
-
 test {
     minHeapSize = "5m" // initial heap size
     maxHeapSize = "7m" // maximum heap size
@@ -34,13 +28,13 @@ test {
 
 dependencies {
     testImplementation 'junit:junit:4.13.1'
-    implementation 'com.github.santosbogo.PrintScript:lexer:1.0.0-SNAPSHOT'
-    implementation 'com.github.santosbogo.PrintScript:parser:1.0.0-SNAPSHOT'
-    implementation 'com.github.santosbogo.PrintScript:interpreter:1.0.0-SNAPSHOT'
-    implementation 'com.github.santosbogo.PrintScript:cli:1.0.0-SNAPSHOT'
-    implementation 'com.github.santosbogo.PrintScript:formatter:1.0.0-SNAPSHOT'
-    implementation 'com.github.santosbogo.PrintScript:linter:1.0.0-SNAPSHOT'
-    implementation 'com.github.santosbogo.PrintScript:shared:1.0.0-SNAPSHOT'
+    implementation 'com.github.santosbogo.PrintScript:lexer:1.1.0-SNAPSHOT'
+    implementation 'com.github.santosbogo.PrintScript:parser:1.1.0-SNAPSHOT'
+    implementation 'com.github.santosbogo.PrintScript:interpreter:1.1.0-SNAPSHOT'
+    implementation 'com.github.santosbogo.PrintScript:cli:1.1.0-SNAPSHOT'
+    implementation 'com.github.santosbogo.PrintScript:formatter:1.1.0-SNAPSHOT'
+    implementation 'com.github.santosbogo.PrintScript:linter:1.1.0-SNAPSHOT'
+    implementation 'com.github.santosbogo.PrintScript:shared:1.1.0-SNAPSHOT'
 }
 
 test {
