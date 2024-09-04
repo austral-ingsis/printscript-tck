@@ -10,9 +10,15 @@ repositories {
         name = "GitHubPackages"
         url = uri("https://maven.pkg.github.com/HiluLagos/PrintScript")
         credentials {
-            username = System.getenv("GITHUB_ACTOR")
-            password = System.getenv("GITHUB_TOKEN")
+            username = System.getenv("USERNAME")
+            password = System.getenv("TOKEN")
         }
+    }
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
     }
 }
 
@@ -28,5 +34,6 @@ dependencies {
 }
 
 test {
+    environment "BEST_FOOTBALL_CLUB", "San Lorenzo"
     useJUnit()
 }
