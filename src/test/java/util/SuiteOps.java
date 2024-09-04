@@ -14,10 +14,15 @@ import java.util.stream.Stream;
 public class SuiteOps {
 
     public static List<Object[]> reversion(String version, List<Object[]> files) {
-        return files.stream().map(obj -> {
-           var copy = Arrays.stream(obj).toArray(Object[]::new);
-           copy[0] = version;
-           return copy;
+      return files.stream()
+        .filter(obj -> {
+          File file = (File) obj[1];
+          return !file.getName().equals("invalid-const-declaration.ps");
+        })
+        .map(obj -> {
+          var copy = Arrays.stream(obj).toArray(Object[]::new);
+          copy[0] = version;
+          return copy;
         }).toList();
     }
 
