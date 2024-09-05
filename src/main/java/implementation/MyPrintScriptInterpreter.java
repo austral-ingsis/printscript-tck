@@ -18,7 +18,9 @@ public class MyPrintScriptInterpreter implements PrintScriptInterpreter {
         Runner runner = new Runner(version);
         BufferedReader reader = new BufferedReader(new InputStreamReader(src));
         String code = reader.lines().collect(Collectors.joining("\n"));
-        RunnerResult.Execute result = runner.execute(code);
+
+        CustomInputProvider inputProvider = new CustomInputProvider(provider);
+        RunnerResult.Execute result = runner.execute(code, version, inputProvider);
         result.getPrintList().forEach(emitter::print);
         result.getErrorsList().forEach(handler::reportError);
     }
