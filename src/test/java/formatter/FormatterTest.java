@@ -46,7 +46,7 @@ public class FormatterTest {
     }
 
     @Test
-    public void testFormat() throws FileNotFoundException {
+    public void testFormat() throws IOException {
         final var fileInputStream = new FileInputStream(file);
         final var golden = readFile(this.golden);
         final var configInputStream = new FileInputStream(this.config);
