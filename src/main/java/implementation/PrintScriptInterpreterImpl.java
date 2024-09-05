@@ -7,8 +7,9 @@ import fileReader.FileReaderIterator;
 import interpreter.*;
 import iterator.TokenIterator;
 import parser.iterator.ASTIterator;
-import providers.printProvider.TestPrintProvider;
 import token.Token;
+
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
 
@@ -26,14 +27,20 @@ public class PrintScriptInterpreterImpl implements PrintScriptInterpreter {
       FileReaderIterator fileReaderIterator = new FileReaderIterator(adapter.inputStreamToFile(src));
 
 
-      Iterator<Token> tokenIterator = new TokenIterator(fileReaderIterator);
+      Iterator<Token> tokenIterator = new TokenIterator(fileReaderIterator, version);
 
 
       Iterator<ASTNode> ASTNodes = new ASTIterator(tokenIterator);
 
 
       new Interpreter(printEmitterAdapter).interpret(ASTNodes);
-    } catch (Exception e) {
+    }
+    catch (Error e) {
+      handler.reportError(e.getMessage());
+    } catch (IOException e) {
+      handler.reportError(e.getMessage());
+    }
+    catch (Exception e){
       handler.reportError(e.getMessage());
     }
   }
