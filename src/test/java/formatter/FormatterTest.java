@@ -42,7 +42,7 @@ public class FormatterTest {
 
     @Parameterized.Parameters(name = "version {0} - {1}")
     public static Collection<Object[]> data() {
-        return collectTestSet(basePath, filePicker());
+        return collectTestSet(basePath, true, filePicker());
     }
 
     @Test
