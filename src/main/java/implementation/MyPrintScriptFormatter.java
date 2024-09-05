@@ -1,8 +1,10 @@
 package implementation;
 
 import interpreter.PrintScriptFormatter;
+import kotlinx.serialization.json.JsonObject;
 import org.Runner;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.Writer;
 
@@ -11,14 +13,14 @@ public class MyPrintScriptFormatter implements PrintScriptFormatter {
 
     @Override
     public void format(InputStream src, String version, InputStream config, Writer writer) {
-        // Your implementation here
         Runner runner = new Runner(version);
-        runner.format(src.toString());
-/*
-        for (String message : result) {
-            writer.append(message);
+        JsonObject configJson = new Utils().getJsonFromStream(config);
+        String result = runner.format(src.toString(), configJson).toString();
+        try {
+            writer.write(result);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-
- */
     }
+
 }

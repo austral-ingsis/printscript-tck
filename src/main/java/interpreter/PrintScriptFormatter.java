@@ -1,5 +1,6 @@
 package interpreter;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Writer;
@@ -12,5 +13,5 @@ public interface PrintScriptFormatter {
      * @param config config file.
      * @param writer Writer, where the formatted output should be written
      */
-    void format(InputStream src, String version, InputStream config, Writer writer);
+    void format(InputStream src, String version, InputStream config, Writer writer) throws IOException;
 }
