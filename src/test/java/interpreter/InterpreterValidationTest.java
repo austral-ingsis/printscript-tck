@@ -42,7 +42,7 @@ public class InterpreterValidationTest {
 
     @Parameterized.Parameters(name = "version {0} - {1})")
     public static Collection<Object[]> data() {
-        return collectTestSet(basePath);
+      return collectTestSet(basePath, false);
     }
 
     @Test

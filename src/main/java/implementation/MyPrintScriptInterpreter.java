@@ -1,6 +1,7 @@
 package implementation;
 
 import implementation.handlers.ErrorHandlerStream;
+import implementation.handlers.InputProviderStream;
 import implementation.handlers.PrintEmitterStream;
 import interpreter.ErrorHandler;
 import interpreter.InputProvider;
@@ -17,7 +18,7 @@ public class MyPrintScriptInterpreter implements PrintScriptInterpreter {
     openCollectors(emitter, handler, provider);
     try {
       Runner runner = new Runner(version);
-      runner.execute(src);
+      runner.execute(src, new InputProviderStream(provider));
     } catch (RuntimeException e) {
       System.err.println("Runtime error: " + e.getMessage());
       e.printStackTrace(System.err);
