@@ -1,8 +1,12 @@
 package implementation;
 
+import adapters.CustomInterpreter;
 import interpreter.PrintScriptFormatter;
 import interpreter.PrintScriptInterpreter;
 import interpreter.PrintScriptLinter;
+import main.Token;
+import org.example.interpreter.Interpreter;
+
 
 import java.io.BufferedInputStream;
 import java.util.Arrays;
@@ -11,11 +15,7 @@ public class CustomImplementationFactory implements PrintScriptFactory {
 
     @Override
     public PrintScriptInterpreter interpreter() {
-        // your PrintScript implementation should be returned here.
-        // make sure to ADAPT your implementation to PrintScriptInterpreter interface.
-        throw new NotImplementedException("Needs implementation"); // TODO: implement
-
-        // Dummy impl: return (src, version, emitter, handler) -> { };
+        return new CustomInterpreter();
     }
 
     @Override
