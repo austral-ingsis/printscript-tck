@@ -9,3 +9,11 @@ This includes a collection of PrintScript files with their expected print result
 - Return your implementation in [CustomImplementationFactory](src/main/java/implementation/CustomImplementationFactory.java). 
   Make sure to define a adapter of your interpreter to comply with the [PrintScriptInterpreter](src/main/java/interpreter/PrintScriptInterpreter.java) interface.
 - When all tests cases run correctly using ```./gradlew build```, create a pull request to the original repository for a final correction. 
+
+
+#### How to run this project?
+- Add a `gradle.properties` file in the root directory with the following content:
+```properties
+gpr.user="YOUR_GITHUB_USERNAME"
+gpr.key="YOUR_GITHUB_PERSONAL_ACCESS_TOKEN"
+```
