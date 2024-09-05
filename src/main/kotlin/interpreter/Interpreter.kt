@@ -1,18 +1,14 @@
 package interpreter
 
-import CatchableTracingInterpreter
+import TracingInterpreter
 import node.ASTNode
 
 class Interpreter {
-    private val interpreter = CatchableTracingInterpreter(print = false)
+    private val interpreter = TracingInterpreter(print = false)
 
     fun interpret(iterator: Iterator<ASTNode>) {
         interpreter interpret iterator
     }
 
     fun getLog() = interpreter.getLog()
-
-    fun hasException() = interpreter.hasException()
-
-    fun getException() = interpreter.getException()
 }
