@@ -2,17 +2,18 @@ plugins {
     id 'java'
 }
 
-
 repositories {
     mavenLocal()
     mavenCentral()
-    maven {
-        url = uri("https://maven.pkg.github.com/JulietaG13/PrintScript")
-        credentials {
-            username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")
-            password = project.findProperty("gpr.token") ?: System.getenv("GITHUB_TOKEN")
-        }
-    }
+// TODO: uncomment to be able to fetch packages in your own repository
+//    maven {
+//        name = "GitHubPackages"
+//        url = uri("https://maven.pkg.github.com/<your-username>/printscript")
+//        credentials {
+//            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+//            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+//        }
+//    }
 }
 
 java {
@@ -28,11 +29,6 @@ test {
 
 dependencies {
     testImplementation 'junit:junit:4.13.1'
-    implementation 'com.ingsis.jcli:runner:1.0.17'
-    implementation 'com.ingsis.jcli:common:1.0.17'
-    implementation 'com.ingsis.jcli:interpreter:1.0.17'
-    implementation 'com.ingsis.jcli:linter:1.0.17'
-    implementation 'com.google.code.gson:gson:2.9.0'
 }
 
 test {

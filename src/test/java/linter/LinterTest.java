@@ -45,7 +45,7 @@ public class LinterTest {
 
     @Parameterized.Parameters(name = "version {0} - {1}")
     public static Collection<Object[]> data() {
-      return collectTestSet(basePath, false, filePicker());
+        return collectTestSet(basePath, false, filePicker());
     }
 
     @Test

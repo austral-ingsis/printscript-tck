@@ -38,8 +38,8 @@ public class SuiteOps {
         return test.resolve(name).toFile();
     }
 
-  public static Collection<Object[]> collectTestSet(String basePath, boolean addTestsFromPreviousVersions) {
-    return collectTestSet(basePath, addTestsFromPreviousVersions, (base, version) -> {
+    public static Collection<Object[]> collectTestSet(String basePath, boolean addTestsFromPreviousVersions) {
+        return collectTestSet(basePath, addTestsFromPreviousVersions, (base, version) -> {
             try {
                 return getFilesForVersion(base, version, collectFiles());
             } catch (IOException e) {
@@ -54,13 +54,13 @@ public class SuiteOps {
     }
 
 
-  public static Collection<Object[]> collectTestSet(String basePath, boolean addTestsFromPreviousVersions, BiFunction<String, String, List<Object[]>> filePicker) {
+    public static Collection<Object[]> collectTestSet(String basePath, boolean addTestsFromPreviousVersions, BiFunction<String, String, List<Object[]>> filePicker) {
         final List<Object[]> result = new java.util.ArrayList<>(List.of());
         final List<Object[]> version1 = filePicker.apply(basePath, "1.0");
         result.addAll(version1);
-    if (addTestsFromPreviousVersions) {
-      result.addAll(reversion("1.1", version1));
-    }
+        if (addTestsFromPreviousVersions) {
+            result.addAll(reversion("1.1", version1));
+        }
         result.addAll(filePicker.apply(basePath, "1.1"));
         return result;
     }
