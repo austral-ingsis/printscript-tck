@@ -28,10 +28,11 @@ test {
 
 dependencies {
     testImplementation 'junit:junit:4.13.1'
-    implementation 'com.ingsis.jcli:linter:1.0.17'
-    implementation 'com.ingsis.jcli:parser:1.0.17'
-    implementation 'com.ingsis.jcli:runner:1.0.17'
-    implementation 'com.ingsis.jcli:interpreter:1.0.17'
+    implementation 'com.ingsis.jcli:linter:1.0.18'
+    implementation 'com.ingsis.jcli:parser:1.0.18'
+    implementation 'com.ingsis.jcli:runner:1.0.18'
+    implementation 'com.ingsis.jcli:interpreter:1.0.18'
+    implementation 'com.ingsis.jcli:formatter:1.0.18'
     implementation 'com.google.code.gson:gson:2.8.9'
 }
 
