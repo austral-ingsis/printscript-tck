@@ -16,20 +16,19 @@ import java.util.Iterator;
 import java.util.List;
 
 public class Adapter implements PrintScriptInterpreter {
-    private final Lexer lexer = new Lexer();
-    private final Parser parser = new Parser();
-    private final Interpreter interpreter = new Interpreter();
-
     @Override
     public void execute(InputStream src, String version, PrintEmitter emitter, ErrorHandler handler, InputProvider provider) {
+        final Lexer lexer = new Lexer();
+        final Parser parser = new Parser();
+        final TracerAdapter tracer = new TracerAdapter(emitter);
+        final Interpreter interpreter = new Interpreter(tracer);
         try {
             Reader reader = new InputStreamReader(src);
             Iterator<List<Token>> tokens = lexer.lex(reader);
             Iterator<ASTNode> ast = parser.parse(tokens);
             interpreter.interpret(ast);
-            interpreter.getLog().forEach(emitter::print);
-        } catch (Exception e) {
-            handler.reportError(e.getMessage());
+        } catch (Throwable e) {
+            handler.reportError(e.getMessage().split(":")[0]);
         }
     }
 }
