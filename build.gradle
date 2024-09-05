@@ -16,6 +16,12 @@ repositories {
     }
 }
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
 test {
     minHeapSize = "5m" // initial heap size
     maxHeapSize = "7m" // maximum heap size
@@ -23,12 +29,13 @@ test {
 
 dependencies {
     testImplementation 'junit:junit:4.13.1'
-    implementation 'org.example:lexer:1.0-SNAPSHOT'
-    implementation 'org.example:parser:1.0-SNAPSHOT'
-    implementation 'org.example:interpreter:1.0-SNAPSHOT'
+    implementation 'com.print-script:lexer:1.0-SNAPSHOT'
+    implementation 'com.print-script:parser:1.0-SNAPSHOT'
+    implementation 'com.print-script:interpreter:1.0-SNAPSHOT'
 }
 
 test {
+    environment "BEST_FOOTBALL_CLUB", "San Lorenzo"
     useJUnit()
 }
 
