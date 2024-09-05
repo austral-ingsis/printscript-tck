@@ -3,7 +3,6 @@ package implementation;
 import interpreter.PrintScriptFormatter;
 import interpreter.PrintScriptInterpreter;
 import interpreter.PrintScriptLinter;
-
 import java.io.BufferedInputStream;
 import java.util.Arrays;
 
@@ -11,6 +10,7 @@ public class CustomImplementationFactory implements PrintScriptFactory {
 
     @Override
     public PrintScriptInterpreter interpreter() {
+
         // your PrintScript implementation should be returned here.
         // make sure to ADAPT your implementation to PrintScriptInterpreter interface.
         throw new NotImplementedException("Needs implementation"); // TODO: implement
