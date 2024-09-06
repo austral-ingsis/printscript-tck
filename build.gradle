@@ -2,7 +2,6 @@ plugins {
     id 'java'
 }
 
-// TODO: uncomment to be able to fetch packages in your own repository
 repositories {
     mavenLocal()
     mavenCentral()
@@ -36,7 +35,6 @@ dependencies {
     implementation("com.github.printSrcript:interpreter:1.0.33")
     implementation("com.github.printSrcript:formatter:1.0.33")
     implementation("com.github.printSrcript:linter:1.0.33")
-
 }
 
 test {

@@ -42,7 +42,8 @@ public class InterpreterValidationTest {
 
     @Parameterized.Parameters(name = "version {0} - {1})")
     public static Collection<Object[]> data() {
-        return collectTestSet(basePath);
+        // We don't want tests from previous versions as they are already duplicate. We will have to change this if there ever is a version 1.2
+        return collectTestSet(basePath, false);
     }
 
     @Test
