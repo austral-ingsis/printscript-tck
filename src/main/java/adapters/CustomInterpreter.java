@@ -13,38 +13,15 @@ import nodes.Node;
 import org.example.interpreter.Interpreter;
 import org.example.lexer.Lexer;
 import utils.InterpreterException;
+import utils.InterpreterResult;
+import utils.ParsingResult;
 
 import java.io.*;
+import java.util.Iterator;
 import java.util.Objects;
 
 public class CustomInterpreter implements PrintScriptInterpreter {
 
-    private static class EmitterOutputStream extends OutputStream {
-        private final PrintEmitter emitter;
-        private final StringBuilder buffer = new StringBuilder();
-
-        public EmitterOutputStream(PrintEmitter emitter) {
-            this.emitter = emitter;
-        }
-
-        @Override
-        public void write(int b) throws IOException {
-            if (b == '\n') {
-                emitter.print(buffer.toString());
-                buffer.setLength(0);
-            } else {
-                buffer.append((char) b);
-            }
-        }
-
-        @Override
-        public void flush() throws IOException {
-            if (buffer.length() > 0) {
-                emitter.print(buffer.toString());
-                buffer.setLength(0);
-            }
-        }
-    }
 
     @Override
     public void execute(InputStream src, String version, PrintEmitter emitter, ErrorHandler handler, InputProvider provider) {
@@ -52,26 +29,26 @@ public class CustomInterpreter implements PrintScriptInterpreter {
             handler.reportError("Invalid version");
             throw new InterpreterException("Invalid version");
         }
-        BufferedReader reader = new BufferedReader(new InputStreamReader(src));
-        Lexer lexer = new Lexer(reader, 0, new Position(1, 1));
-        Sequence<Token> tokens = lexer.tokenizeAll(lexer);
-        Parser parser = new Parser(tokens.iterator());
-        Sequence<Node> asts = parser.parseExpressions();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(src));
+            Lexer lexer = new Lexer(reader, 0, new Position(1, 1));
+            Iterator<Token> tokenIterator = lexer.tokenizeAll(lexer).iterator();
+            Parser parser = new Parser(tokenIterator);
+            Interpreter interpreter = new Interpreter();
 
-        Interpreter interpreter = new Interpreter();
+            while (tokenIterator.hasNext()) {
+                Sequence<ParsingResult> results = parser.parseExpressions();
+                Iterator<InterpreterResult> interpreterResults = interpreter.interpret(results).iterator();
+                while (interpreterResults.hasNext()) {
+                    InterpreterResult result = interpreterResults.next();
+                    if (result.hasException()) {
+                        handler.reportError(result.getException().getMessage());
+                    } else {
+                        emitter.print(result.getPrintln());
+                    }
+                }
 
-        PrintStream oldOut = System.out;
-        PrintStream ps = new PrintStream(new EmitterOutputStream(emitter));
+                results = null;
+            }
 
-        System.setOut(ps);
-
-        try {
-            interpreter.interpret(asts);
-        } catch (ParseException e) {
-            handler.reportError(e.getMessage());
-        } finally {
-            System.setOut(oldOut);
-            ps.flush();
-        }
     }
 }
