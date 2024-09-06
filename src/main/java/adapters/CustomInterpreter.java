@@ -50,7 +50,7 @@ public class CustomInterpreter implements PrintScriptInterpreter {
                     emitter.print(result.getPrintln());
                 }
             }
-        } catch ( Exception e) {
+        } catch (OutOfMemoryError | Exception e) {
             handler.reportError(e.getMessage());
         }
 
