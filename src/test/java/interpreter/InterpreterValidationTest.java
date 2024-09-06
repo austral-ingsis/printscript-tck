@@ -17,12 +17,14 @@ import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static util.SuiteOps.*;
 
 @RunWith(Parameterized.class)
 public class InterpreterValidationTest {
@@ -39,23 +41,9 @@ public class InterpreterValidationTest {
     public File file;
 
     @Parameterized.Parameters(name = "version {0} - {1})")
-    public static Collection<Object[]> data() throws IOException {
-        final List<Object[]> result = getFilesForVersion("1.0");
-        result.addAll(getFilesForVersion("1.1"));
-        return result;
-    }
-
-    private static List<Object[]> getFilesForVersion(String version) throws IOException {
-        try (Stream<Path> paths = Files.walk(Paths.get(basePath + version + "/"))) {
-            return paths
-                    .filter(Files::isRegularFile)
-                    .filter(p -> {
-                        String fileName = p.getFileName().toString();
-                        return fileName.startsWith("valid") || fileName.startsWith("invalid");
-                    })
-                    .map((Path p) -> new Object[]{version, p.toFile()})
-                    .collect(Collectors.toList());
-        }
+    public static Collection<Object[]> data() {
+        // We don't want tests from previous versions as they are already duplicate. We will have to change this if there ever is a version 1.2
+        return collectTestSet(basePath, false);
     }
 
     @Test
