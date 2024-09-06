@@ -12,5 +12,5 @@ public interface PrintScriptFormatter {
      * @param config config file.
      * @param writer Writer, where the formatted output should be written
      */
-    void format(InputStream src, String version, InputStream config, Writer writer);
+    void format(InputStream src, String version, String config, Writer writer);
 }

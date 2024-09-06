@@ -1,10 +1,16 @@
 package implementation;
 
 import adapter.Adapter;
+import ast.ASTNode;
+import controller.LexerVersionController;
+import interfaces.Lexer;
 import interpreter.*;
+import parser.Parser;
+import token.Token;
 
-import java.io.BufferedInputStream;
-import java.util.Arrays;
+import java.io.IOException;
+import java.util.List;
+
 
 public class CustomImplementationFactory implements PrintScriptFactory {
     Adapter adapter = new Adapter();
@@ -26,9 +32,25 @@ public class CustomImplementationFactory implements PrintScriptFactory {
 
     @Override
     public PrintScriptFormatter formatter() {
-        // your PrintScript formatter should be returned here.
-        // make sure to ADAPT your formatter to PrintScriptFormatter interface.
-        throw new NotImplementedException("Needs implementation"); // TODO: implement
+        return (src, version, config, writer) -> {
+            try {
+                LexerVersionController versionControl = new LexerVersionController();
+                Lexer lexer = versionControl.getLexer(version, src);
+                List<Token> tokens = lexer.getToken();
+                Parser parser = new Parser(tokens);
+
+                List<ASTNode> astNodes = parser.generateAST();
+                Formatter formatter = new Formatter(config);
+                writer.write(formatter.format(astNodes));
+
+            } catch (Exception | Error e) {
+                try {
+                    writer.write(e.getMessage());
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        };
 
         // Dummy impl: return (src, version, config, writer) -> { };
     }

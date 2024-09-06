@@ -1,3 +1,6 @@
 {
-  "mandatory-space-surrounding-operations": true
+  "spaceBeforeColon": 0,
+  "spaceAfterColon": 1,
+  "spaceBeforeAndAfterAssignationOperator": 1,
+  "newlinesBeforePrintln": 1
 }

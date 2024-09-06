@@ -37,6 +37,7 @@ public class FormatterTest {
     @Parameterized.Parameter(value = 3)
     public File golden;
 
+
     @Parameterized.Parameter(value = 4)
     public File config;
 
@@ -49,9 +50,10 @@ public class FormatterTest {
     public void testFormat() throws FileNotFoundException {
         final var fileInputStream = new FileInputStream(file);
         final var golden = readFile(this.golden);
+        final var configPath = this.config.getPath();
         final var configInputStream = new FileInputStream(this.config);
         final var writer = new StringWriter();
-        formatter.format(fileInputStream, version, configInputStream, writer);
+        formatter.format(fileInputStream, version, configPath, writer);
         assertEquals(golden, writer.toString());
     }
 
