@@ -22,7 +22,7 @@ public class MyPrintScriptInterpreter implements PrintScriptInterpreter {
     } catch (RuntimeException e) {
       System.err.println("Runtime error: " + e.getMessage());
       e.printStackTrace(System.err);
-    } catch (Error e) {
+    } catch (OutOfMemoryError e) {
       System.err.println(e.getMessage());
     } finally {
       closeCollectors(emitter, handler, provider);
