@@ -29,9 +29,9 @@ test {
 
 dependencies {
     testImplementation 'junit:junit:4.13.1'
-    implementation 'com.print-script:lexer:1.0-SNAPSHOT'
-    implementation 'com.print-script:parser:1.0-SNAPSHOT'
-    implementation 'com.print-script:interpreter:1.0-SNAPSHOT'
+    implementation 'com.printscript:lexer:1.0-SNAPSHOT'
+    implementation 'com.printscript:parser:1.0-SNAPSHOT'
+    implementation 'com.printscript:interpreter:1.0-SNAPSHOT'
 }
 
 test {

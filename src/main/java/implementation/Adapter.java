@@ -2,14 +2,14 @@ package implementation;
 
 import com.printscript.interpreter.IInterpreter;
 import com.printscript.interpreter.TracingInterpreter;
+import com.printscript.models.node.ASTNode;
+import com.printscript.models.token.Token;
 import interpreter.ErrorHandler;
 import interpreter.InputProvider;
 import interpreter.PrintEmitter;
 import interpreter.PrintScriptInterpreter;
-import node.ASTNode;
-import printScreen.lexer.Lexer;
-import printScreen.parser.Parser;
-import token.Token;
+import printScreen.lexer.com.printscript.lexer.Lexer;
+import printScreen.parser.com.printscript.parser.Parser;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
