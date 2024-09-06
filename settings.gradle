@@ -1,2 +1,21 @@
+//includeBuild('../PrintScript') {
+//    dependencySubstitution {
+//        substitute module('org.example:lexer') using project(':lexer')
+//    }
+//    dependencySubstitution {
+//        substitute module('org.example:parser') using project(':parser')
+//    }
+//    dependencySubstitution {
+//        substitute module('org.example:cli') using project(':cli')
+//    }
+//    dependencySubstitution {
+//        substitute module('org.example:interpreter') using project(':interpreter')
+//    }
+//    dependencySubstitution {
+//        substitute module('org.example:ast') using project(':ast')
+//    }
+//}
+// hay que hacer esto con todos los modulos que quiera importar localmente
+
 rootProject.name = 'printscript-tck'
 

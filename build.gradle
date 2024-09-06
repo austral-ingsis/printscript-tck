@@ -26,7 +26,8 @@ dependencies {
     implementation 'org.example:lexer:1.0.0-SNAPSHOT'
     implementation 'org.example:parser:1.0.0-SNAPSHOT'
     implementation 'org.example:interpreter:1.0.0-SNAPSHOT'
-    //aca importamos los modulos que necesitemos, deberia ser solo el runner
+    implementation 'org.example:cli:1.0.0-SNAPSHOT'
+    implementation 'org.example:ast:1.0.0-SNAPSHOT'
 }
 
 test {
