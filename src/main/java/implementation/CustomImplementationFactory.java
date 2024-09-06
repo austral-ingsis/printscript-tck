@@ -1,21 +1,27 @@
 package implementation;
 
-import interpreter.PrintScriptFormatter;
-import interpreter.PrintScriptInterpreter;
-import interpreter.PrintScriptLinter;
+import adapter.Adapter;
+import interpreter.*;
 
 import java.io.BufferedInputStream;
 import java.util.Arrays;
 
 public class CustomImplementationFactory implements PrintScriptFactory {
+    Adapter adapter = new Adapter();
+    OutputAdapterJava outputAdapter;
+    InputAdapter inputAdapter;
 
     @Override
     public PrintScriptInterpreter interpreter() {
-        // your PrintScript implementation should be returned here.
-        // make sure to ADAPT your implementation to PrintScriptInterpreter interface.
-        throw new NotImplementedException("Needs implementation"); // TODO: implement
-
-        // Dummy impl: return (src, version, emitter, handler) -> { };
+        return (src, version, emitter, handler, provider) -> {
+            try {
+                this.outputAdapter = new OutputAdapterJava(emitter);
+                this.inputAdapter = new InputAdapter(provider);
+                adapter.execute(src, version, outputAdapter, handler, inputAdapter);
+            } catch (Exception | Error e) {
+                handler.reportError(e.getMessage());
+            }
+        };
     }
 
     @Override
