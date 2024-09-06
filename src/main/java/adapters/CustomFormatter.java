@@ -23,14 +23,6 @@ public class CustomFormatter implements PrintScriptFormatter {
 
     @Override
     public void format(InputStream src, String version, InputStream config, Writer writer) {
-        try {
-            BufferedReader reader = Files.newBufferedReader(srcPath);
-            MainFormatter formatter = new MainFormatter(srcPath.toString());
-            Lexer lexer = new Lexer(reader, 0, new Position(1,1));
-            Sequence< Token > tokens = lexer.tokenizeAll(lexer);
-            formatter.formatCode(tokens, );
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
     }
 }

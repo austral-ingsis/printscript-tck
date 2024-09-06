@@ -13,6 +13,7 @@ import nodes.Node;
 import org.example.interpreter.Interpreter;
 import org.example.lexer.Lexer;
 import utils.InterpreterException;
+import utils.ParsingResult;
 
 import java.io.*;
 import java.util.Objects;
@@ -56,7 +57,7 @@ public class CustomInterpreter implements PrintScriptInterpreter {
         Lexer lexer = new Lexer(reader, 0, new Position(1, 1));
         Sequence<Token> tokens = lexer.tokenizeAll(lexer);
         Parser parser = new Parser(tokens.iterator());
-        Sequence<Node> asts = parser.parseExpressions();
+        Sequence<ParsingResult> asts = parser.parseExpressions();
 
         Interpreter interpreter = new Interpreter();
 
