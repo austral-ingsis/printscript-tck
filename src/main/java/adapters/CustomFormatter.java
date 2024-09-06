@@ -16,8 +16,6 @@ public class CustomFormatter implements PrintScriptFormatter {
         Lexer lexer = new Lexer(new BufferedReader(new InputStreamReader(src)), 0, new Position(1, 1));
         Sequence<Token> tokens = lexer.tokenizeAll(lexer);
         MainFormatter formatter = new MainFormatter();
-
-
     }
 }
 

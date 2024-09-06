@@ -49,6 +49,5 @@ public class CustomInterpreter implements PrintScriptInterpreter {
 
                 results = null;
             }
-
     }
 }
