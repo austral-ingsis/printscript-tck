@@ -1,14 +1,16 @@
 package implementation;
 
+import com.printscript.interpreter.IInterpreter;
+import com.printscript.interpreter.TracingInterpreter;
 import interpreter.ErrorHandler;
 import interpreter.InputProvider;
 import interpreter.PrintEmitter;
 import interpreter.PrintScriptInterpreter;
 import node.ASTNode;
 import printScreen.lexer.Lexer;
-import interpreter.Interpreter;
 import printScreen.parser.Parser;
 import token.Token;
+
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -21,7 +23,7 @@ public class Adapter implements PrintScriptInterpreter {
         final Lexer lexer = new Lexer();
         final Parser parser = new Parser();
         final TracerAdapter tracer = new TracerAdapter(emitter);
-        final Interpreter interpreter = new Interpreter(tracer);
+        final IInterpreter interpreter = new TracingInterpreter(tracer, false);
         try {
             Reader reader = new InputStreamReader(src);
             Iterator<List<Token>> tokens = lexer.lex(reader);
