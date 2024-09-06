@@ -32,6 +32,8 @@ dependencies {
     implementation 'com.printscript:lexer:1.0-SNAPSHOT'
     implementation 'com.printscript:parser:1.0-SNAPSHOT'
     implementation 'com.printscript:interpreter:1.0-SNAPSHOT'
+    implementation 'com.printscript:formatter:1.0-SNAPSHOT'
+    implementation 'com.printscript:linter:1.0-SNAPSHOT'
 }
 
 test {
