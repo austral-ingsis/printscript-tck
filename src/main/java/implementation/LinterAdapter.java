@@ -4,11 +4,11 @@ import com.printscript.linter.Linter;
 import com.printscript.linter.violation.Violation;
 import com.printscript.models.node.ASTNode;
 import com.printscript.models.token.Token;
+import com.printscript.parser.PrintParser;
 import interpreter.ErrorHandler;
 import interpreter.PrintScriptLinter;
-import printScreen.lexer.com.printscript.lexer.Lexer;
-import printScreen.parser.com.printscript.parser.IParser;
-import printScreen.parser.com.printscript.parser.Parser;
+import com.printscript.lexer.Lexer;
+import com.printscript.parser.Parser;
 
 import java.io.*;
 import java.util.Iterator;
@@ -16,7 +16,7 @@ import java.util.List;
 
 public class LinterAdapter implements PrintScriptLinter {
     private final Lexer lexer = new Lexer();
-    private final IParser parser = new Parser();
+    private final Parser parser = new PrintParser();
     private final Linter linter = Linter.INSTANCE;
     private File file;
     private ErrorHandler handler;

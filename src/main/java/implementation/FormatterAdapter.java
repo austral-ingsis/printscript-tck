@@ -3,10 +3,10 @@ package implementation;
 import com.printscript.formatter.Formatter;
 import com.printscript.models.node.ASTNode;
 import com.printscript.models.token.Token;
+import com.printscript.parser.PrintParser;
 import interpreter.PrintScriptFormatter;
-import printScreen.lexer.com.printscript.lexer.Lexer;
-import printScreen.parser.com.printscript.parser.IParser;
-import printScreen.parser.com.printscript.parser.Parser;
+import com.printscript.lexer.Lexer;
+import com.printscript.parser.Parser;
 
 import java.io.*;
 import java.util.Iterator;
@@ -14,7 +14,7 @@ import java.util.List;
 
 public class FormatterAdapter implements PrintScriptFormatter {
     private final Lexer lexer = new Lexer();
-    private final IParser parser = new Parser();
+    private final Parser parser = new PrintParser();
     private final Formatter formatter = Formatter.INSTANCE;
     private File file;
     private Writer writer;
