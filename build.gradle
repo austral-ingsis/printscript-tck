@@ -2,7 +2,6 @@ plugins {
     id 'java'
 }
 
-// TODO: uncomment to be able to fetch packages in your own repository
 repositories {
     mavenLocal()
     mavenCentral()
@@ -29,12 +28,12 @@ test {
 
 dependencies {
     testImplementation 'junit:junit:4.13.1'
-    implementation("com.github.printSrcript:token:1.0.26")
-    implementation("com.github.printSrcript:ast:1.0.26")
-    implementation("com.github.printSrcript:lexer:1.0.26")
-    implementation("com.github.printSrcript:parser:1.0.26")
-    implementation("com.github.printSrcript:interpreter:1.0.26")
-    implementation("com.github.printSrcript:formatter:1.0.26")
+    implementation("com.github.printSrcript:token:1.0.32")
+    implementation("com.github.printSrcript:ast:1.0.32")
+    implementation("com.github.printSrcript:lexer:1.0.32")
+    implementation("com.github.printSrcript:parser:1.0.32")
+    implementation("com.github.printSrcript:interpreter:1.0.32")
+    implementation("com.github.printSrcript:formatter:1.0.32")
 
 }
 
