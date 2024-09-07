@@ -15,9 +15,6 @@ repositories {
     }
 }
 
-println "USERNAME: ${System.getenv('USERNAME')}"
-println "TOKEN: ${System.getenv('TOKEN')}"
-
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
@@ -30,12 +27,12 @@ test {
 }
 
 dependencies {
+    testImplementation 'junit:junit:4.13.1'
     implementation 'com.ingsis:lexer:1.1.0'
     implementation 'com.ingsis:parser:1.1.0'
     implementation 'com.ingsis:interpreter:1.1.0'
     implementation 'com.ingsis:formatter:1.1.0'
     implementation 'com.ingsis:linter:1.1.0'
-    testImplementation 'junit:junit:4.13.1'
 }
 
 test {
