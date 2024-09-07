@@ -4,6 +4,7 @@ import interpreter.ErrorHandler;
 import interpreter.PrintScriptLinter;
 import kotlinx.serialization.json.JsonObject;
 import org.Runner;
+import org.RunnerResult;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,5 +15,7 @@ public class MyPrintScriptLinter implements PrintScriptLinter {
         Runner runner = new Runner(version);
         JsonObject configJson = new Utils().getJsonFromStream(config);
 
+        RunnerResult.Analyze lintResult = runner.analyze(src.toString(), configJson);
+        lintResult.getErrorsList().forEach(handler::reportError);
     }
 }
