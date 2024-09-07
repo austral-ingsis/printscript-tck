@@ -28,6 +28,7 @@ test {
 
 dependencies {
     testImplementation 'junit:junit:4.13.1'
+    implementation group: 'commons-io', name: 'commons-io', version: '2.16.1'
     implementation 'org.example:lexer:1.0-SNAPSHOT'
     implementation 'org.example:syntax:1.0-SNAPSHOT'
     implementation 'org.example:semantics:1.0-SNAPSHOT'
