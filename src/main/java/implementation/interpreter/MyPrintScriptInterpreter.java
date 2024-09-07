@@ -1,4 +1,4 @@
-package implementation;
+package implementation.interpreter;
 
 import interpreter.ErrorHandler;
 import interpreter.InputProvider;
