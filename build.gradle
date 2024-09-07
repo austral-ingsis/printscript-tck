@@ -8,13 +8,16 @@ repositories {
 // TODO: uncomment to be able to fetch packages in your own repository
     maven {
         name = "GitHubPackages"
-        url = uri("https://maven.pkg.github.com/Agustin5421/printscript")
+        url = uri("https://maven.pkg.github.com/Agustin5421/PrintScript")
         credentials {
             username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
             password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
         }
     }
 }
+
+println "USERNAME: ${System.getenv('USERNAME')}"
+println "TOKEN: ${System.getenv('TOKEN')}"
 
 java {
     toolchain {
@@ -28,11 +31,11 @@ test {
 }
 
 dependencies {
-    implementation 'com.ingsis:lexer:1.0.0'
-    implementation 'com.ingsis:parser:1.0.0'
-    implementation 'com.ingsis:interpreter:1.0.0'
-    implementation 'com.ingsis:formatter:1.0.0'
-    implementation 'com.ingsis:linter:1.0.0'
+    implementation 'com.ingsis:lexer:1.1.0'
+    implementation 'com.ingsis:parser:1.1.0'
+    implementation 'com.ingsis:interpreter:1.1.0'
+    implementation 'com.ingsis:formatter:1.1.0'
+    implementation 'com.ingsis:linter:1.1.0'
     testImplementation 'junit:junit:4.13.1'
 }
 
