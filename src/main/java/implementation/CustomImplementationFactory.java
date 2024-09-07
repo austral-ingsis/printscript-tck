@@ -8,7 +8,7 @@ public class CustomImplementationFactory implements PrintScriptFactory {
     public PrintScriptInterpreter interpreter() {
         // your PrintScript implementation should be returned here.
         // make sure to ADAPT your implementation to PrintScriptInterpreter interface.
-        return new Interpreter();
+        return new PullInterpreter();
 
         // Dummy impl: return (src, version, emitter, handler) -> { };
     }
