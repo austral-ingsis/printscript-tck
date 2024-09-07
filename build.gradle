@@ -29,13 +29,13 @@ test {
 
 dependencies {
     testImplementation 'junit:junit:4.13.1'
-    implementation 'printscript:common:2.1.2-SNAPSHOT'
-    implementation 'printscript:cli:2.1.2-SNAPSHOT'
-    implementation 'printscript:parser:2.1.2-SNAPSHOT'
-    implementation 'printscript:lexer:2.1.2-SNAPSHOT'
-    implementation 'printscript:interpreter:2.1.2-SNAPSHOT'
-    implementation 'printscript:formatter:2.1.2-SNAPSHOT'
-    implementation 'printscript:sca:2.1.2-SNAPSHOT'
+    implementation 'printscript:common:2.1.4-SNAPSHOT'
+    implementation 'printscript:cli:2.1.4-SNAPSHOT'
+    implementation 'printscript:parser:2.1.4-SNAPSHOT'
+    implementation 'printscript:lexer:2.1.4-SNAPSHOT'
+    implementation 'printscript:interpreter:2.1.4-SNAPSHOT'
+    implementation 'printscript:formatter:2.1.4-SNAPSHOT'
+    implementation 'printscript:sca:2.1.4-SNAPSHOT'
     implementation 'com.github.ajalt.clikt:clikt:4.3.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     implementation("com.fasterxml.jackson.core:jackson-databind:2.15.2")
