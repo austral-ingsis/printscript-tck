@@ -14,13 +14,14 @@ import java.util.List;
 import error.Error;
 
 public class AdaptedLinter implements PrintScriptLinter {
-    Operations runner = new Operations();
+
     @Override
     public void lint(InputStream src, String version, InputStream config, ErrorHandler handler) {
         try {
             String input = decode(src);
+            Operations runner = new Operations(input, version);
             try {
-                List<Error> output = runner.analyze(input);
+                List<Error> output = runner.analyze();
                 for ( Error error : output){
                     handler.reportError(error.toString());
                 }

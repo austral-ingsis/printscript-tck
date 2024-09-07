@@ -8,7 +8,7 @@ repositories {
     mavenCentral()
     maven {
         name = "GitHubPackages"
-        url = uri("https://maven.pkg.github.com/<your-username>/printscript")
+        url = uri("https://maven.pkg.github.com/HiluLagos/PrintScript")
         credentials {
             username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
             password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
@@ -18,7 +18,7 @@ repositories {
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(20)
     }
 }
 
@@ -29,9 +29,9 @@ test {
 
 dependencies {
     testImplementation 'junit:junit:4.13.1'
-    implementation 'edu.austral.ingsis:runner:1.0.13'
-    implementation 'edu.austral.ingsis:interpreter:1.0.13'
-    implementation 'edu.austral.ingsis:linter:1.0.13'
+    implementation 'edu.austral.ingsis:runner:1.0.20'
+    implementation 'edu.austral.ingsis:interpreter:1.0.20'
+    implementation 'edu.austral.ingsis:linter:1.0.20'
 }
 
 test {

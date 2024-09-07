@@ -12,13 +12,14 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class AdaptedFormatter implements PrintScriptFormatter {
-    Operations runner = new Operations();
+
     @Override
     public void format(InputStream src, String version, InputStream config, Writer writer) {
         try {
             String input = decode(src);
+            Operations runner = new Operations(input, version);
             try {
-                String output = runner.format(input);
+                String output = runner.format();
                 for ( char letter : output.toCharArray()){
                     writer.append(letter);
                 }

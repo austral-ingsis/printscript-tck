@@ -11,13 +11,14 @@ import java.util.List;
 
 
 public class AdaptedInterpreter implements PrintScriptInterpreter{
-    Operations runner = new Operations();
+
     @Override
     public void execute(InputStream src, String version, PrintEmitter emitter, ErrorHandler handler, InputProvider provider) {
         try {
             String input = decode(src);
+            Operations runner = new Operations(input, version);
             try {
-                List<String> output = runner.execute(input);
+                List<String> output = runner.execute();
                 for (String result : output) {
                     emitter.print(result);
                 }
