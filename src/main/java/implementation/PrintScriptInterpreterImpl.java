@@ -1,7 +1,6 @@
 package implementation;
 
 import AST.nodes.ASTNode;
-import adapter.InputStreamToFileAdapter;
 import adapter.PrintEmitterAdapter;
 import fileReader.FileReaderIterator;
 import interpreter.*;
@@ -21,16 +20,13 @@ public class PrintScriptInterpreterImpl implements PrintScriptInterpreter {
       PrintEmitterAdapter printEmitterAdapter = new PrintEmitterAdapter(emitter);
 
 
-      InputStreamToFileAdapter adapter = new InputStreamToFileAdapter();
-
-
-      FileReaderIterator fileReaderIterator = new FileReaderIterator(adapter.inputStreamToFile(src));
+      FileReaderIterator fileReaderIterator = new FileReaderIterator(src);
 
 
       Iterator<Token> tokenIterator = new TokenIterator(fileReaderIterator, version);
 
 
-      Iterator<ASTNode> ASTNodes = new ASTIterator(tokenIterator);
+      Iterator<ASTNode> ASTNodes = new ASTIterator(tokenIterator, version);
 
 
       new Interpreter(printEmitterAdapter).interpret(ASTNodes);
