@@ -1,11 +1,15 @@
 package implementation;
 
 import adapter.Adapter;
+import adapter.linter.ConfigLoaderAdapter;
 import ast.ASTNode;
+import config.ConfigLoader;
 import controller.LexerVersionController;
 import interfaces.Lexer;
 import interpreter.*;
 import parser.Parser;
+import sca.StaticCodeAnalyzer;
+import sca.StaticCodeAnalyzerError;
 import token.Token;
 
 import java.io.IOException;
@@ -57,8 +61,25 @@ public class CustomImplementationFactory implements PrintScriptFactory {
 
     @Override
     public PrintScriptLinter linter() {
-        // your PrintScript linter should be returned here.
-        // make sure to ADAPT your linter to PrintScriptLinter interface.
-        throw new NotImplementedException("Needs implementation"); // TODO: implement
+        return (src, version, config, handler) -> {
+            try {
+                LexerVersionController versionControl = new LexerVersionController();
+                Lexer lexer = versionControl.getLexer(version, src);
+                List<Token> tokens = lexer.getToken();
+                Parser parser = new Parser(tokens);
+
+                List<ASTNode> astNodes = parser.generateAST();
+
+                ConfigLoader configLoader = new ConfigLoaderAdapter(config);
+                StaticCodeAnalyzer staticCodeAnalyzer = new StaticCodeAnalyzer(configLoader);
+
+                List<StaticCodeAnalyzerError> errors = staticCodeAnalyzer.analyze(astNodes);
+                for (StaticCodeAnalyzerError error : errors) {
+                    handler.reportError(error.toString());
+                }
+            } catch (Exception | Error e) {
+                handler.reportError(e.getMessage());
+            }
+        };
     }
 }
