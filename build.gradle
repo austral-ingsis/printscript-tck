@@ -5,7 +5,6 @@ plugins {
 repositories {
     mavenLocal()
     mavenCentral()
-// TODO: uncomment to be able to fetch packages in your own repository
     maven {
         name = "GitHubPackages"
         url = uri("https://maven.pkg.github.com/Agustin5421/PrintScript")
