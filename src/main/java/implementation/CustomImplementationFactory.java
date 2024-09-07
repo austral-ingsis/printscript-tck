@@ -1,5 +1,7 @@
 package implementation;
 
+import implementation.interpreter.MyPrintScriptInterpreter;
+import implementation.linter.MyPrintScriptLinter;
 import interpreter.PrintScriptFormatter;
 import interpreter.PrintScriptInterpreter;
 import interpreter.PrintScriptLinter;
