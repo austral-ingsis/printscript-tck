@@ -1,6 +1,6 @@
 package util;
 
-import interpreter.InputProvider;
+import argument.InputProvider;
 
 import java.util.Queue;
 

@@ -1,6 +1,6 @@
 package util;
 
-import interpreter.PrintEmitter;
+import argument.PrintEmitter;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,5 +1,6 @@
 package interpreter;
 
+import argument.InputProvider;
 import implementation.CustomImplementationFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;

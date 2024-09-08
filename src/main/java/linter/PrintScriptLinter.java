@@ -1,6 +1,7 @@
-package interpreter;
+package linter;
 
-import java.io.IOException;
+import argument.ErrorHandler;
+
 import java.io.InputStream;
 
 public interface PrintScriptLinter {

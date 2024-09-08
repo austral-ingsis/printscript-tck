@@ -1,11 +1,8 @@
 package implementation;
 
-import interpreter.PrintScriptFormatter;
+import formatter.PrintScriptFormatter;
 import interpreter.PrintScriptInterpreter;
-import interpreter.PrintScriptLinter;
-
-import java.io.BufferedInputStream;
-import java.util.Arrays;
+import linter.PrintScriptLinter;
 
 public class CustomImplementationFactory implements PrintScriptFactory {
 

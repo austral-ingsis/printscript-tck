@@ -1,6 +1,6 @@
 package util;
 
-import interpreter.ErrorHandler;
+import argument.ErrorHandler;
 
 import java.util.ArrayList;
 import java.util.List;
