@@ -1,8 +1,8 @@
 package interpreter;
 
-import argument.ErrorHandler;
-import argument.InputProvider;
-import argument.PrintEmitter;
+import common.argument.ErrorHandler;
+import common.argument.InputProvider;
+import common.argument.PrintEmitter;
 
 import java.io.InputStream;
 

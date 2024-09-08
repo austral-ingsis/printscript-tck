@@ -1,6 +1,6 @@
 package util;
 
-import argument.PrintEmitter;
+import common.argument.PrintEmitter;
 
 import java.util.function.Predicate;
 

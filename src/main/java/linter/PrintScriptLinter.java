@@ -1,6 +1,6 @@
 package linter;
 
-import argument.ErrorHandler;
+import common.argument.ErrorHandler;
 
 import java.io.InputStream;
 
