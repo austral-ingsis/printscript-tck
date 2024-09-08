@@ -37,6 +37,7 @@ dependencies {
     implementation 'printscript:models:1.0.1-SNAPSHOT'
     implementation 'printscript:staticanalyzer:1.0.1-SNAPSHOT'
     implementation 'printscript:formatter:1.0.1-SNAPSHOT'
+    implementation 'printscript:testframework:1.0.1-SNAPSHOT'
 }
 
 test {
