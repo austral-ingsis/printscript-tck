@@ -38,7 +38,7 @@ public class SemanticAnalyzerIterator implements Iterator<Statement> {
             }
             case SyntaxSuccess success -> {
                 next = success.getStatement();
-                yield true;
+                yield next != null;
             }
             default -> throw new IllegalStateException("Unexpected result for syntax analyzer: " + result);
         };
