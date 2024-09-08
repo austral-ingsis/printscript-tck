@@ -1,9 +1,8 @@
 package interpreter;
 
 import org.apache.commons.io.IOUtils;
-import org.example.PrintScriptSca;
-import org.example.Result;
-import org.example.StaticCodeAnalyzer;
+import org.example.*;
+import org.example.lexerresult.LexerSuccess;
 
 import java.io.*;
 import java.util.List;
@@ -17,11 +16,20 @@ public class Linter implements PrintScriptLinter{
       InputStream adaptedConfig = adaptConfig(config);
       StaticCodeAnalyzer linter = new PrintScriptSca(adaptedConfig);
       Scanner scanner = new Scanner(src).useDelimiter("\n");
-      List<Result> results = linter.analyze(scanner);
-      for (Result result : results) {
-        if (result.isSuccessful()) continue;
-        handler.reportError(result.errorMessage());
+      Lexer lexer = new PrintScriptLexer();
+      while (scanner.hasNext()) {
+        Result lexerResult = lexer.lex(scanner);
+        if (!lexerResult.isSuccessful()) {
+          handler.reportError(lexerResult.errorMessage());
+        }
+          LexerSuccess success = (LexerSuccess) lexerResult;
+          List<Result> results = linter.analyze(success.getTokens());
+          for (Result result : results) {
+              if (result.isSuccessful()) continue;
+              handler.reportError(result.errorMessage());
+          }
       }
+
     } catch (IOException e) {
         handler.reportError("Error reading file");
     }

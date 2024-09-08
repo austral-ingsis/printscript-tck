@@ -30,13 +30,13 @@ dependencies {
     testImplementation 'junit:junit:4.13.1'
     implementation group: 'commons-io', name: 'commons-io', version: '2.16.1'
     implementation "org.json:json:20231013"
-    implementation 'org.example:lexer:1.0-SNAPSHOT'
-    implementation 'org.example:syntax:1.0-SNAPSHOT'
-    implementation 'org.example:semantics:1.0-SNAPSHOT'
-    implementation 'org.example:interpreter:1.0-SNAPSHOT'
-    implementation 'org.example:models:1.0-SNAPSHOT'
-    implementation 'org.example:staticanalyzer:1.0-SNAPSHOT'
-    implementation 'org.example:formatter:1.0-SNAPSHOT'
+    implementation 'printscript:lexer:1.0.1-SNAPSHOT'
+    implementation 'printscript:syntax:1.0.1-SNAPSHOT'
+    implementation 'printscript:semantics:1.0.1-SNAPSHOT'
+    implementation 'printscript:interpreter:1.0.1-SNAPSHOT'
+    implementation 'printscript:models:1.0.1-SNAPSHOT'
+    implementation 'printscript:staticanalyzer:1.0.1-SNAPSHOT'
+    implementation 'printscript:formatter:1.0.1-SNAPSHOT'
 }
 
 test {
