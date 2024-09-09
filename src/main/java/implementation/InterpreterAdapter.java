@@ -24,7 +24,8 @@ public class InterpreterAdapter implements PrintScriptInterpreter {
         final Lexer lexer = new Lexer();
         final Parser parser = new PrintParser();
         final TracerAdapter tracer = new TracerAdapter(emitter);
-        final Interpreter interpreter = new TracingInterpreter(tracer, false);
+        final InputAdapter input = new InputAdapter(provider, tracer);
+        final Interpreter interpreter = new TracingInterpreter(tracer, input);
         try {
             Reader reader = new InputStreamReader(src);
             Iterator<List<Token>> tokens = lexer.lex(reader);
