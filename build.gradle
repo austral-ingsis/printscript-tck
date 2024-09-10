@@ -29,6 +29,8 @@ test {
 
 dependencies {
     testImplementation 'junit:junit:4.13.1'
+    // add gson
+    implementation 'com.google.code.gson:gson:2.8.9'
     implementation 'com.printscript:lexer:1.1-SNAPSHOT'
     implementation 'com.printscript:parser:1.1-SNAPSHOT'
     implementation 'com.printscript:interpreter:1.1-SNAPSHOT'

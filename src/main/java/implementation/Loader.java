@@ -19,4 +19,12 @@ public class Loader {
             throw new RuntimeException(e);
         }
     }
+
+    public Reader getReader(File file) {
+        try {
+            return new FileReader(file);
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
