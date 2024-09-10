@@ -8,21 +8,20 @@ import org.Runner;
 import org.RunnerResult;
 
 import java.io.*;
-import java.util.stream.Collectors;
+
+import static implementation.InputStreamToStringReader.convert;
 
 public class MyPrintScriptLinter implements PrintScriptLinter {
     @Override
     public void lint(InputStream src, String version, InputStream config, ErrorHandler handler) {
-        Runner runner = new Runner(version);
-
-        BufferedReader reader = new BufferedReader(new InputStreamReader(src));
-        String code = reader.lines().collect(Collectors.joining("\n"));
+        StringReader reader = convert(src);
+        Runner runner = new Runner(version, reader);
 
         JsonCreator jsonCreator = new JsonCreator();
         JsonObject json = jsonCreator.getJsonFromInputStream(config);
         JsonObject configJson = new CheckAdapter().adapt(json);
 
-        RunnerResult.Analyze lintResult = runner.analyze(code, configJson);
+        RunnerResult.Analyze lintResult = runner.analyze(configJson);
         lintResult.getWarningsList().forEach(handler::reportError);
     }
 }
