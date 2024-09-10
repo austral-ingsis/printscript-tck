@@ -2,6 +2,7 @@ package implementation;
 
 import com.printscript.interpreter.GoatedInterpreter;
 import com.printscript.interpreter.Interpreter;
+import com.printscript.interpreter.RetroInterpreter;
 import com.printscript.lexer.Lexer;
 import com.printscript.models.node.ASTNode;
 import com.printscript.models.token.Token;
@@ -17,6 +18,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 public class InterpreterAdapter implements PrintScriptInterpreter {
     @Override
@@ -25,7 +27,8 @@ public class InterpreterAdapter implements PrintScriptInterpreter {
         final Parser parser = new PrintParser();
         final InputAdapter input = new InputAdapter(provider);
         final OutputAdapter output = new OutputAdapter(emitter);
-        final Interpreter interpreter = new GoatedInterpreter(input, output);
+        Interpreter interpreter = new GoatedInterpreter(input, output);
+        if (Objects.equals(version, "1.0")) interpreter = new RetroInterpreter(interpreter);
         try {
             Reader reader = new InputStreamReader(src);
             Iterator<List<Token>> tokens = lexer.lex(reader);
