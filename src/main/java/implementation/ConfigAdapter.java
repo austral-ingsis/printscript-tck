@@ -23,24 +23,9 @@ public class ConfigAdapter {
     @SerializedName("mandatory-variable-or-literal-in-readInput")
     public Boolean mandatoryVariableOrLiteralInReadInput;
 
-    private String adaptCasing() {
-        if (identifierFormat == null) {
-            return null;
-        }
-        return switch (identifierFormat) {
-            case "camel case" -> "camel";
-            case "pascal case" -> "pascal";
-            case "snake case" -> "snake";
-            case "screaming snake case" -> "screaming_snake";
-            case "kebab case" -> "kebab";
-            case "screaming kebab case" -> "screaming_kebab";
-            default -> identifierFormat;
-        };
-    }
-
     public LinterConfig adapt() {
         return new LinterConfig(
-                adaptCasing(),
+                identifierFormat,
                 mandatoryVariableOrLiteralInPrintln != null && mandatoryVariableOrLiteralInPrintln,
                 mandatoryVariableOrLiteralInReadInput != null && mandatoryVariableOrLiteralInReadInput
         );
