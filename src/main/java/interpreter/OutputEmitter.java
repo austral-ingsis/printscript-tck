@@ -2,7 +2,6 @@ package interpreter;
 
 import runner.OutputResult;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class OutputEmitter implements OutputResult {
@@ -14,9 +13,8 @@ public class OutputEmitter implements OutputResult {
 
     @Override
     public OutputResult saveResult(String s) {
-        List<String> newPrints = new ArrayList<>(prints);
-        newPrints.add(s);
-        return new OutputEmitter(newPrints);
+        prints.add(s);
+        return new OutputEmitter(prints);
     }
 
     @Override

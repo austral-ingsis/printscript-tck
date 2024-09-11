@@ -22,6 +22,8 @@ public class InterpreterAdapter implements PrintScriptInterpreter {
             emitter.print(print);
         }
 
-        handler.reportError(errorLog.getResult());
+        if (!errorLog.getResult().isEmpty()){
+            handler.reportError(errorLog.getResult());
+        }
     }
 }
