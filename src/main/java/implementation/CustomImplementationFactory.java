@@ -1,6 +1,7 @@
 package implementation;
 
 import formatter.PrintScriptFormatter;
+import interpreter.InterpreterAdapter;
 import interpreter.PrintScriptInterpreter;
 import linter.LinterAdapter;
 import linter.PrintScriptLinter;
@@ -11,7 +12,7 @@ public class CustomImplementationFactory implements PrintScriptFactory {
     public PrintScriptInterpreter interpreter() {
         // your PrintScript implementation should be returned here.
         // make sure to ADAPT your implementation to PrintScriptInterpreter interface.
-        throw new NotImplementedException("Needs implementation"); // TODO: implement
+        return new InterpreterAdapter();
 
         // Dummy impl: return (src, version, emitter, handler) -> { };
     }
