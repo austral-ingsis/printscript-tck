@@ -9,6 +9,7 @@ import interpreter.PrintScriptLinter;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Optional;
 
 public class MyPrintScriptLinter implements PrintScriptLinter {
   @Override
@@ -20,7 +21,10 @@ public class MyPrintScriptLinter implements PrintScriptLinter {
   }
 
   private void handleReport(Report report, ErrorHandler handler) {
-    for (String message: report.getMessages()) {
+    if (report.getReport().isEmpty()) {
+      return;
+    }
+    for (String message: report.getReport().get()) {
       handler.reportError(message);
     }
   }
