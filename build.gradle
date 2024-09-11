@@ -30,6 +30,7 @@ test {
 dependencies {
     testImplementation 'junit:junit:4.13.1'
     implementation 'org.example:runner:1.0.0-SNAPSHOT'
+    implementation 'org.example:utils:1.0.0-SNAPSHOT'
 }
 
 test {
