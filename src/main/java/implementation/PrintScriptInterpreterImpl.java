@@ -19,7 +19,8 @@ public class PrintScriptInterpreterImpl implements PrintScriptInterpreter {
             Iterator<Token> tokens = new Lexer(src, version);
             Iterator<StatementType> asts = new Parser(tokens, version);
             Pair<StringBuilder, Environment> result = Interpreter.INSTANCE.interpret(asts, version);
-            emitter.print(result.component1().toString());
+            StringBuilder printResults = result.component1();
+            emitter.print(printResults.toString());
         } catch (Exception e) {
             handler.reportError(e.getMessage());
         }

@@ -35,6 +35,7 @@ dependencies {
     implementation 'com.ingsis:linter:1.1.3-SNAPSHOT'
     implementation 'com.ingsis:cli:1.1.3-SNAPSHOT'
     implementation 'com.ingsis:shared:1.1.3-SNAPSHOT'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.0'
 }
 
 test {
