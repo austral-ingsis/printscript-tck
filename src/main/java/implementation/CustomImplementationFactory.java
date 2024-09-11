@@ -1,5 +1,6 @@
 package implementation;
 
+import adapters.CustomFormatter;
 import adapters.CustomInterpreter;
 import adapters.CustomLinter;
 import interpreter.PrintScriptFormatter;
@@ -15,11 +16,7 @@ public class CustomImplementationFactory implements PrintScriptFactory {
 
     @Override
     public PrintScriptFormatter formatter() {
-        // your PrintScript formatter should be returned here.
-        // make sure to ADAPT your formatter to PrintScriptFormatter interface.
-        throw new NotImplementedException("Needs implementation"); // TODO: implement
-
-        // Dummy impl: return (src, version, config, writer) -> { };
+        return new CustomFormatter();
     }
 
     @Override

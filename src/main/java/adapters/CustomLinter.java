@@ -12,6 +12,7 @@ import main.kotlin.main.LinterConfig;
 import main.kotlin.main.LinterResult;
 import org.example.lexer.Lexer;
 import utils.ParsingResult;
+import utils.PercentageCollector;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -26,8 +27,16 @@ public class CustomLinter implements PrintScriptLinter {
         }
         BufferedReader reader = new BufferedReader(new InputStreamReader(src));
         LinterConfig configuration = ConfigParser.Companion.parseConfig(config);
-        Lexer lexer = new Lexer(reader, 0, new Position(1,1));
-        Sequence<Token> tokens = lexer.tokenizeAll(lexer);
+        PercentageCollector collector = new PercentageCollector();
+        int length = 0;
+        try {
+             length = src.available();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        Lexer lexer = new Lexer(reader,length,collector ,0, new Position(1,1));
+        Sequence<Token> tokens = lexer.tokenize();
         Parser parser = new Parser(tokens.iterator());
         Sequence<ParsingResult> astNodes = parser.parseExpressions();
         Iterator<LinterResult> errors = new Linter().lint(astNodes, configuration).iterator();

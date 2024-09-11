@@ -13,9 +13,8 @@ public class CustomFormatter implements PrintScriptFormatter {
 
     @Override
     public void format(InputStream src, String version, InputStream config, Writer writer) {
-        Lexer lexer = new Lexer(new BufferedReader(new InputStreamReader(src)), 0, new Position(1, 1));
-        Sequence<Token> tokens = lexer.tokenizeAll(lexer);
-        MainFormatter formatter = new MainFormatter();
+        FormatterFactory factory = new FormatterFactory();
+        factory.format(src, config, version, writer);
     }
 }
 
