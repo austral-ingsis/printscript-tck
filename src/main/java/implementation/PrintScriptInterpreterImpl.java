@@ -13,7 +13,7 @@ public class PrintScriptInterpreterImpl implements PrintScriptInterpreter {
   public void execute(InputStream src, String version, PrintEmitter emitter, ErrorHandler handler, InputProvider inputProvider) {
     try {
       PrintEmitterAdapter printEmitterAdapter = new PrintEmitterAdapter(emitter);
-      InputProviderAdapter inputProviderAdapter = new InputProviderAdapter(inputProvider);
+      InputProviderAdapter inputProviderAdapter = new InputProviderAdapter(inputProvider, printEmitterAdapter);
       Runner runner = new Runner();
       runner.run(src, version, printEmitterAdapter, inputProviderAdapter);
     }
