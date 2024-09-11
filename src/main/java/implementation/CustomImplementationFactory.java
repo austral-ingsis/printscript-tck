@@ -26,7 +26,7 @@ public class CustomImplementationFactory implements PrintScriptFactory {
         return (src, version, emitter, handler, provider) -> {
             try {
                 this.outputAdapter = new OutputAdapterJava(emitter);
-                this.inputAdapter = new InputAdapter(provider);
+                this.inputAdapter = new InputAdapter(provider, emitter);
                 adapter.execute(src, version, outputAdapter, handler, inputAdapter);
             } catch (Exception | Error e) {
                 handler.reportError(e.getMessage());
