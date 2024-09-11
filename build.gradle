@@ -29,11 +29,7 @@ test {
 
 dependencies {
     testImplementation 'junit:junit:4.13.1'
-    implementation 'org.example:lexer:1.0.0-SNAPSHOT'
-    implementation 'org.example:parser:1.0.0-SNAPSHOT'
-    implementation 'org.example:interpreter:1.0.0-SNAPSHOT'
-    implementation 'org.example:cli:1.0.0-SNAPSHOT'
-    implementation 'org.example:ast:1.0.0-SNAPSHOT'
+    implementation 'org.example:runner:1.0.0-SNAPSHOT'
 }
 
 test {
