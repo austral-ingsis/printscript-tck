@@ -14,7 +14,7 @@ import static implementation.InputStreamToStringReader.convert;
 public class MyPrintScriptLinter implements PrintScriptLinter {
     @Override
     public void lint(InputStream src, String version, InputStream config, ErrorHandler handler) {
-        StringReader reader = convert(src);
+        Reader reader = convert(src);
         Runner runner = new Runner(version, reader);
 
         JsonCreator jsonCreator = new JsonCreator();

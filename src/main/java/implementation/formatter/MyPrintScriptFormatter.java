@@ -13,7 +13,7 @@ public class MyPrintScriptFormatter implements PrintScriptFormatter {
 
     @Override
     public void format(InputStream src, String version, InputStream config, Writer writer) throws IOException {
-        StringReader reader = convert(src);
+        Reader reader = convert(src);
         Runner runner = new Runner(version, reader);
 
         JsonCreator jsonCreator = new JsonCreator();
