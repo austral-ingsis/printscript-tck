@@ -18,10 +18,10 @@ public class AdaptedLinter implements PrintScriptLinter {
     @Override
     public void lint(InputStream src, String version, InputStream config, ErrorHandler handler) {
         try {
-            String input = decode(src);
-            Operations runner = new Operations(input, version);
+            String configString = decode(config);
+            Operations runner = new Operations(src, version);
             try {
-                List<Error> output = runner.analyze();
+                List<Error> output = runner.analyze(configString);
                 for ( Error error : output){
                     handler.reportError(error.toString());
                 }

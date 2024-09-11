@@ -15,9 +15,7 @@ public class AdaptedFormatter implements PrintScriptFormatter {
 
     @Override
     public void format(InputStream src, String version, InputStream config, Writer writer) {
-        try {
-            String input = decode(src);
-            Operations runner = new Operations(input, version);
+            Operations runner = new Operations(src, version);
             try {
                 String output = runner.format();
                 for ( char letter : output.toCharArray()){
@@ -28,17 +26,4 @@ public class AdaptedFormatter implements PrintScriptFormatter {
                 return;
             }
         }
-        catch (IOException e) {return;}
     }
-
-    private String decode(InputStream stream) throws IOException {
-        int bufferSize = 1024;
-        char[] buffer = new char[bufferSize];
-        StringBuilder out = new StringBuilder();
-        Reader in = new InputStreamReader(stream, StandardCharsets.UTF_8);
-        for (int numRead; (numRead = in.read(buffer, 0, buffer.length)) > 0; ) {
-            out.append(buffer, 0, numRead);
-        }
-        return out.toString();
-    }
-}
