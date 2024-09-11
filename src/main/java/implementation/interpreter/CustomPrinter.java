@@ -13,14 +13,9 @@ public class CustomPrinter implements Printer {
     public CustomPrinter(PrintEmitter printer) {
         this.printer = printer;
     }
+
     @Override
     public void print(@NotNull String s) {
         printer.print(s);
-    }
-
-    @NotNull
-    @Override
-    public List<String> getOutput() {
-        return List.of();
     }
 }

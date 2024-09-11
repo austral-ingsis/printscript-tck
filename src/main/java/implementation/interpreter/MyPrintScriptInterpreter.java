@@ -21,7 +21,14 @@ public class MyPrintScriptInterpreter implements PrintScriptInterpreter {
         CustomInputProvider inputProvider = new CustomInputProvider(provider);
         CustomPrinter customPrinter = new CustomPrinter(emitter);
 
-        RunnerResult.Execute result = runner.execute(version, customPrinter, inputProvider);
-        result.getErrorsList().forEach(handler::reportError);
+        try {
+            runner.execute(version, customPrinter, inputProvider);
+        } catch (OutOfMemoryError e) {
+            handler.reportError("Java heap space");
+        }
+        catch (Exception e) {
+            handler.reportError(e.getMessage());
+        }
+
     }
 }
