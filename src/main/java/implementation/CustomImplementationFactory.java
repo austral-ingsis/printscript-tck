@@ -11,7 +11,6 @@ import parser.Parser;
 import sca.StaticCodeAnalyzer;
 import sca.StaticCodeAnalyzerError;
 import token.Token;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
