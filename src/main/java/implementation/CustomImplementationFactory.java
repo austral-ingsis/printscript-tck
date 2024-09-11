@@ -13,6 +13,7 @@ import sca.StaticCodeAnalyzerError;
 import token.Token;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -40,7 +41,12 @@ public class CustomImplementationFactory implements PrintScriptFactory {
             try {
                 LexerVersionController versionControl = new LexerVersionController();
                 Lexer lexer = versionControl.getLexer(version, src);
-                List<Token> tokens = lexer.getToken();
+                List<Token> tokens = new ArrayList<Token>();
+                Token token = lexer.getNextToken();
+                while (token != null) {
+                    tokens.add(token);
+                    token = lexer.getNextToken();
+                }
                 Parser parser = new Parser(tokens);
 
                 List<ASTNode> astNodes = parser.generateAST();
@@ -65,7 +71,12 @@ public class CustomImplementationFactory implements PrintScriptFactory {
             try {
                 LexerVersionController versionControl = new LexerVersionController();
                 Lexer lexer = versionControl.getLexer(version, src);
-                List<Token> tokens = lexer.getToken();
+                List<Token> tokens = new ArrayList<Token>();
+                Token token = lexer.getNextToken();
+                while (token != null) {
+                    tokens.add(token);
+                    token = lexer.getNextToken();
+                }
                 Parser parser = new Parser(tokens);
 
                 List<ASTNode> astNodes = parser.generateAST();

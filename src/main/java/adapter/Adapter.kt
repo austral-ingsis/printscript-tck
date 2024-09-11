@@ -6,6 +6,7 @@ import interpreter.ErrorHandler
 import interpreter.InputAdapter
 import interpreter.OutputAdapterJava
 import parser.Parser
+import token.Token
 import variable.VariableMap
 import java.io.InputStream
 
@@ -15,7 +16,13 @@ class Adapter {
             val versionController = LexerVersionController()
 
             val lexer = versionController.getLexer(version, src)
-            val tokens = lexer.getToken()
+            val tokens = mutableListOf<Token>()
+            var token = lexer.getNextToken()
+            while (token != null) {
+                tokens.add(token)
+                token = lexer.getNextToken()
+            }
+            println(tokens)
             val parser = Parser(tokens)
             val ast = parser.generateAST()
             val interpreter = InterpreterFactory(version , VariableMap(HashMap()), provider).buildInterpreter()
