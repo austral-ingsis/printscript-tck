@@ -5,3 +5,18 @@ pluginManagement {
 }
 rootProject.name = 'printscript-tck'
 
+/*includeBuild('../PrintScript') {
+    dependencySubstitution {
+        substitute module('org.example:lexer') using project(':lexer')
+    }
+    dependencySubstitution {
+        substitute module('org.example:parser') using project(':parser')
+    }
+    dependencySubstitution {
+        substitute module('org.example:interpreter') using project(':interpreter')
+    }
+    dependencySubstitution {
+        substitute module('org.example:runner') using project(':runner')
+    }
+}
+*/
