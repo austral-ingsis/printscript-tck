@@ -18,10 +18,20 @@ public class PrintScriptInterpreterImpl implements PrintScriptInterpreter {
         try {
             Iterator<Token> tokens = new Lexer(src, version);
             Iterator<StatementType> asts = new Parser(tokens, version);
-            Pair<StringBuilder, Environment> result = Interpreter.INSTANCE.interpret(asts, version);
-            StringBuilder printResults = result.component1();
-            emitter.print(printResults.toString());
-        } catch (Exception e) {
+
+            StringBuilder outputBuilder = new StringBuilder();
+            Environment currentEnvironment = new Environment();
+
+            while (asts.hasNext()) {
+                StatementType statement = asts.next();
+                Pair<StringBuilder, Environment> result = Interpreter.INSTANCE.interpret(statement, version, currentEnvironment);
+                String first = result.getFirst().toString().trim();
+                outputBuilder.append(first);
+                String message = outputBuilder.toString().trim();
+                emitter.print(message);
+                currentEnvironment = result.getSecond();
+            }
+        } catch (OutOfMemoryError | Exception e) {
             handler.reportError(e.getMessage());
         }
     }
