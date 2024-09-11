@@ -12,11 +12,11 @@ public class Linter implements PrintScriptLinter{
   @Override
   public void lint(InputStream src, String version, InputStream config, ErrorHandler handler) {
     try {
-      if (!version.equals("1.0")) return;
+
       InputStream adaptedConfig = adaptConfig(config);
       StaticCodeAnalyzer linter = new PrintScriptSca(adaptedConfig);
       Scanner scanner = new Scanner(src).useDelimiter("\n");
-      Lexer lexer = new PrintScriptLexer();
+      Lexer lexer = new PrintScriptLexer(version);
       while (scanner.hasNext()) {
         Result lexerResult = lexer.lex(scanner);
         if (!lexerResult.isSuccessful()) {

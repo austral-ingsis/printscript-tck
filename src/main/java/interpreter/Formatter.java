@@ -2,12 +2,15 @@ package interpreter;
 
 import org.example.ast.AstComponent;
 import org.example.factories.RuleFactory;
+import org.example.iterators.SemanticAnalyzerIterator;
+import org.example.iterators.SyntaxAnalyzerIterator;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Formatter implements PrintScriptFormatter{
   @Override
@@ -36,7 +39,7 @@ public class Formatter implements PrintScriptFormatter{
       RuleFactory ruleFactory = new InputStreamRuleFactory(config);
       org.example.Formatter formatter = new org.example.PrintScriptFormatter(ruleFactory);
 
-      SemanticAnalyzerIterator iterator = new SemanticAnalyzerIterator(message -> {}, new SyntaxAnalyzerIterator(src, message -> {}));
+      SemanticAnalyzerIterator iterator = new SemanticAnalyzerIterator(new SyntaxAnalyzerIterator(new Scanner(src), "", version), "");
       List<AstComponent> components = iteratorToList(iterator);
       writer.write(formatter.format(components));
     } catch (IOException e) {

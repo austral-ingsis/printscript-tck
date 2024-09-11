@@ -17,7 +17,6 @@ public class CustomImplementationFactory implements PrintScriptFactory {
     public PrintScriptFormatter formatter() {
         // your PrintScript formatter should be returned here.
         // make sure to ADAPT your formatter to PrintScriptFormatter interface.
-//        throw new NotImplementedException("Needs implementation"); // TODO: implement
           return new Formatter();
         // Dummy impl: return (src, version, config, writer) -> { };
     }
@@ -26,7 +25,6 @@ public class CustomImplementationFactory implements PrintScriptFactory {
     public PrintScriptLinter linter() {
         // your PrintScript linter should be returned here.
         // make sure to ADAPT your linter to PrintScriptLinter interface.
-//        throw new NotImplementedException("Needs implementation"); // TODO: implement
         return new Linter();
     }
 

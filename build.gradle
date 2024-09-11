@@ -22,7 +22,7 @@ java {
 }
 
 test {
-    minHeapSize = "3m" // initial heap size
+    minHeapSize = "4m" // initial heap size
     maxHeapSize = "5m" // maximum heap size
 }
 
@@ -30,14 +30,15 @@ dependencies {
     testImplementation 'junit:junit:4.13.1'
     implementation group: 'commons-io', name: 'commons-io', version: '2.16.1'
     implementation "org.json:json:20231013"
-    implementation 'printscript:lexer:1.0.1-SNAPSHOT'
-    implementation 'printscript:syntax:1.0.1-SNAPSHOT'
-    implementation 'printscript:semantics:1.0.1-SNAPSHOT'
-    implementation 'printscript:interpreter:1.0.1-SNAPSHOT'
-    implementation 'printscript:models:1.0.1-SNAPSHOT'
-    implementation 'printscript:staticanalyzer:1.0.1-SNAPSHOT'
-    implementation 'printscript:formatter:1.0.1-SNAPSHOT'
-    implementation 'printscript:testframework:1.0.1-SNAPSHOT'
+    implementation 'printscript:lexer:1.0.2-SNAPSHOT'
+    implementation 'printscript:syntax:1.0.2-SNAPSHOT'
+    implementation 'printscript:semantics:1.0.2-SNAPSHOT'
+    implementation 'printscript:interpreter:1.0.2-SNAPSHOT'
+    implementation 'printscript:models:1.0.2-SNAPSHOT'
+    implementation 'printscript:staticanalyzer:1.0.2-SNAPSHOT'
+    implementation 'printscript:formatter:1.0.2-SNAPSHOT'
+    implementation 'printscript:testframework:1.0.2-SNAPSHOT'
+    implementation 'printscript:cli:1.0.2-SNAPSHOT'
 }
 
 test {
