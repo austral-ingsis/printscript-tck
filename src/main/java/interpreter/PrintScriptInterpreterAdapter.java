@@ -16,13 +16,22 @@ public class PrintScriptInterpreterAdapter implements PrintScriptInterpreter {
      */
     @Override
     public void execute(InputStream src, String version, PrintEmitter emitter, ErrorHandler handler, InputProvider provider) {
+        Runner runner = new Runner();
+        ErrorHandlerAdapter errorHandlerAdapter = new ErrorHandlerAdapter(handler);
+        PrintEmitterAdapter printEmitterAdapter = new PrintEmitterAdapter(emitter);
+        InputProviderAdapter inputProviderAdapter = new InputProviderAdapter(provider, emitter);
         try {
-            Runner runner = new Runner();
-            ErrorHandlerAdapter errorHandlerAdapter = new ErrorHandlerAdapter(handler);
-            PrintEmitterAdapter printEmitterAdapter = new PrintEmitterAdapter(emitter);
-            InputProviderAdapter inputProviderAdapter = new InputProviderAdapter(provider, emitter);
-            runner.runExecute(src, version, errorHandlerAdapter, printEmitterAdapter, inputProviderAdapter);
-        } catch (Error e) {
+            try {
+                runner.runExecute(src, version, errorHandlerAdapter, printEmitterAdapter, inputProviderAdapter);
+            } catch (OutOfMemoryError e) {
+                runner = null;
+                src = null;
+                version = null;
+                emitter = null;
+                provider = null;
+                handler.reportError(e.getMessage());
+            }
+        } catch (Exception e) {
             handler.reportError(e.getMessage());
         }
     }
