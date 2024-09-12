@@ -21,7 +21,7 @@ public class CustomInterpreter implements PrintScriptInterpreter {
             AdapterInputProvider inputProvider = new AdapterInputProvider(provider);
             Map<String,String> envMap = System.getenv();
             Runner runner = new Runner();
-            Iterator<InterpreterResult> interpreterResults = runner.run(src, version, inputProvider, envMap).iterator();
+            Iterator<InterpreterResult> interpreterResults = runner.run(src, version, inputProvider, envMap, false).iterator();
             while (interpreterResults.hasNext()) {
                 InterpreterResult result = interpreterResults.next();
                 if (result.hasException()) {

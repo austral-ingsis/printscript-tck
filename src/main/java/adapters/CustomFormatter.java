@@ -1,7 +1,7 @@
 package adapters;
 
+import factories.FormatterFactory;
 import interpreter.PrintScriptFormatter;
-import main.*;
 import java.io.*;
 
 
