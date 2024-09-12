@@ -5,15 +5,14 @@ plugins {
 repositories {
     mavenLocal()
     mavenCentral()
-// TODO: uncomment to be able to fetch packages in your own repository
-//    maven {
-//        name = "GitHubPackages"
-//        url = uri("https://maven.pkg.github.com/<your-username>/printscript")
-//        credentials {
-//            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-//            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
-//        }
-//    }
+    maven {
+        name = "GitHubPackages"
+        url = uri("https://maven.pkg.github.com/Al-Fajor/printscript")
+        credentials {
+            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+        }
+    }
 }
 
 java {
@@ -23,12 +22,23 @@ java {
 }
 
 test {
-    minHeapSize = "5m" // initial heap size
-    maxHeapSize = "7m" // maximum heap size
+    minHeapSize = "4m" // initial heap size
+    maxHeapSize = "5m" // maximum heap size
 }
 
 dependencies {
     testImplementation 'junit:junit:4.13.1'
+    implementation group: 'commons-io', name: 'commons-io', version: '2.16.1'
+    implementation "org.json:json:20231013"
+    implementation 'printscript:lexer:1.1.1-SNAPSHOT'
+    implementation 'printscript:syntax:1.1.1-SNAPSHOT'
+    implementation 'printscript:semantics:1.1.1-SNAPSHOT'
+    implementation 'printscript:interpreter:1.1.1-SNAPSHOT'
+    implementation 'printscript:models:1.1.1-SNAPSHOT'
+    implementation 'printscript:staticanalyzer:1.1.1-SNAPSHOT'
+    implementation 'printscript:formatter:1.1.1-SNAPSHOT'
+    implementation 'printscript:testframework:1.1.1-SNAPSHOT'
+    implementation 'printscript:cli:1.1.1-SNAPSHOT'
 }
 
 test {
