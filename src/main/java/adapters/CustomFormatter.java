@@ -1,13 +1,9 @@
 package adapters;
 
 import interpreter.PrintScriptFormatter;
-import kotlin.sequences.Sequence;
 import main.*;
-import org.example.lexer.Lexer;
-
 import java.io.*;
-import java.nio.file.Path;
-import java.nio.file.Files;
+
 
 public class CustomFormatter implements PrintScriptFormatter {
 

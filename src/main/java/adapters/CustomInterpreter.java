@@ -4,11 +4,12 @@ import interpreter.ErrorHandler;
 import interpreter.InputProvider;
 import interpreter.PrintEmitter;
 import interpreter.PrintScriptInterpreter;
-import org.example.main.Runner;
+import main.Runner;
 import utils.InterpreterResult;
 
 import java.io.*;
 import java.util.Iterator;
+import java.util.Map;
 
 
 public class CustomInterpreter implements PrintScriptInterpreter {
@@ -17,8 +18,10 @@ public class CustomInterpreter implements PrintScriptInterpreter {
     @Override
     public void execute(InputStream src, String version, PrintEmitter emitter, ErrorHandler handler, InputProvider provider) {
         try {
+            AdapterInputProvider inputProvider = new AdapterInputProvider(provider);
+            Map<String,String> envMap = System.getenv();
             Runner runner = new Runner();
-            Iterator<InterpreterResult> interpreterResults = runner.run(src, version).iterator();
+            Iterator<InterpreterResult> interpreterResults = runner.run(src, version, inputProvider, envMap).iterator();
             while (interpreterResults.hasNext()) {
                 InterpreterResult result = interpreterResults.next();
                 if (result.hasException()) {
@@ -31,6 +34,5 @@ public class CustomInterpreter implements PrintScriptInterpreter {
         } catch (OutOfMemoryError | Exception e) {
             handler.reportError(e.getMessage());
         }
-
     }
 }
