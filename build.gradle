@@ -10,8 +10,8 @@ repositories {
         name = "GitHubPackages"
         url = uri("https://maven.pkg.github.com/santosbogo/printscript")
         credentials {
-            username = 'santuchobogo'
-            password = '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'
+            username = findProperty("gpr.user") ?: System.getenv("GITHUB_USERNAME")
+            password = findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
         }
     }
 }
