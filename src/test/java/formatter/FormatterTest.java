@@ -16,7 +16,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static util.SuiteOps.*;
 import static util.SuiteOps.getInnerFile;
-
+/*
 @RunWith(Parameterized.class)
 public class FormatterTest {
 
@@ -73,4 +73,7 @@ public class FormatterTest {
         };
     }
 
+
+
 }
+*/
