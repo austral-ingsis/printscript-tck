@@ -1,6 +1,5 @@
 package implementation;
 
-import config.LinterConfigLoader;
 import factory.LexerFactory;
 import factory.LinterFactory;
 import interpreter.ErrorHandler;
@@ -28,22 +27,19 @@ public class PrintScriptLinterImpl implements PrintScriptLinter {
             // Crear la instancia del linter usando LinterFactory basado en la versión
             Lexer lexer = new LexerFactory().createLexer1_0(myReader);
             ParserDirector parser = new ParserFactory().createParser1_0(lexer);
-            Linter linter = new LinterFactory().createLinter1_0(parser);
-
-            // Cargar la configuración del linter usando InputStream para el config
-            LinterConfigLoader configLoader = new LinterConfigLoader(parser, config, null);  // Provide the InputStream and set filePath to null
-            Linter linterConfig = configLoader.load();  // Aquí retorna directamente un objeto Linter
+            Linter linter = new LinterFactory().createLinter1_0(parser, config);
 
             // Obtener los errores del linter y reportarlos al handler
-            Sequence<LinterError> linterErrors = linterConfig.lint();
+            Sequence<LinterError> linterErrors = linter.lint();
             for (Iterator<LinterError> it = linterErrors.iterator(); it.hasNext();) {
                 LinterError error = it.next();
                 handler.reportError(error.getMessage());
             }
 
         } catch (Exception e) {
-            // Si ocurre alguna excepción, reportarla al ErrorHandler
             handler.reportError("Exception: " + e.getMessage());
+        } catch (Error e) {
+            handler.reportError("Error: " + e.getMessage());
         }
     }
 }
