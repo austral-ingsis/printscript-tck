@@ -5,16 +5,17 @@ plugins {
 repositories {
     mavenLocal()
     mavenCentral()
-// TODO: uncomment to be able to fetch packages in your own repository
-//    maven {
-//        name = "GitHubPackages"
-//        url = uri("https://maven.pkg.github.com/<your-username>/printscript")
-//        credentials {
-//            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-//            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
-//        }
-//    }
+    gradlePluginPortal()
+    maven {
+        name = "GitHubPackages"
+        url = uri("https://maven.pkg.github.com/FedeKraft/printScript2")
+        credentials {
+            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+        }
+    }
 }
+
 
 java {
     toolchain {
@@ -29,6 +30,13 @@ test {
 
 dependencies {
     testImplementation 'junit:junit:4.13.1'
+    implementation 'printScript:lexer:1.0'
+    implementation 'printScript:parser:1.0'
+    implementation 'printScript:interpreter:1.0'
+    implementation 'printScript:ast:1.0'
+    implementation 'printScript:linter:1.0'
+    implementation 'printScript:formatter:1.0'
+    implementation 'printScript:cli:1.0'
 }
 
 test {
