@@ -38,7 +38,7 @@ public class PrintScriptInterpreterImpl implements PrintScriptInterpreter {
                 throw new IllegalArgumentException("Versión no soportada: " + version);
             }
             // Aquí puedes conectar tu lógica del intérprete para ejecutar el resultado del parsing.
-            Interpreter interpreter = new Interpreter(parser, toMyProvider(provider), toMyEmitter(emitter), toMyErrorHandler(handler));  // Suposición: parser.getAST() devuelve el árbol sintáctico generado.            interpreter.interpret();  // Interpretamos el AST generado
+            Interpreter interpreter = new Interpreter(parser, toMyProvider(provider,emitter), toMyEmitter(emitter), toMyErrorHandler(handler));  // Suposición: parser.getAST() devuelve el árbol sintáctico generado.            interpreter.interpret();  // Interpretamos el AST generado
 
             interpreter.interpret();
             // Si quieres emitir un resultado después de la ejecución
@@ -60,13 +60,13 @@ public class PrintScriptInterpreterImpl implements PrintScriptInterpreter {
     }
 
     // Modify the toMyProvider method to return inputProvider.InputProvider
-    private provider.InputProvider toMyProvider(InputProvider provider) {
+    private provider.InputProvider toMyProvider(InputProvider provider, PrintEmitter emitter) {
         return new provider.InputProvider() {
 
             @NotNull
             @Override
             public Object readInput(@NotNull Object o) {
-                System.out.println("toMyProvider: " + o.toString());
+                emitter.print(o.toString());
                 return provider.input(o.toString());
             }
         };
@@ -76,7 +76,6 @@ public class PrintScriptInterpreterImpl implements PrintScriptInterpreter {
         return new emitter.PrintEmitter() {
             @Override
             public void print(@NotNull Object o) {
-                System.out.println("toMyEmitter: " + o.toString());
                 if (o instanceof Double) {
                     if(o.toString().contains(".0")){
                         emitter.print(o.toString().replace(".0", ""));

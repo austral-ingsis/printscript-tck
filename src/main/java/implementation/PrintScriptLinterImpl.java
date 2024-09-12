@@ -23,7 +23,6 @@ public class PrintScriptLinterImpl implements PrintScriptLinter {
     @Override
     public void lint(InputStream src, String version, InputStream config, ErrorHandler handler) {
         try {
-            InputStreamReader sourceReader = new InputStreamReader(src);
             Reader myReader = new Reader(src);
 
             // Crear la instancia del linter usando LinterFactory basado en la versión
