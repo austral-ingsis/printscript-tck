@@ -12,9 +12,7 @@ public class Linter implements PrintScriptLinter{
   @Override
   public void lint(InputStream src, String version, InputStream config, ErrorHandler handler) {
     try {
-
-      InputStream adaptedConfig = adaptConfig(config);
-      StaticCodeAnalyzer linter = new PrintScriptSca(adaptedConfig);
+      StaticCodeAnalyzer linter = new PrintScriptSca(config);
       Scanner scanner = new Scanner(src).useDelimiter("\n");
       Lexer lexer = new PrintScriptLexer(version);
       while (scanner.hasNext()) {
@@ -45,16 +43,5 @@ public class Linter implements PrintScriptLinter{
       }
 	}
     return build.toString();
-  }
-
-  private InputStream adaptConfig(InputStream config) throws IOException {
-    String stringConfig = streamToString(config);
-    String adaptedStringConfig = stringConfig
-            .replace("identifier_format", "identifierFormat")
-            .replace("camel case", "camelCase")
-            .replace("snake case", "snakeCase")
-            .replace("\"mandatory-variable-or-literal-in-println\": true", "\"printlnExpressions\": false")
-            .replace("\"mandatory-variable-or-literal-in-println\": false", "\"printlnExpressions\": true");
-    return IOUtils.toInputStream(adaptedStringConfig);
   }
 }

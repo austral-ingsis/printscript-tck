@@ -10,7 +10,7 @@ public class PrintEmitterObserver extends PrintBrokerObserver {
 	}
 
 	@Override
-	public void updateChanges(String s) {
+	public void update(String s) {
 		emitter.print(s.strip()); // beautiful hermoso
 	}
 }
