@@ -17,14 +17,12 @@ import reader.Reader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Iterator;
-import java.util.List;
 
 public class PrintScriptLinterImpl implements PrintScriptLinter {
 
     @Override
     public void lint(InputStream src, String version, InputStream config, ErrorHandler handler) {
         try {
-            // Cargar el archivo fuente usando InputStreamReader
             InputStreamReader sourceReader = new InputStreamReader(src);
             Reader myReader = new Reader(src);
 
@@ -33,12 +31,12 @@ public class PrintScriptLinterImpl implements PrintScriptLinter {
             ParserDirector parser = new ParserFactory().createParser1_0(lexer);
             Linter linter = new LinterFactory().createLinter1_0(parser);
 
-            // Cargar la configuración del linter y ejecutar el linter
-            LinterConfigLoader configLoader = new LinterConfigLoader(parser, config);  // Usa el config como InputStream
+            // Cargar la configuración del linter usando InputStream para el config
+            LinterConfigLoader configLoader = new LinterConfigLoader(parser, config, null);  // Provide the InputStream and set filePath to null
             Linter linterConfig = configLoader.load();  // Aquí retorna directamente un objeto Linter
 
             // Obtener los errores del linter y reportarlos al handler
-            Sequence<LinterError> linterErrors = linter.lint();
+            Sequence<LinterError> linterErrors = linterConfig.lint();
             for (Iterator<LinterError> it = linterErrors.iterator(); it.hasNext();) {
                 LinterError error = it.next();
                 handler.reportError(error.getMessage());
