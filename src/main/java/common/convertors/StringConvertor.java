@@ -29,9 +29,9 @@ public class StringConvertor {
     JsonObject result = new JsonObject();
     JsonObject config = JsonParser.parseString(theirConfig).getAsJsonObject();
 
-    JsonObject identifier = new JsonObject();
-    JsonObject writingConvention = new JsonObject();
     try {
+      JsonObject identifier = new JsonObject();
+      JsonObject writingConvention = new JsonObject();
       String identifierRules = config.get("identifier_format").getAsString();
       switch (identifierRules) {
         case "snake case" -> {
@@ -44,33 +44,52 @@ public class StringConvertor {
         }
         default -> throw new IllegalArgumentException("Invalid identifier format: " + identifierRules);
       }
-    } catch (Exception e) {
-      writingConvention.addProperty("conventionName", "anyCase");
-      writingConvention.addProperty("conventionPattern", "^[a-z]+(_[a-z0-9]+)*$|^[a-z]+(?:[A-Z]?[a-z0-9]+)*$");
+      identifier.add("writingConvention", writingConvention);
+      result.add("identifier", identifier);
+    } catch (Exception ignored) {
+
     }
-    identifier.add("writingConvention", writingConvention);
-    result.add("identifier", identifier);
 
     JsonObject callExpression = new JsonObject();
-    JsonArray arguments = new JsonArray();
-    arguments.add("IDENTIFIER");
-    arguments.add("STRING_LITERAL");
-    arguments.add("NUMBER_LITERAL");
+    JsonArray basicArgs = new JsonArray();
+    basicArgs.add("IDENTIFIER");
+    basicArgs.add("STRING_LITERAL");
+    basicArgs.add("NUMBER_LITERAL");
+    basicArgs.add("BOOLEAN_LITERAL");
+
     try {
-      boolean strict = config.get("mandatory-variable-or-literal-in-println").getAsBoolean();
-      if (!strict) {
-        arguments.add("ASSIGNMENT_EXPRESSION");
-        arguments.add("BINARY_EXPRESSION");
-        arguments.add("CALL_EXPRESSION");
-      }
-    } catch (Exception e) {
-      arguments.add("ASSIGNMENT_EXPRESSION");
-      arguments.add("BINARY_EXPRESSION");
-      arguments.add("CALL_EXPRESSION");
+      String methodName = "println";
+      JsonObject printlnArguments = getArguments(config, basicArgs, methodName);
+      callExpression.add(methodName, printlnArguments);
+    } catch (Exception ignored) {
+
     }
-    callExpression.add("arguments", arguments);
-    result.add("callExpression", callExpression);
+
+    try {
+      String methodName = "readInput";
+      JsonObject readInputArguments = getArguments(config, basicArgs, methodName);;
+      callExpression.add(methodName, readInputArguments);
+    } catch (Exception ignored) {
+
+    }
+
+    if (!callExpression.entrySet().isEmpty()) {
+      result.add("callExpression", callExpression);
+    }
 
     return result.toString();
+  }
+
+  private static JsonObject getArguments(JsonObject config, JsonArray basicArgs, String methodName) {
+    JsonObject args = new JsonObject();
+    JsonArray copyBasicArgs = basicArgs.deepCopy();
+    boolean isStrict = config.get("mandatory-variable-or-literal-in-" + methodName).getAsBoolean();
+    if (!isStrict) {
+      copyBasicArgs.add("CALL_EXPRESSION");
+      copyBasicArgs.add("BINARY_EXPRESSION");
+    }
+    args.add("arguments", copyBasicArgs);
+
+    return args;
   }
 }

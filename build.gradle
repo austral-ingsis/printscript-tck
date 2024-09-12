@@ -17,7 +17,7 @@ repositories {
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(17)
     }
 }
 
@@ -29,13 +29,13 @@ test {
 dependencies {
     testImplementation 'junit:junit:4.13.1'
     implementation 'com.google.code.gson:gson:2.8.9'
-    implementation 'com.ingsis:lexer:1.1.7'
-    implementation 'com.ingsis:parser:1.1.7'
-    implementation 'com.ingsis:interpreter:1.1.7'
-    implementation 'com.ingsis:formatter:1.1.7'
-    implementation 'com.ingsis:linter:1.1.7'
-    implementation 'com.ingsis:runner:1.1.7'
-    implementation 'com.ingsis:utils:1.1.7'
+    implementation 'com.ingsis:lexer:1.1.9'
+    implementation 'com.ingsis:parser:1.1.9'
+    implementation 'com.ingsis:interpreter:1.1.9'
+    implementation 'com.ingsis:formatter:1.1.9'
+    implementation 'com.ingsis:linter:1.1.9'
+    implementation 'com.ingsis:runner:1.1.9'
+    implementation 'com.ingsis:utils:1.1.9'
 }
 
 test {
