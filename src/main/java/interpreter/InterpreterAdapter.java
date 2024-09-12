@@ -13,10 +13,9 @@ public class InterpreterAdapter implements PrintScriptInterpreter {
     @Override
     public void execute(InputStream src, String version, PrintEmitter emitter, ErrorHandler handler, InputProvider provider) {
         Runner runner = new Runner();
-        String code = StringConvertor.convert(src);
         OutputEmitter printLog = new OutputEmitter(new ArrayList<>());
         ErrorReport errorLog = new ErrorReport("");
-        runner.execute(code, version, printLog, errorLog);
+        runner.execute(src, version, printLog, errorLog);
 
         for (String print : printLog.getPrints()) {
             emitter.print(print);

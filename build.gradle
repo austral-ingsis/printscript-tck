@@ -29,13 +29,14 @@ test {
 dependencies {
     testImplementation 'junit:junit:4.13.1'
     implementation 'com.google.code.gson:gson:2.8.9'
-    implementation 'com.ingsis:lexer:1.1.9'
-    implementation 'com.ingsis:parser:1.1.9'
-    implementation 'com.ingsis:interpreter:1.1.9'
-    implementation 'com.ingsis:formatter:1.1.9'
-    implementation 'com.ingsis:linter:1.1.9'
-    implementation 'com.ingsis:runner:1.1.9'
-    implementation 'com.ingsis:utils:1.1.9'
+    def version = '1.1.11'
+    implementation 'com.ingsis:lexer:' + version
+    implementation 'com.ingsis:parser:' + version
+    implementation 'com.ingsis:interpreter:' + version
+    implementation 'com.ingsis:formatter:' + version
+    implementation 'com.ingsis:linter:' + version
+    implementation 'com.ingsis:runner:' + version
+    implementation 'com.ingsis:utils:' + version
 }
 
 test {
