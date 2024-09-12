@@ -1,12 +1,15 @@
 package implementation;
 
+import errorCollector.ErrorCollector;
 import factory.LexerFactory;
 import interpreter.*;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import interpreter.InputProvider;
 import lexer.Lexer;
+import org.jetbrains.annotations.NotNull;
 import parser.ParserDirector;
 import parser.ParserFactory;
 import reader.Reader;
@@ -17,7 +20,7 @@ public class PrintScriptInterpreterImpl implements PrintScriptInterpreter {
     public void execute(InputStream src, String version, PrintEmitter emitter, ErrorHandler handler, InputProvider provider) {
         try {
             InputStreamReader streamReader = new InputStreamReader(src);
-            Reader myReader = new Reader();
+            Reader myReader = new Reader(src);
 
 
             // Usamos tu Lexer y ParserDirector para generar los tokens y luego parsearlos
@@ -34,17 +37,53 @@ public class PrintScriptInterpreterImpl implements PrintScriptInterpreter {
             } else {
                 throw new IllegalArgumentException("Versión no soportada: " + version);
             }
-
             // Aquí puedes conectar tu lógica del intérprete para ejecutar el resultado del parsing.
-            Interpreter interpreter = new Interpreter(parser);  // Suposición: parser.getAST() devuelve el árbol sintáctico generado.
-            interpreter.interpret();  // Interpretamos el AST generado
+            Interpreter interpreter = new Interpreter(parser, toMyProvider(provider), toMyEmitter(emitter),toMyErrorHandler(handler));  // Suposición: parser.getAST() devuelve el árbol sintáctico generado.            interpreter.interpret();  // Interpretamos el AST generado
 
+            interpreter.interpret();
             // Si quieres emitir un resultado después de la ejecución
-            emitter.print("Programa ejecutado con éxito");
 
         } catch (Exception e) {
             // En caso de errores, reportamos usando el handler
             handler.reportError(e.getMessage());
         }
     }
+
+    private ErrorCollector toMyErrorHandler(ErrorHandler handler) {
+        return new ErrorCollector() {
+            @Override
+            public void reportError(@NotNull String error) {
+                handler.reportError(error);
+            }
+        };
+
+    }
+
+    // Modify the toMyProvider method to return inputProvider.InputProvider
+    private provider.InputProvider toMyProvider(InputProvider provider) {
+        return new provider.InputProvider() {
+
+            @NotNull
+            @Override
+            public Object readInput(@NotNull Object o) {
+                return provider.input(o.toString());
+            }
+        };
+    }
+
+    private emitter.PrintEmitter toMyEmitter(PrintEmitter emitter) {
+        return new emitter.PrintEmitter() {
+            @Override
+            public void print(@NotNull Object o) {
+                emitter.print(o.toString());
+            }
+        };
+    }
+
+
+
+
+
+
+
 }

@@ -27,16 +27,15 @@ test {
     minHeapSize = "5m" // initial heap size
     maxHeapSize = "7m" // maximum heap size
 }
-
 dependencies {
     testImplementation 'junit:junit:4.13.1'
-    implementation 'printScript:lexer:1.0'
-    implementation 'printScript:parser:1.0'
-    implementation 'printScript:interpreter:1.0'
-    implementation 'printScript:ast:1.0'
-    implementation 'printScript:linter:1.0'
-    implementation 'printScript:formatter:1.0'
-    implementation 'printScript:cli:1.0'
+    implementation 'printScript:lexer:1.1.5'
+    implementation 'printScript:parser:1.1.5'
+    implementation 'printScript:interpreter:1.1.5'
+    implementation 'printScript:ast:1.1.5'
+    implementation 'printScript:linter:1.1.5'
+    implementation 'printScript:formatter:1.1.5'
+    implementation 'printScript:cli:1.1.5'
 }
 
 test {
