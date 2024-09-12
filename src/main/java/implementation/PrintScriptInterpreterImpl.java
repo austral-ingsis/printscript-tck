@@ -23,7 +23,7 @@ public class PrintScriptInterpreterImpl implements PrintScriptInterpreter {
 
             while (asts.hasNext()) {
                 StatementType statement = asts.next();
-                Pair<StringBuilder, Environment> result = Interpreter.INSTANCE.interpret(statement, version, currentEnvironment);
+                Pair<StringBuilder, Environment> result = Interpreter.INSTANCE.interpret(statement, version, currentEnvironment, provider.input("input"));
 
                 String first = result.getFirst().toString().trim();
                 String cleanedOutput = removeSurroundingQuotes(first);
