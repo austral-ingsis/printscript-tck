@@ -1,6 +1,6 @@
 package adapter;
 
-import providers.inputProvider.InputProvider;
+import providers.inputprovider.InputProvider;
 
 public class InputProviderAdapter implements InputProvider {
   private final interpreter.InputProvider inputProvider;

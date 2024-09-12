@@ -1,9 +1,9 @@
 package implementation;
 
 import adapter.WriterAdapter;
-import fileWriter.OutputProvider;
-import formatter.FormatterRunner;
 import interpreter.PrintScriptFormatter;
+import providers.outputprovider.OutputProvider;
+import runner.FormatterRunner;
 
 import java.io.InputStream;
 import java.io.Writer;

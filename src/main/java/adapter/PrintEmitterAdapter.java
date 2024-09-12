@@ -1,7 +1,7 @@
 package adapter;
 
 import interpreter.PrintEmitter;
-import providers.printProvider.PrintProvider;
+import providers.printprovider.PrintProvider;
 
 public class PrintEmitterAdapter implements PrintProvider {
 

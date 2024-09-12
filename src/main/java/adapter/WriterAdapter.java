@@ -1,6 +1,6 @@
 package adapter;
 
-import fileWriter.OutputProvider;
+import providers.outputprovider.OutputProvider;
 
 import java.io.IOException;
 import java.io.Writer;

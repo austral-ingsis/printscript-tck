@@ -2,7 +2,7 @@ package implementation;
 
 import interpreter.ErrorHandler;
 import interpreter.PrintScriptLinter;
-import linter.LinterRunner;
+import runner.LinterRunner;
 
 import java.io.InputStream;
 
