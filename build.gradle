@@ -29,9 +29,10 @@ test {
 
 dependencies {
     testImplementation 'junit:junit:4.13.1'
-    implementation 'edu.austral.ingsis:runner:1.0.37'
-    implementation 'edu.austral.ingsis:interpreter:1.0.37'
-    implementation 'edu.austral.ingsis:linter:1.0.37'
+    def version = '1.1.0'
+    implementation 'edu.austral.ingsis:runner:' + version
+    implementation 'edu.austral.ingsis:interpreter:' + version
+    implementation 'edu.austral.ingsis:linter:' + version
 }
 
 test {

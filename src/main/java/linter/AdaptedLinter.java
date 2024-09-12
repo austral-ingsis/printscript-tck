@@ -19,7 +19,7 @@ public class AdaptedLinter implements PrintScriptLinter {
     public void lint(InputStream src, String version, InputStream config, ErrorHandler handler) {
         try {
             String configString = decode(config);
-            Operations runner = new Operations(src, version);
+            Operations runner = new Operations(src, version, null);
             try {
                 List<Error> output = runner.analyze(configString);
                 for ( Error error : output){

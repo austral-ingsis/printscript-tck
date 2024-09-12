@@ -15,7 +15,7 @@ public class AdaptedFormatter implements PrintScriptFormatter {
 
     @Override
     public void format(InputStream src, String version, InputStream config, Writer writer) {
-            Operations runner = new Operations(src, version);
+            Operations runner = new Operations(src, version, null);
             try {
                 String output = runner.format();
                 for ( char letter : output.toCharArray()){

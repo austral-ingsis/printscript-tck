@@ -10,7 +10,8 @@ public class AdaptedInterpreter implements PrintScriptInterpreter{
 
     @Override
     public void execute(InputStream src, String version, PrintEmitter emitter, ErrorHandler handler, InputProvider provider) {
-        Operations runner = new Operations(src, version);
+        Iterator<String> iterator = new InputProviderIterator(provider);
+        Operations runner = new Operations(src, version, iterator);
         try {
             Iterator<String> output = runner.execute();
             try {
