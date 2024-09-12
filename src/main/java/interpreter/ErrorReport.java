@@ -3,7 +3,7 @@ package interpreter;
 import runner.OutputResult;
 
 public class ErrorReport implements OutputResult {
-    private final String error;
+    private String error;
 
     public ErrorReport(String error) {
         this.error = error;
@@ -11,7 +11,8 @@ public class ErrorReport implements OutputResult {
 
     @Override
     public OutputResult saveResult(String s) {
-        return new ErrorReport(s);
+        this.error = s;
+        return this;
     }
 
     @Override
