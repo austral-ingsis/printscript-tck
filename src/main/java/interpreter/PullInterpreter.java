@@ -21,7 +21,7 @@ public class PullInterpreter implements PrintScriptInterpreter {
       final PrintBrokerObserver observer = new PrintEmitterObserver(emitter);
       final org.example.Interpreter interpreter = createInterpreter(observer, provider);
 
-      new Scanner(src).useDelimiter("\\A");
+      new Scanner(src).useDelimiter("(?<=\\}|(?<!\\{[^{}]);(?![^{}]\\}))(?=(?!.else).*)");
       processLines(src, handler, interpreter, version);
     }
 
