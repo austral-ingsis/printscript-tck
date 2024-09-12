@@ -1,10 +1,8 @@
 package interpreter;
 
-import runner.Observer;
 import runner.Runner;
 
 import java.io.InputStream;
-import java.util.List;
 
 public class PrintScriptLinterAdapter implements PrintScriptLinter{
     /**
@@ -17,8 +15,7 @@ public class PrintScriptLinterAdapter implements PrintScriptLinter{
      */
     @Override
     public void lint(InputStream src, String version, InputStream config, ErrorHandler handler) {
-        List<Observer> emptyList = List.of();
-        Runner runner = new Runner(emptyList);
+        Runner runner = new Runner();
         ErrorHandlerAdapter errorHandlerAdapter = new ErrorHandlerAdapter(handler);
         runner.runAnalyze(src, version, config, errorHandlerAdapter);
     }

@@ -1,6 +1,6 @@
 package interpreter;
-import runner.Observer;
 import runner.Runner;
+
 import java.io.InputStream;
 import java.io.Writer;
 import java.util.List;
@@ -16,8 +16,7 @@ public class PrintScriptFormatterAdapter implements PrintScriptFormatter{
      */
     @Override
     public void format(InputStream src, String version, InputStream config, Writer writer) {
-        List<Observer> emptyList = List.of();
-        Runner runner = new Runner(emptyList);
+        Runner runner = new Runner();
         ErrorHandlerAdapter errorHandlerAdapter = new ErrorHandlerAdapter(new ErrorHandler() {
             @Override
             public void reportError(String message) {
