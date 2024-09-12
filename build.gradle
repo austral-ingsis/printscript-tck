@@ -10,6 +10,8 @@ repositories {
         name = "GitHubPackages"
         url = uri("https://maven.pkg.github.com/santosbogo/printscript")
         credentials {
+            username = project.findProperty("githubUser") ?: ""
+            password = project.findProperty("githubToken") ?: ""
             username = System.getenv("GITHUB_ACTOR")
             password = System.getenv("GITHUB_TOKEN")
         }
