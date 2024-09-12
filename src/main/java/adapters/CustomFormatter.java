@@ -10,7 +10,7 @@ public class CustomFormatter implements PrintScriptFormatter {
     @Override
     public void format(InputStream src, String version, InputStream config, Writer writer) {
         FormatterFactory factory = new FormatterFactory();
-        factory.format(src, config, version, writer);
+        return;
     }
 }
 

@@ -31,7 +31,11 @@ public class CustomInterpreter implements PrintScriptInterpreter {
                     emitter.print(result.getPrintln());
                 }
             }
-        } catch (OutOfMemoryError | Exception e) {
+        } catch ( OutOfMemoryError | Exception e) {
+            emitter = null;
+            provider = null;
+            src = null;
+            version = null;
             handler.reportError(e.getMessage());
         }
     }
