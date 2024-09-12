@@ -1,15 +1,12 @@
 package interpreter;
 
-
-
-
 import runner.Observer;
 import runner.Runner;
 
 import java.io.InputStream;
 import java.util.List;
 
-public class PrintScriptInterpreterAdapter implements PrintScriptInterpreter{
+public class PrintScriptInterpreterAdapter implements PrintScriptInterpreter {
     /**
      * executes a PrintScript file handling its resulting messages and errors.
      *
@@ -25,7 +22,13 @@ public class PrintScriptInterpreterAdapter implements PrintScriptInterpreter{
         Runner runner = new Runner(emptyList);
         ErrorHandlerAdapter errorHandlerAdapter = new ErrorHandlerAdapter(handler);
         PrintEmitterAdapter printEmitterAdapter = new PrintEmitterAdapter(emitter);
-        runner.runExecute(src, errorHandlerAdapter, printEmitterAdapter);
-
+        InputProviderAdapter inputProviderAdapter = new InputProviderAdapter(provider, emitter);
+        try {
+            runner.runExecute(src, version, errorHandlerAdapter, printEmitterAdapter, inputProviderAdapter);
+        } catch (OutOfMemoryError e) {
+            handler.reportError("Java heap space");
+        } catch (Exception e) {
+            handler.reportError(e.getMessage());
+        }
     }
 }

@@ -23,6 +23,6 @@ public class PrintScriptFormatterAdapter implements PrintScriptFormatter{
             public void reportError(String message) {
             }
         });
-        runner.runFormat(src, writer, config, errorHandlerAdapter);
+        runner.runFormat(src, version, writer, config, errorHandlerAdapter);
     }
 }

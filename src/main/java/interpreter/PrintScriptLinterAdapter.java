@@ -20,6 +20,6 @@ public class PrintScriptLinterAdapter implements PrintScriptLinter{
         List<Observer> emptyList = List.of();
         Runner runner = new Runner(emptyList);
         ErrorHandlerAdapter errorHandlerAdapter = new ErrorHandlerAdapter(handler);
-        runner.runAnalyze(src, config, errorHandlerAdapter);
+        runner.runAnalyze(src, version, config, errorHandlerAdapter);
     }
 }
