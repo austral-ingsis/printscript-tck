@@ -21,7 +21,7 @@ public class PrintScriptLinterImpl implements PrintScriptLinter {
         LinterRules rules;
         rules = adapter.getLinterRules(config, version);
         Iterator<Token> tokens = new Lexer(src, version);
-        Iterator<StatementType> asts = new Parser(tokens, version);
+        Iterator<StatementType> asts = new Parser(tokens, version, null);
         Linter linter = new Linter(rules);
         LinterResult result = linter.lint(asts);
 

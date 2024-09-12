@@ -22,7 +22,7 @@ public class PrintScriptFormatterImpl implements PrintScriptFormatter {
         FormattingRules rules = adapter.adaptConfig(config);
         try {
             Iterator<Token> tokens = new Lexer(src, version);
-            Iterator<StatementType> asts = new Parser(tokens, version);
+            Iterator<StatementType> asts = new Parser(tokens, version, null);
             String formattedFile = Formatter.INSTANCE.format(asts, rules, version);
             writer.write(formattedFile.stripTrailing());
         } catch (IOException e) {
