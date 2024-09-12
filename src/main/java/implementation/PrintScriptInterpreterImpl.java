@@ -19,21 +19,28 @@ public class PrintScriptInterpreterImpl implements PrintScriptInterpreter {
             Iterator<Token> tokens = new Lexer(src, version);
             Iterator<StatementType> asts = new Parser(tokens, version);
 
-            StringBuilder outputBuilder = new StringBuilder();
             Environment currentEnvironment = new Environment();
 
             while (asts.hasNext()) {
                 StatementType statement = asts.next();
                 Pair<StringBuilder, Environment> result = Interpreter.INSTANCE.interpret(statement, version, currentEnvironment);
                 String first = result.getFirst().toString().trim();
-                outputBuilder.append(first);
-                String message = outputBuilder.toString().trim();
-                emitter.print(message);
+                String cleanedOutput = removeSurroundingQuotes(first);
+                emitter.print(cleanedOutput);
                 currentEnvironment = result.getSecond();
             }
         } catch (OutOfMemoryError | Exception e) {
             handler.reportError(e.getMessage());
         }
     }
+
+    private String removeSurroundingQuotes(String str) {
+        if (str.length() >= 2 && str.startsWith("\"") && str.endsWith("\"")) {
+            return str.substring(1, str.length() - 1);
+        }
+        return str;
+    }
+
+
 
 }

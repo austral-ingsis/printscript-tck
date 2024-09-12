@@ -3,11 +3,15 @@ package implementation;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import rules.FormattingRules;
+import rules.LinterRules;
+import rules.LinterRulesV1;
+import rules.LinterRulesV2;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Map;
 
 public class Adapter {
 
@@ -52,5 +56,86 @@ public class Adapter {
 
         // Return default values if an exception occurs
         return new FormattingRules(false, false, false, 0, 4);
+    }
+
+    public LinterRules getLinterRules(InputStream rulesIS, String version) {
+        LinterRules linterRules;
+        String rulesFile = inputStreamToString(rulesIS);
+
+        switch (version) {
+            case "1.0": {
+                Map<String, Object> rulesMap;
+                try {
+                    rulesMap = jsonToMap(rulesFile);
+                } catch (IOException e) {
+                    throw new IllegalArgumentException("Invalid JSON format: " + e.getMessage());
+                }
+
+                String identifierFormat;
+                if (rulesMap.get("identifier_format") == null) {
+                    identifierFormat = "off";
+                } else {
+                    identifierFormat = (String) rulesMap.get("identifier_format");
+                }
+
+                Boolean printlnExpressionAllowed;
+                if (rulesMap.get("mandatory-variable-or-literal-in-println") == null) {
+                    printlnExpressionAllowed = true;
+                } else {
+                    printlnExpressionAllowed = (Boolean) rulesMap.get("mandatory-variable-or-literal-in-println");
+                }
+
+                linterRules = new LinterRulesV1(
+                        identifierFormat,
+                        printlnExpressionAllowed
+                );
+                break;
+            }
+            case "1.1": {
+                Map<String, Object> rulesMap;
+                try {
+                    rulesMap = jsonToMap(rulesFile);
+                } catch (IOException e) {
+                    throw new IllegalArgumentException("Invalid JSON format: " + e.getMessage());
+                }
+
+                String identifierFormat;
+                if (rulesMap.get("identifier_format") == null) {
+                    identifierFormat = "off";
+                } else {
+                    identifierFormat = (String) rulesMap.get("identifier_format");
+                }
+
+                boolean printlnExpressionAllowed;
+                if (rulesMap.get("mandatory-variable-or-literal-in-println") == null) {
+                    printlnExpressionAllowed = true;
+                } else {
+                    printlnExpressionAllowed = (Boolean) rulesMap.get("mandatory-variable-or-literal-in-println");
+                }
+
+                boolean readInputExpressionAllowed;
+                if (rulesMap.get("mandatory-variable-or-literal-in-readInput") == null) {
+                    readInputExpressionAllowed = true;
+                } else {
+                    readInputExpressionAllowed = (Boolean) rulesMap.get("mandatory-variable-or-literal-in-readInput");
+                }
+
+                linterRules = new LinterRulesV2(
+                        identifierFormat,
+                        printlnExpressionAllowed,
+                        readInputExpressionAllowed
+                );
+                break;
+            }
+            default:
+                throw new IllegalArgumentException("Unsupported version: " + version);
+        }
+
+        return linterRules;
+    }
+
+    private Map<String, Object> jsonToMap(String jsonString) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readValue(jsonString, Map.class);
     }
 }
