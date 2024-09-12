@@ -5,9 +5,6 @@ import interpreter.InputProvider;
 import interpreter.PrintEmitter;
 import interpreter.PrintScriptInterpreter;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.example.Runner;
 
 
@@ -15,15 +12,16 @@ public class InterpreterAdapter implements PrintScriptInterpreter {
 
     @Override
     public void execute(InputStream src, String version, PrintEmitter emitter, ErrorHandler handler, InputProvider provider) {
-        List<String> inputs = new ArrayList<>();
-        try{
-            inputs = Runner.run(src, version);
+        OurInputProvider inputProvider = new OurInputProvider(provider);
+        OutPrintEmitter outputEmitter = new OutPrintEmitter(emitter);
+        try {
+            Runner.run(src, version, inputProvider, outputEmitter);
+        }
+        catch (OutOfMemoryError e){
+            handler.reportError("Java heap space");
         }
         catch (Exception e){
             handler.reportError(e.toString());
-        }
-        for (String input : inputs) {
-            emitter.print(input);
         }
     }
 
