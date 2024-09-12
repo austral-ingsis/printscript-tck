@@ -24,9 +24,14 @@ public class PrintScriptInterpreterImpl implements PrintScriptInterpreter {
             while (asts.hasNext()) {
                 StatementType statement = asts.next();
                 Pair<StringBuilder, Environment> result = Interpreter.INSTANCE.interpret(statement, version, currentEnvironment);
+
                 String first = result.getFirst().toString().trim();
                 String cleanedOutput = removeSurroundingQuotes(first);
-                emitter.print(cleanedOutput);
+
+                if (!cleanedOutput.isEmpty()) {
+                    emitter.print(cleanedOutput);
+                }
+
                 currentEnvironment = result.getSecond();
             }
         } catch (OutOfMemoryError | Exception e) {
@@ -34,13 +39,11 @@ public class PrintScriptInterpreterImpl implements PrintScriptInterpreter {
         }
     }
 
+    // Sacar de aca y hacerlo en el Interpreter nuestro
     private String removeSurroundingQuotes(String str) {
         if (str.length() >= 2 && str.startsWith("\"") && str.endsWith("\"")) {
-            return str.substring(1, str.length() - 1);
+            return str.substring(1, str.length() - 1).trim();
         }
-        return str;
+        return str.trim();
     }
-
-
-
 }
