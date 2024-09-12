@@ -2,6 +2,7 @@ package interpreter;
 
 import org.example.Interpreter;
 import org.example.Result;
+import org.example.Variable;
 import org.example.iterators.InterpreterIterator;
 import org.example.observer.BrokerObserver;
 import org.example.observer.Observer;
@@ -12,6 +13,7 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class PullInterpreter implements PrintScriptInterpreter {
 
@@ -37,7 +39,11 @@ public class PullInterpreter implements PrintScriptInterpreter {
     }
 
   private Interpreter createInterpreter(BrokerObserver<String> observer, InputProvider provider) {
-    return new org.example.PrintScriptInterpreter(Map.ofEntries(Map.entry(ObserverType.PRINTLN_OBSERVER, observer)), List.of(), new TckInputListener(provider));
+    return new org.example.PrintScriptInterpreter(Map.ofEntries(Map.entry(ObserverType.PRINTLN_OBSERVER, observer)), getEnvVariables(System.getenv()), new TckInputListener(provider));
   }
+
+    private List<Variable<?>> getEnvVariables(Map<String, ?> envMap) {
+        return envMap.entrySet().stream().map(entry -> new Variable<>(entry.getKey(), entry.getValue())).collect(Collectors.toList());
+    }
 
 }
