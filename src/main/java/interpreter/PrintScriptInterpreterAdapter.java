@@ -1,10 +1,9 @@
 package interpreter;
 
-import runner.Observer;
 import runner.Runner;
 
 import java.io.InputStream;
-import java.util.List;
+import java.util.LinkedList;
 
 public class PrintScriptInterpreterAdapter implements PrintScriptInterpreter {
     /**
@@ -18,16 +17,16 @@ public class PrintScriptInterpreterAdapter implements PrintScriptInterpreter {
      */
     @Override
     public void execute(InputStream src, String version, PrintEmitter emitter, ErrorHandler handler, InputProvider provider) {
-        List<Observer> emptyList = List.of();
-        Runner runner = new Runner(emptyList);
-        ErrorHandlerAdapter errorHandlerAdapter = new ErrorHandlerAdapter(handler);
-        PrintEmitterAdapter printEmitterAdapter = new PrintEmitterAdapter(emitter);
-        InputProviderAdapter inputProviderAdapter = new InputProviderAdapter(provider, emitter);
         try {
+            Runner runner = new Runner(new LinkedList<>());
+            ErrorHandlerAdapter errorHandlerAdapter = new ErrorHandlerAdapter(handler);
+            PrintEmitterAdapter printEmitterAdapter = new PrintEmitterAdapter(emitter);
+            InputProviderAdapter inputProviderAdapter = new InputProviderAdapter(provider, emitter);
             runner.runExecute(src, version, errorHandlerAdapter, printEmitterAdapter, inputProviderAdapter);
         } catch (OutOfMemoryError e) {
             handler.reportError("Java heap space");
-        } catch (Exception e) {
+            System.out.println("Java heap space");
+        } catch (Throwable e) {
             handler.reportError(e.getMessage());
         }
     }
