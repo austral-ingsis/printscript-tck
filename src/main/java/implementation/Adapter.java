@@ -87,7 +87,7 @@ public class Adapter {
 
                 linterRules = new LinterRulesV1(
                         identifierFormat,
-                        printlnExpressionAllowed
+                        !printlnExpressionAllowed
                 );
                 break;
             }
@@ -122,8 +122,8 @@ public class Adapter {
 
                 linterRules = new LinterRulesV2(
                         identifierFormat,
-                        printlnExpressionAllowed,
-                        readInputExpressionAllowed
+                        !printlnExpressionAllowed,
+                        !readInputExpressionAllowed
                 );
                 break;
             }
