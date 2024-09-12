@@ -1,11 +1,11 @@
 package interpreter;
 
 import org.example.Interpreter;
-import org.example.ObserverType;
 import org.example.Result;
 import org.example.iterators.InterpreterIterator;
 import org.example.observer.BrokerObserver;
 import org.example.observer.Observer;
+import org.example.observer.ObserverType;
 import org.example.observer.PrintBrokerObserver;
 
 import java.io.InputStream;
@@ -21,7 +21,7 @@ public class PullInterpreter implements PrintScriptInterpreter {
       final PrintBrokerObserver observer = new PrintEmitterObserver(emitter);
       final org.example.Interpreter interpreter = createInterpreter(observer);
 
-      new Scanner(src).useDelimiter("\\A");
+      new Scanner(src).useDelimiter("(?<=\\}|(?<!\\{[^{}]);(?![^{}]\\}))(?=(?!.else).*)");
       processLines(src, handler, interpreter, version);
     }
 
