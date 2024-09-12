@@ -37,7 +37,7 @@ public class Adapter {
             // Map the values from the JSON to the FormattingRules fields
             boolean spaceBeforeColon = jsonNode.has("spaceBeforeColon") && jsonNode.get("spaceBeforeColon").asBoolean(false);
             boolean spaceAfterColon = jsonNode.has("spaceAfterColon") && jsonNode.get("spaceAfterColon").asBoolean(false);
-            boolean spaceAroundAssignment = jsonNode.has("enforce-spacing-around-equals") && jsonNode.get("enforce-spacing-around-equals").asBoolean(false);
+            boolean spaceAroundAssignment = !jsonNode.has("enforce-spacing-around-equals") || jsonNode.get("enforce-spacing-around-equals").asBoolean(true);
             int newlineBeforePrintln = jsonNode.has("newlineBeforePrintln") ? jsonNode.get("newlineBeforePrintln").asInt(0) : 0;
             int blockIndentation = jsonNode.has("blockIndentation") ? jsonNode.get("blockIndentation").asInt(4) : 4;
 

@@ -24,7 +24,7 @@ public class PrintScriptFormatterImpl implements PrintScriptFormatter {
             Iterator<Token> tokens = new Lexer(src, version);
             Iterator<StatementType> asts = new Parser(tokens, version);
             String formattedFile = Formatter.INSTANCE.format(asts, rules, version);
-            writer.write(formattedFile);
+            writer.write(formattedFile.stripTrailing());
         } catch (IOException e) {
             System.err.println("I/O Error: " + e.getMessage());
         } catch (Exception e) {
