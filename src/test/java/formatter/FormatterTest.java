@@ -6,7 +6,6 @@ import interpreter.PrintScriptFormatter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-
 import java.io.*;
 import java.nio.file.Files;
 import java.util.Collection;
