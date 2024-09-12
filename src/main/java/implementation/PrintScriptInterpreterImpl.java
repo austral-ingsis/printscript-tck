@@ -43,8 +43,7 @@ public class PrintScriptInterpreterImpl implements PrintScriptInterpreter {
             interpreter.interpret();
             // Si quieres emitir un resultado después de la ejecución
 
-        } catch (Exception e) {
-            // En caso de errores, reportamos usando el handler
+        } catch (Exception | Error e) {
             handler.reportError(e.getMessage());
         }
     }
