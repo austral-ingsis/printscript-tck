@@ -1,6 +1,5 @@
 package interpreter;
 
-import org.apache.commons.io.IOUtils;
 import org.example.*;
 import org.example.lexerresult.LexerSuccess;
 
@@ -9,6 +8,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Linter implements PrintScriptLinter{
+
   @Override
   public void lint(InputStream src, String version, InputStream config, ErrorHandler handler) {
     try {
