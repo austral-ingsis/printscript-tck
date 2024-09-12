@@ -1,19 +1,19 @@
 plugins {
     id 'java'
+    id 'org.jetbrains.kotlin.jvm'
 }
 
 repositories {
     mavenLocal()
     mavenCentral()
-// TODO: uncomment to be able to fetch packages in your own repository
-//    maven {
-//        name = "GitHubPackages"
-//        url = uri("https://maven.pkg.github.com/<your-username>/printscript")
-//        credentials {
-//            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-//            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
-//        }
-//    }
+    maven {
+        name = "GitHubPackages"
+        url = uri("https://maven.pkg.github.com/ingsis-group10-2024/printscript")
+        credentials {
+            username = project.findProperty("github.user") ?: System.getenv("USERNAME")
+            password = project.findProperty("github.token") ?: System.getenv("TOKEN")
+        }
+    }
 }
 
 java {
@@ -29,9 +29,20 @@ test {
 
 dependencies {
     testImplementation 'junit:junit:4.13.1'
+    implementation 'printscript:common:2.1.9-SNAPSHOT'
+    implementation 'printscript:cli:2.1.9-SNAPSHOT'
+    implementation 'printscript:parser:2.1.9-SNAPSHOT'
+    implementation 'printscript:lexer:2.1.9-SNAPSHOT'
+    implementation 'printscript:interpreter:2.1.9-SNAPSHOT'
+    implementation 'printscript:formatter:2.1.9-SNAPSHOT'
+    implementation 'printscript:sca:2.1.9-SNAPSHOT'
+    implementation 'com.github.ajalt.clikt:clikt:4.3.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.15.2")
 }
 
 test {
     environment "BEST_FOOTBALL_CLUB", "San Lorenzo"
     useJUnit()
 }
+

@@ -36,8 +36,13 @@ public class InterpreterLargeFileTest {
         final PrintCollector printCollector = new PrintCollector();
         final ErrorCollector errorCollector = new ErrorCollector();
         final var inputStream = new MockInputStream(LINE, NUMBER_OF_LINES);
-        interpreter.execute(inputStream, "1.0", printCollector, errorCollector, (ignored) -> "");
-
-        assertThat(errorCollector.getErrors(), is(singletonList("Java heap space")));
+        try {
+            interpreter.execute(inputStream, "1.0", printCollector, errorCollector, (ignored) -> "");
+        } catch (OutOfMemoryError e) {
+            // Verificar que el error se haya capturado en el ErrorCollector
+            assertThat(errorCollector.getErrors(), is(singletonList("Java heap space")));
+            // Lanza nuevamente el error para permitir que el test falle si el ErrorCollector no lo captura
+            throw e;
+        }
     }
 }

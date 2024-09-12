@@ -1,3 +1,4 @@
 {
-  "enforce-no-spacing-around-equals": true
+  "spaceBeforeAndAfterAssignationOperator": 0,
+  "spaceAfterColon": 1
 }
