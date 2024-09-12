@@ -78,7 +78,11 @@ public class PrintScriptInterpreterImpl implements PrintScriptInterpreter {
             public void print(@NotNull Object o) {
                 System.out.println("toMyEmitter: " + o.toString());
                 if (o instanceof Double) {
-                        emitter.print(o.toString().substring(0, o.toString().length() - 2));
+                    if(o.toString().contains(".0")){
+                        emitter.print(o.toString().replace(".0", ""));
+                        return;
+                    }
+                        emitter.print(o.toString());
                         return;
                     }
                 if (o instanceof String) {

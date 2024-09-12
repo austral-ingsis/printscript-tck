@@ -29,13 +29,13 @@ test {
 }
 dependencies {
     testImplementation 'junit:junit:4.13.1'
-    implementation 'printScript:lexer:1.1.6'
-    implementation 'printScript:parser:1.1.6'
-    implementation 'printScript:interpreter:1.1.6'
-    implementation 'printScript:ast:1.1.6'
-    implementation 'printScript:linter:1.1.6'
-    implementation 'printScript:formatter:1.1.6'
-    implementation 'printScript:cli:1.1.6'
+    implementation 'printScript:lexer:1.1.14'
+    implementation 'printScript:parser:1.1.14'
+    implementation 'printScript:interpreter:1.1.14'
+    implementation 'printScript:ast:1.1.14'
+    implementation 'printScript:linter:1.1.14'
+    implementation 'printScript:formatter:1.1.14'
+    implementation 'printScript:cli:1.1.14'
 }
 
 test {
