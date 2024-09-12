@@ -46,7 +46,7 @@ class Adapter {
             }
         } catch (e: Exception) {
             handler.reportError(e.message)
-        } catch (e: Error) {
+        } catch (e: OutOfMemoryError) {
             handler.reportError(e.message)
         }
     }
