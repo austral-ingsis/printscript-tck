@@ -111,6 +111,7 @@ fabric.properties
 hs_err_pid*
 
 ### Gradle ###
+gradle.properties
 .gradle
 build/
 
