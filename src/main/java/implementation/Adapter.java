@@ -78,16 +78,16 @@ public class Adapter {
                     identifierFormat = (String) rulesMap.get("identifier_format");
                 }
 
-                Boolean printlnExpressionAllowed;
+                Boolean mandatoryVoRinPrintln;
                 if (rulesMap.get("mandatory-variable-or-literal-in-println") == null) {
-                    printlnExpressionAllowed = true;
+                    mandatoryVoRinPrintln = true;
                 } else {
-                    printlnExpressionAllowed = (Boolean) rulesMap.get("mandatory-variable-or-literal-in-println");
+                    mandatoryVoRinPrintln = (Boolean) rulesMap.get("mandatory-variable-or-literal-in-println");
                 }
 
                 linterRules = new LinterRulesV1(
                         identifierFormat,
-                        !printlnExpressionAllowed
+                        !mandatoryVoRinPrintln
                 );
                 break;
             }
@@ -106,24 +106,24 @@ public class Adapter {
                     identifierFormat = (String) rulesMap.get("identifier_format");
                 }
 
-                boolean printlnExpressionAllowed;
+                boolean mandatoryVoRprintln;
                 if (rulesMap.get("mandatory-variable-or-literal-in-println") == null) {
-                    printlnExpressionAllowed = true;
+                    mandatoryVoRprintln = false;
                 } else {
-                    printlnExpressionAllowed = (Boolean) rulesMap.get("mandatory-variable-or-literal-in-println");
+                    mandatoryVoRprintln = (Boolean) rulesMap.get("mandatory-variable-or-literal-in-println");
                 }
 
-                boolean readInputExpressionAllowed;
+                boolean mandatoryVorLinReadInput;
                 if (rulesMap.get("mandatory-variable-or-literal-in-readInput") == null) {
-                    readInputExpressionAllowed = true;
+                    mandatoryVorLinReadInput = true;
                 } else {
-                    readInputExpressionAllowed = (Boolean) rulesMap.get("mandatory-variable-or-literal-in-readInput");
+                    mandatoryVorLinReadInput = (Boolean) rulesMap.get("mandatory-variable-or-literal-in-readInput");
                 }
 
                 linterRules = new LinterRulesV2(
                         identifierFormat,
-                        !printlnExpressionAllowed,
-                        !readInputExpressionAllowed
+                        !mandatoryVoRprintln,
+                        !mandatoryVorLinReadInput
                 );
                 break;
             }

@@ -5,6 +5,7 @@ import kotlin.Pair;
 import lexer.Lexer;
 import nodes.Expression;
 import nodes.StatementType;
+import org.jetbrains.annotations.NotNull;
 import parser.Parser;
 import position.Position;
 import position.visitor.Environment;
@@ -13,21 +14,25 @@ import token.Token;
 import java.io.InputStream;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Objects;
 
 public class PrintScriptInterpreterImpl implements PrintScriptInterpreter {
 
     @Override
     public void execute(InputStream src, String version, PrintEmitter emitter, ErrorHandler handler, InputProvider provider) {
         try {
+            String input = null;
             Iterator<Token> tokens = new Lexer(src, version);
-            Parser asts = new Parser(tokens, version,provider.input("input"));
+            Parser asts = new Parser(tokens, version, null);
 
             Environment currentEnvironment = createEnvironmentFromMap(System.getenv());
             asts.setEnv(currentEnvironment);
 
             while (asts.hasNext()) {
                 StatementType statement = asts.next();
-                Pair<StringBuilder, Environment> result = Interpreter.INSTANCE.interpret(statement, version, currentEnvironment, provider.input("input"));
+                Pair<StringBuilder, Environment> result;
+                result = getStringBuilderEnvironmentPair(version, emitter, provider, statement, asts, currentEnvironment);
+
 
                 String first = result.getFirst().toString().trim();
                 String cleanedOutput = removeSurroundingQuotes(first);
@@ -42,6 +47,30 @@ public class PrintScriptInterpreterImpl implements PrintScriptInterpreter {
         } catch (OutOfMemoryError | Exception e) {
             handler.reportError(e.getMessage());
         }
+    }
+
+    private static @NotNull Pair<StringBuilder, Environment> getStringBuilderEnvironmentPair(String version, PrintEmitter emitter, InputProvider provider, StatementType statement, Parser asts, Environment currentEnvironment) {
+        Pair<StringBuilder, Environment> result;
+        String input;
+        if (statement instanceof StatementType.Variable) {
+            if ("READ_INPUT".equals(((StatementType.Variable) statement).getInitializer() != null ? ((StatementType.Variable) statement).getInitializer().getExpressionType() : null)) {
+                assert ((StatementType.Variable) statement).getInitializer() != null;
+                Object value = ((StatementType.Variable) statement).getInitializer().getValue();
+                if (value instanceof Expression.Grouping) {
+                    emitter.print(Objects.requireNonNull(((Expression.Grouping) value).getExpression().getValue()).toString());
+                    input = provider.input(Objects.requireNonNull(((Expression.Grouping) value).getExpression().getValue()).toString());
+                    asts.setInput(input);
+                    result = Interpreter.INSTANCE.interpret(statement, version, currentEnvironment, input);
+                } else {
+                    result = Interpreter.INSTANCE.interpret(statement, version, currentEnvironment, null);
+                }
+            } else {
+                result = Interpreter.INSTANCE.interpret(statement, version, currentEnvironment, null);
+            }
+        } else {
+            result = Interpreter.INSTANCE.interpret(statement, version, currentEnvironment, null);
+        }
+        return result;
     }
 
     // Sacar de aca y hacerlo en el Interpreter nuestro
