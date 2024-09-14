@@ -3,8 +3,8 @@ package implementation;
 import com.google.gson.annotations.SerializedName;
 import com.printscript.linter.LinterConfig;
 
-public class ConfigAdapter {
-    public ConfigAdapter(
+public class LinterConfigAdapter {
+    public LinterConfigAdapter(
             String identifierFormat,
             boolean mandatoryVariableOrLiteralInPrintln,
             boolean mandatoryVariableOrLiteralInReadInput

@@ -1,8 +1,8 @@
 package implementation;
 
-import com.printscript.interpreter.GoatedInterpreter;
 import com.printscript.interpreter.Interpreter;
-import com.printscript.interpreter.RetroInterpreter;
+import com.printscript.interpreter.builder.InterpreterBuilder;
+import com.printscript.interpreter.strategy.PreConfiguredProviders;
 import com.printscript.lexer.Lexer;
 import com.printscript.models.node.ASTNode;
 import com.printscript.models.token.Token;
@@ -27,9 +27,13 @@ public class InterpreterAdapter implements PrintScriptInterpreter {
         final Parser parser = new PrintParser();
         final InputAdapter input = new InputAdapter(provider);
         final OutputAdapter output = new OutputAdapter(emitter);
-        Interpreter interpreter = new GoatedInterpreter(input, output);
-        if (Objects.equals(version, "1.0")) interpreter = new RetroInterpreter(interpreter);
+        InterpreterBuilder builder = new InterpreterBuilder();
+        builder.setInput(input);
+        builder.setOutput(output);
+        PreConfiguredProviders providers = PreConfiguredProviders.INSTANCE;
+        builder.setProvider(Objects.equals(version, "1.0") ? providers.getVERSION_1_0() : providers.getVERSION_1_1());
         try {
+            Interpreter interpreter = builder.build();
             Reader reader = new InputStreamReader(src);
             Iterator<List<Token>> tokens = lexer.lex(reader);
             Iterator<ASTNode> ast = parser.parse(tokens);
