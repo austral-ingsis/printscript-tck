@@ -34,7 +34,7 @@ public class Adapter {
             JsonNode jsonNode = objectMapper.readTree(configStream);
 
             boolean spaceBeforeColon = jsonNode.has("spaceBeforeColon") && jsonNode.get("spaceBeforeColon").asBoolean();
-            boolean spaceAfterColon = jsonNode.has("spaceAfterColon") && jsonNode.get("spaceAfterColon").asBoolean();
+            boolean spaceAfterColon = jsonNode.has("enforce-spacing-after-colon-in-declaration") && jsonNode.get("enforce-spacing-after-colon-in-declaration").asBoolean();
             boolean spaceAroundAssignment = !jsonNode.has("enforce-spacing-around-equals") || jsonNode.get("enforce-spacing-around-equals").asBoolean();
             int newlineBeforePrintln = jsonNode.has("line-breaks-after-println") ? jsonNode.get("line-breaks-after-println").asInt(0) : 0;
             int blockIndentation = jsonNode.has("blockIndentation") ? jsonNode.get("blockIndentation").asInt(4) : 4;
