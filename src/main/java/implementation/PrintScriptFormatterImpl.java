@@ -19,7 +19,7 @@ public class PrintScriptFormatterImpl implements PrintScriptFormatter {
 
     @Override
     public void format(InputStream src, String version, InputStream config, Writer writer) {
-        FormattingRules rules = adapter.adaptConfig(config);
+        FormattingRules rules = adapter.adaptFormattingConfig(config);
         try {
             Iterator<Token> tokens = new Lexer(src, version);
             Iterator<StatementType> asts = new Parser(tokens, version, null);

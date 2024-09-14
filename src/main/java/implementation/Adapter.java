@@ -28,34 +28,34 @@ public class Adapter {
         return result.toString();
     }
 
-    public FormattingRules adaptConfig(InputStream configStream) {
+    public FormattingRules adaptFormattingConfig(InputStream configStream) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            // Parse the InputStream to a JsonNode object
             JsonNode jsonNode = objectMapper.readTree(configStream);
 
-            // Map the values from the JSON to the FormattingRules fields
-            boolean spaceBeforeColon = jsonNode.has("spaceBeforeColon") && jsonNode.get("spaceBeforeColon").asBoolean(false);
-            boolean spaceAfterColon = jsonNode.has("spaceAfterColon") && jsonNode.get("spaceAfterColon").asBoolean(false);
-            boolean spaceAroundAssignment = !jsonNode.has("enforce-spacing-around-equals") || jsonNode.get("enforce-spacing-around-equals").asBoolean(true);
-            int newlineBeforePrintln = jsonNode.has("newlineBeforePrintln") ? jsonNode.get("newlineBeforePrintln").asInt(0) : 0;
+            boolean spaceBeforeColon = jsonNode.has("spaceBeforeColon") && jsonNode.get("spaceBeforeColon").asBoolean();
+            boolean spaceAfterColon = jsonNode.has("spaceAfterColon") && jsonNode.get("spaceAfterColon").asBoolean();
+            boolean spaceAroundAssignment = !jsonNode.has("enforce-spacing-around-equals") || jsonNode.get("enforce-spacing-around-equals").asBoolean();
+            int newlineBeforePrintln = jsonNode.has("line-breaks-after-println") ? jsonNode.get("line-breaks-after-println").asInt(0) : 0;
             int blockIndentation = jsonNode.has("blockIndentation") ? jsonNode.get("blockIndentation").asInt(4) : 4;
+            boolean ifBraceSameLine = !jsonNode.has("if-brace-same-line") || jsonNode.get("if-brace-same-line").asBoolean();
+            boolean singleSpaceSeparation = jsonNode.has("mandatory-single-space-separation") && jsonNode.get("mandatory-single-space-separation").asBoolean();
 
-            // Create and return the FormattingRules object
             return new FormattingRules(
                     spaceBeforeColon,
                     spaceAfterColon,
                     spaceAroundAssignment,
                     newlineBeforePrintln,
-                    blockIndentation
+                    blockIndentation,
+                    ifBraceSameLine,
+                    singleSpaceSeparation
             );
 
         } catch (IOException e) {
             System.err.println("Error reading config InputStream: " + e.getMessage());
         }
 
-        // Return default values if an exception occurs
-        return new FormattingRules(false, false, false, 0, 4);
+        return new FormattingRules(false, true, false, 0, 4, true, false);
     }
 
     public LinterRules getLinterRules(InputStream rulesIS, String version) {
