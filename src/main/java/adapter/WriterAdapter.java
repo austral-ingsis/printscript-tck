@@ -8,7 +8,7 @@ import java.util.Iterator;
 
 public class WriterAdapter implements OutputProvider {
 
-  private Writer writer;
+  private final Writer writer;
 
   public WriterAdapter(Writer writer) {
     this.writer = writer;

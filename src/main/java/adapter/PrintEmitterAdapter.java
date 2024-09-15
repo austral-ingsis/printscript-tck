@@ -5,7 +5,7 @@ import providers.printprovider.PrintProvider;
 
 public class PrintEmitterAdapter implements PrintProvider {
 
-  private PrintEmitter printEmitter;
+  private final PrintEmitter printEmitter;
 
   public PrintEmitterAdapter(PrintEmitter printEmitter) {
 

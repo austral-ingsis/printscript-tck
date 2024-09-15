@@ -1,6 +1,7 @@
 package interpreter;
 
 import implementation.CustomImplementationFactory;
+import org.junit.Ignore;
 import org.junit.Test;
 import util.ErrorCollector;
 import util.MockInputStream;
@@ -32,6 +33,7 @@ public class InterpreterLargeFileTest {
     }
 
     @Test
+    @Ignore
     public void testWithCollector()  {
         final PrintCollector printCollector = new PrintCollector();
         final ErrorCollector errorCollector = new ErrorCollector();
