@@ -28,15 +28,15 @@ test {
 
 dependencies {
     testImplementation 'junit:junit:4.13.1'
-    implementation 'print-script:formatter:1.0.0'
-    implementation 'org.example:token:1.0.0'
-    implementation 'org.example:ast:1.0.0'
-    implementation 'print-script:lexer:1.0.0'
-    implementation 'print-script:interpreter:1.0.0'
-    implementation 'org.example:cli:1.0.0'
-    implementation 'print-script:linter:1.0.0'
-    implementation 'print-script:parser:1.0.0'
-    implementation 'print-script:runner:1.0.0'
+    implementation 'print-script:formatter:1.1.0'
+    implementation 'print-script:token:1.1.0'
+    implementation 'print-script:ast:1.1.0'
+    implementation 'print-script:lexer:1.1.0'
+    implementation 'print-script:interpreter:1.1.0'
+    implementation 'print-script:cli:1.1.0'
+    implementation 'print-script:linter:1.1.0'
+    implementation 'print-script:parser:1.1.0'
+    implementation 'print-script:runner:1.1.0'
 }
 
 test {
