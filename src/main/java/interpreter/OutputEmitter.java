@@ -1,20 +1,21 @@
 package interpreter;
 
-import runner.OutputResult;
+import common.argument.PrintEmitter;
+import output.OutputResult;
 
 import java.util.List;
 
 public class OutputEmitter implements OutputResult {
-    private final List<String> prints;
+    private final PrintEmitter printEmitter;
 
-    public OutputEmitter(List<String> prints) {
-        this.prints = prints;
+    public OutputEmitter(PrintEmitter printEmitter) {
+        this.printEmitter = printEmitter;
     }
 
     @Override
     public OutputResult saveResult(String s) {
-        prints.add(s);
-        return new OutputEmitter(prints);
+        printEmitter.print(s);
+        return this;
     }
 
     @Override
@@ -22,7 +23,4 @@ public class OutputEmitter implements OutputResult {
         return "";
     }
 
-    public List<String> getPrints() {
-        return prints;
-    }
 }

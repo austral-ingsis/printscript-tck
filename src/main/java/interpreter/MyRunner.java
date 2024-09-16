@@ -1,19 +1,21 @@
 package interpreter;
 
 import interpreter.factory.InterpreterFactory;
-import runner.OutputResult;
+import output.OutputResult;
 
 import java.io.InputStream;
 import java.util.List;
 
 public class MyRunner {
     public void execute(InputStream code, String version, OutputResult printLog, OutputResult errorLog) {
-        Interpreter interpreter = InterpreterFactory.getInterpreter(version);
+        IterableInterpreter interpreter = new IterableInterpreter(version, code);
+        List<String> prints;
         try {
-            List<String> prints = interpreter.interpretInputStream(code);
-            interpreter = null;
-            for (String print : prints) {
-                printLog.saveResult(print);
+            while(interpreter.hasNext()) {
+                prints = interpreter.next();
+                for (String print: prints) {
+                    printLog.saveResult(print);
+                }
             }
         } catch (Throwable e) {
             interpreter = null;

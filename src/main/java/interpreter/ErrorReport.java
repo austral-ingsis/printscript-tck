@@ -1,6 +1,6 @@
 package interpreter;
 
-import runner.OutputResult;
+import output.OutputResult;
 
 public class ErrorReport implements OutputResult {
     private String error;

@@ -7,7 +7,6 @@ import interpreter.visitor.staticprovider.EnvLoader;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
 
 public class InterpreterAdapter implements PrintScriptInterpreter {
     @Override
@@ -16,14 +15,10 @@ public class InterpreterAdapter implements PrintScriptInterpreter {
         EnvLoader.addNewConstants("BEST_FOOTBALL_CLUB", bestFootballClub);
 
         MyRunner runner = new MyRunner();
-        OutputEmitter printLog = new OutputEmitter(new ArrayList<>());
+        OutputEmitter printLog = new OutputEmitter(emitter);
         ErrorReport errorLog = new ErrorReport("");
         setInput(provider);
         runner.execute(src, version, printLog, errorLog);
-
-        for (String print : printLog.getPrints()) {
-            emitter.print(print);
-        }
 
         if (!errorLog.getResult().isEmpty()){
             handler.reportError(errorLog.getResult());

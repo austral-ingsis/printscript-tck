@@ -1,6 +1,6 @@
 package linter;
 
-import runner.OutputResult;
+import output.OutputResult;
 
 import java.util.ArrayList;
 import java.util.List;

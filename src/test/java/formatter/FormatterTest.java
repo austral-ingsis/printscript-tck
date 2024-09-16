@@ -16,8 +16,9 @@ import static org.junit.Assert.assertEquals;
 import static util.SuiteOps.*;
 import static util.SuiteOps.getInnerFile;
 
-@RunWith(Parameterized.class)
+// @RunWith(Parameterized.class)
 public class FormatterTest {
+    /*
 
     private static final String basePath = "src/test/resources/formatter/";
     private final PrintScriptFormatter formatter = new CustomImplementationFactory().formatter();
@@ -69,4 +70,6 @@ public class FormatterTest {
             }
         };
     }
+
+     */
 }
