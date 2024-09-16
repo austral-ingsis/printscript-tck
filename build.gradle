@@ -4,6 +4,7 @@ plugins {
 
 repositories {
     mavenLocal()
+    mavenCentral()
     maven {
         name = "GitHubPackages"
         url = uri("https://maven.pkg.github.com/mPiccinini/PrintScript")
@@ -12,7 +13,6 @@ repositories {
             password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
         }
     }
-    mavenCentral()
 }
 
 java {
