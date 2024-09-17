@@ -9,8 +9,8 @@ repositories {
         name = "GitHubPackages"
         url = uri("https://maven.pkg.github.com/mPiccinini/PrintScript")
         credentials {
-            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+            username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")
+            password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
         }
     }
 }
@@ -28,6 +28,7 @@ test {
 
 dependencies {
     testImplementation 'junit:junit:4.13.1'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.0'
     implementation 'com.ingsis:lexer:1.1.0'
     implementation 'com.ingsis:parser:1.1.0'
     implementation 'com.ingsis:interpreter:1.1.0'
@@ -35,7 +36,6 @@ dependencies {
     implementation 'com.ingsis:linter:1.1.0'
     implementation 'com.ingsis:cli:1.1.0'
     implementation 'com.ingsis:shared:1.1.0'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.0'
 }
 
 test {
