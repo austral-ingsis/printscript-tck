@@ -28,12 +28,9 @@ test {
 
 dependencies {
     testImplementation 'junit:junit:4.13.1'
-    implementation("com.github.printSrcript:token:1.1.68")
-    implementation("com.github.printSrcript:formatter:1.1.68")
-    implementation("com.github.printSrcript:common:1.1.68")
-    implementation("com.github.printSrcript:libs:1.1.68")
-    implementation("com.github.printSrcript:linter:1.1.68")
-    implementation("com.github.printSrcript:factory:1.1.68")
+    implementation("com.github.printSrcript:common:1.1.69")
+    implementation("com.github.printSrcript:libs:1.1.69")
+    implementation("com.github.printSrcript:factory:1.1.69")
 }
 
 test {

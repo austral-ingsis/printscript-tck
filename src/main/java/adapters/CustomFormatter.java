@@ -1,6 +1,5 @@
 package adapters;
 
-import factories.FormatterFactory;
 import interpreter.PrintScriptFormatter;
 import java.io.*;
 
@@ -9,8 +8,6 @@ public class CustomFormatter implements PrintScriptFormatter {
 
     @Override
     public void format(InputStream src, String version, InputStream config, Writer writer) {
-        System.gc();
-        FormatterFactory factory = new FormatterFactory();
         System.gc();
         return;
     }
