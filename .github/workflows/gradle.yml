@@ -23,5 +23,4 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build
         env:
-          USERNAME: husseymarcos
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
