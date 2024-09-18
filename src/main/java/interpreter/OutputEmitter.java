@@ -5,7 +5,7 @@ import output.OutputResult;
 
 import java.util.List;
 
-public class OutputEmitter implements OutputResult {
+public class OutputEmitter implements OutputResult<String> {
     private final PrintEmitter printEmitter;
 
     public OutputEmitter(PrintEmitter printEmitter) {
@@ -13,9 +13,8 @@ public class OutputEmitter implements OutputResult {
     }
 
     @Override
-    public OutputResult saveResult(String s) {
+    public void saveResult(String s) {
         printEmitter.print(s);
-        return this;
     }
 
     @Override

@@ -4,6 +4,7 @@ import common.argument.ErrorHandler;
 import common.argument.InputProvider;
 import common.argument.PrintEmitter;
 import interpreter.visitor.staticprovider.EnvLoader;
+import runner.Runner;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -14,7 +15,7 @@ public class InterpreterAdapter implements PrintScriptInterpreter {
         String bestFootballClub = System.getenv("BEST_FOOTBALL_CLUB");
         EnvLoader.addNewConstants("BEST_FOOTBALL_CLUB", bestFootballClub);
 
-        MyRunner runner = new MyRunner();
+        Runner runner = new Runner();
         OutputEmitter printLog = new OutputEmitter(emitter);
         ErrorReport errorLog = new ErrorReport("");
         setInput(provider);

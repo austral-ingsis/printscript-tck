@@ -2,7 +2,7 @@ package interpreter;
 
 import output.OutputResult;
 
-public class ErrorReport implements OutputResult {
+public class ErrorReport implements OutputResult<String> {
     private String error;
 
     public ErrorReport(String error) {
@@ -10,9 +10,8 @@ public class ErrorReport implements OutputResult {
     }
 
     @Override
-    public OutputResult saveResult(String s) {
+    public void saveResult(String s) {
         this.error = s;
-        return this;
     }
 
     @Override
