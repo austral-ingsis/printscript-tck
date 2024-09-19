@@ -3,10 +3,9 @@ package interpreter;
 import common.argument.ErrorHandler;
 import common.argument.InputProvider;
 import common.argument.PrintEmitter;
+import input.InputHandler;
 import interpreter.visitor.staticprovider.EnvLoader;
 import runner.Runner;
-
-import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
 public class InterpreterAdapter implements PrintScriptInterpreter {
@@ -16,20 +15,15 @@ public class InterpreterAdapter implements PrintScriptInterpreter {
         EnvLoader.addNewConstants("BEST_FOOTBALL_CLUB", bestFootballClub);
 
         Runner runner = new Runner();
-        OutputEmitter printLog = new OutputEmitter(emitter);
+
         ErrorReport errorLog = new ErrorReport("");
-        setInput(provider);
-        runner.execute(src, version, printLog, errorLog);
+        OutputEmitter printLog = new OutputEmitter(emitter);
+        InputHandler inputHandler = new InputAdapter(provider);
+
+        runner.execute(src, version, printLog, errorLog, inputHandler);
 
         if (!errorLog.getResult().isEmpty()){
             handler.reportError(errorLog.getResult());
-        }
-    }
-
-    private static void setInput(InputProvider provider) {
-        String input = provider.input("input");
-        if (input != null){
-            System.setIn(new ByteArrayInputStream(input.getBytes()));
         }
     }
 }
