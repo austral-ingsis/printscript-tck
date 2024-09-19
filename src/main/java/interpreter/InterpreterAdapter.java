@@ -4,7 +4,7 @@ import common.argument.ErrorHandler;
 import common.argument.InputProvider;
 import common.argument.PrintEmitter;
 import input.InputHandler;
-import interpreter.visitor.staticprovider.EnvLoader;
+import interpreter.engine.staticprovider.EnvLoader;
 import runner.Runner;
 import java.io.InputStream;
 
