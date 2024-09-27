@@ -1,12 +1,18 @@
 package implementation;
 
+import interfaces.InterpreterResult;
 import interpreter.ErrorHandler;
 import interpreter.InputProvider;
 import interpreter.PrintEmitter;
 import interpreter.PrintScriptInterpreter;
-import interpreters.statements.InterpretAssignment;
 import org.example.Runner;
 import org.example.parser.Parser;
+import providers.DefaultEnvProvider;
+import providers.DefaultInputProvider;
+import providers.DefaultOutPutProvider;
+import results.InterpreterFailure;
+import results.InterpreterResultInformation;
+import results.InterpreterSuccess;
 
 
 import java.io.InputStream;
@@ -19,18 +25,27 @@ public class PrintScriptInterpreterImpl implements PrintScriptInterpreter {
             if (!version.equals("1.0") && !version.equals("1.1")) {
                 handler.reportError("Unsupported version: " + version);
             }
-            Parser parser = new Parser();
-            Runner runner = new Runner(provider, handler, );
-            //Object results = runner.run(src.toString(), version);
-            //Iterator<Object> iterator = (Iterator<Object>) results;
-//            while (iterator.hasNext()) {
-//                Iterator<Object> result = (Iterator<Object>) iterator.next();
-//                if (result.hasNext()) {
-//                    emitter.print(result.toString());
-//                } else {
-//                    handler.reportError("Error: " + result);
-//                }
+            DefaultInputProvider inputProvider = new DefaultInputProvider();
+            DefaultOutPutProvider outPutProvider = new DefaultOutPutProvider();
+            DefaultEnvProvider envProvider = new DefaultEnvProvider();
+            Runner runner = new Runner(inputProvider, outPutProvider, envProvider);
+            InterpreterResult results = runner.run(src, version);
+          ((InterpreterResultInformation) results).getResult().getStorage();
+          ((InterpreterFailure) results).getError();
+          ((InterpreterSuccess) results).getOriginalValue();
+            System.out.println(((InterpreterSuccess) results).getOriginalValue());
+            System.out.println(((InterpreterFailure) results).getError());
+//            if (results instanceof InterpreterSuccess) {
+//              InterpreterSuccess success = (InterpreterSuccess) results;
+//              System.out.println(success.getOriginalValue());
+//              success.getOriginalValue();
+//            } else if (results instanceof InterpreterFailure) {
+//              InterpreterFailure failure = (InterpreterFailure) results;
+//              System.out.println(failure.getError());
+//            } else {
+//              handler.reportError("");
 //            }
+
         } catch (Exception | OutOfMemoryError e) {
             handler.reportError("Error: " + e.getMessage());
         }
