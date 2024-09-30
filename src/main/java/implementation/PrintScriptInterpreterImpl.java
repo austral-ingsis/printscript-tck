@@ -1,18 +1,17 @@
 package implementation;
 
-import interfaces.InterpreterResult;
+import com.printscript.interpreter.interfaces.InterpreterResult;
+import com.printscript.interpreter.providers.DefaultEnvProvider;
+import com.printscript.interpreter.providers.DefaultInputProvider;
+import com.printscript.interpreter.providers.DefaultOutPutProvider;
+import com.printscript.interpreter.results.InterpreterFailure;
+import com.printscript.interpreter.results.InterpreterResultInformation;
+import com.printscript.interpreter.results.InterpreterSuccess;
+import com.printscript.runner.Runner;
 import interpreter.ErrorHandler;
 import interpreter.InputProvider;
 import interpreter.PrintEmitter;
 import interpreter.PrintScriptInterpreter;
-import org.example.Runner;
-import org.example.parser.Parser;
-import providers.DefaultEnvProvider;
-import providers.DefaultInputProvider;
-import providers.DefaultOutPutProvider;
-import results.InterpreterFailure;
-import results.InterpreterResultInformation;
-import results.InterpreterSuccess;
 
 
 import java.io.InputStream;
