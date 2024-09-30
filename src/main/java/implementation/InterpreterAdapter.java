@@ -4,6 +4,8 @@ import com.printscript.interpreter.Interpreter;
 import com.printscript.interpreter.builder.InterpreterBuilder;
 import com.printscript.interpreter.strategy.PreConfiguredProviders;
 import com.printscript.lexer.Lexer;
+import com.printscript.lexer.TokenProvider;
+import com.printscript.lexer.util.PreConfiguredTokens;
 import com.printscript.models.node.ASTNode;
 import com.printscript.models.token.Token;
 import com.printscript.parser.Parser;
@@ -23,7 +25,9 @@ import java.util.Objects;
 public class InterpreterAdapter implements PrintScriptInterpreter {
     @Override
     public void execute(InputStream src, String version, PrintEmitter emitter, ErrorHandler handler, InputProvider provider) {
-        final Lexer lexer = new Lexer();
+        PreConfiguredTokens tokProv = PreConfiguredTokens.INSTANCE;
+        TokenProvider prov = Objects.equals(version, "1.0") ? tokProv.getTOKENS_1_0() : tokProv.getTOKENS_1_1();
+        final Lexer lexer = new Lexer(prov);
         final Parser parser = new PrintParser();
         final InputAdapter input = new InputAdapter(provider);
         final OutputAdapter output = new OutputAdapter(emitter);
