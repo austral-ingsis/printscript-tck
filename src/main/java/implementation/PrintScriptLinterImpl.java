@@ -44,7 +44,10 @@ public class PrintScriptLinterImpl implements PrintScriptLinter {
             Token token = lexerTokenize.next();
             tokens.add(token);
           }
-          staticCodeAnalyzer.analyze(tokens);
+          List<String> result = staticCodeAnalyzer.analyze(tokens);
+          if (!result.isEmpty()){
+            result.forEach(handler::reportError);
+          }
         } catch (Exception e) {
           throw new RuntimeException(e);
         }
