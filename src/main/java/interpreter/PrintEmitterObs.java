@@ -13,7 +13,7 @@ public class PrintEmitterObs {
 
   public void notifyChange(InterpreterResult result) {
     if (result instanceof InterpreterSuccess) {
-      emmiter.print(((InterpreterSuccess) result).getOriginalValue().toString().strip());
+      emmiter.print(((InterpreterSuccess) result).getOriginalValue().toString().strip()); //!!USE .getIntValue() WHEN UPDATED VERSION
     }
   }
 }
