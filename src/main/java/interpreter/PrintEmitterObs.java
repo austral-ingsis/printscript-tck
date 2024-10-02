@@ -1,6 +1,5 @@
 package interpreter;
 
-import com.printscript.interpreter.Interpreter;
 import com.printscript.interpreter.interfaces.InterpreterResult;
 import com.printscript.interpreter.results.InterpreterSuccess;
 
