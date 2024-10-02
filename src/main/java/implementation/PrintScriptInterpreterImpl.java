@@ -12,6 +12,7 @@ import interpreter.*;
 
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 public class PrintScriptInterpreterImpl implements PrintScriptInterpreter {
     @Override
@@ -29,7 +30,9 @@ public class PrintScriptInterpreterImpl implements PrintScriptInterpreter {
             ErrorHandlerObs errorHandlerObs = new ErrorHandlerObs(handler);
             PrintEmitterObs emitterObs = new PrintEmitterObs(emitter);
             InterpreterResult results = runner.run(src, version);
-
+            EnvProvider envProv = new EnvProvider();
+            String envVAR = envProv.getEnv("BEST_FOOTBALL_CLUB");
+            System.out.println(envVAR);
             if (results instanceof InterpreterFailure) {
                 errorHandlerObs.notifyChange(results);
             } else if (results instanceof InterpreterSuccess) {
