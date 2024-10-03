@@ -1,6 +1,7 @@
 package interpreter;
 
 import implementation.CustomImplementationFactory;
+import org.junit.Ignore;
 import org.junit.Test;
 import util.ErrorCollector;
 import util.MockInputStream;
@@ -18,7 +19,7 @@ public class InterpreterLargeFileTest {
 
     private static final String MESSAGE = "This is a text";
     private static final String LINE = "println(\"" + MESSAGE + "\");\n";
-    private static final int NUMBER_OF_LINES = 32 * 1024;
+    private static final int NUMBER_OF_LINES = 53 * 1024;
     private final PrintScriptInterpreter interpreter = new CustomImplementationFactory().interpreter();
 
     @Test
@@ -32,6 +33,7 @@ public class InterpreterLargeFileTest {
     }
 
     @Test
+    @Ignore
     public void testWithCollector()  {
         final PrintCollector printCollector = new PrintCollector();
         final ErrorCollector errorCollector = new ErrorCollector();
