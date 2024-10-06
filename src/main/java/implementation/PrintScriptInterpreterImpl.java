@@ -1,51 +1,39 @@
 package implementation;
 
-import interpreter.ErrorHandler;
-import interpreter.InputProvider;
-import interpreter.PrintEmitter;
-import interpreter.PrintScriptInterpreter;
-import org.example.Runner;
+import com.printscript.interpreter.interfaces.InterpreterResult;
+import com.printscript.interpreter.providers.DefaultEnvProvider;
+import com.printscript.interpreter.results.InterpreterFailure;
+import com.printscript.runner.Runner;
+import interpreter.*;
 
-import java.io.BufferedReader;
+
 import java.io.InputStream;
-import java.io.InputStreamReader;
 
 public class PrintScriptInterpreterImpl implements PrintScriptInterpreter {
+    @Override
+    public void execute(InputStream src, String version, PrintEmitter emitter, ErrorHandler handler, InputProvider provider) {
+      final InputProvAdapter inputProvider = new InputProvAdapter(provider);
+      final OutPutAdapter outPutProvider = new OutPutAdapter(emitter);
+      final DefaultEnvProvider envProvider = new DefaultEnvProvider();
+      final ErrorHandlerAdapter errorHandlerAdapter = new ErrorHandlerAdapter(handler);
 
-  @Override
-  public void execute(
-          InputStream src,
-          String version,
-          PrintEmitter emitter,
-          ErrorHandler handler,
-          InputProvider provider
-  ) {
-    try {
+      EnvProvider envProv = new EnvProvider();
+      envProv.getEnv("BEST_FOOTBALL_CLUB");
+
+      final Runner runner = new Runner(inputProvider, outPutProvider, envProvider);
+
       if (!version.equals("1.0") && !version.equals("1.1")) {
-        handler.reportError("Unsupported version: " + version);
-        return;
+        errorHandlerAdapter.notifyChange("Unsupported version: " + version);
+        } else {
+        try {
+          InterpreterResult result =  runner.run(src, version);
+          if (result instanceof InterpreterFailure) {
+            String errorMessage = ((InterpreterFailure) result).getErrorMessage();
+            errorHandlerAdapter.notifyChange(errorMessage);
+          }
+        } catch (OutOfMemoryError e) {
+          errorHandlerAdapter.notifyChange(e.getMessage());
+        }
       }
-
-      BufferedReader reader = new BufferedReader(new InputStreamReader(src));
-      StringBuilder codeBuilder = new StringBuilder();
-      String line;
-      while ((line = reader.readLine()) != null) {
-        codeBuilder.append(line).append("\n");
-      }
-      String code = codeBuilder.toString();
-
-      //lexing, parsing, interpreting :(
-      Runner runner = new Runner();
-      Object result = runner.run(code);
-
-      if (result != null) {
-        emitter.print(result.toString());
-      }
-
-    } catch (OutOfMemoryError e) {
-      handler.reportError(e.getMessage());
-    } catch (Exception e) {
-      handler.reportError(e.getMessage() != null ? e.getMessage() : "Unknown error");
     }
-  }
 }

@@ -4,7 +4,6 @@ import interpreter.PrintScriptFormatter;
 import interpreter.PrintScriptInterpreter;
 import interpreter.PrintScriptLinter;
 
-
 public class CustomImplementationFactory implements PrintScriptFactory {
 
     @Override
@@ -14,8 +13,7 @@ public class CustomImplementationFactory implements PrintScriptFactory {
 
     @Override
     public PrintScriptFormatter formatter() {
-        return new PrintScriptFormatterImpl();
-
+        throw new NotImplementedException("Needs implementation");
     }
 
     @Override

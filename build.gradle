@@ -28,17 +28,19 @@ test {
 
 dependencies {
     testImplementation 'junit:junit:4.13.1'
-    implementation 'print-script:formatter:1.0.0'
-    implementation 'org.example:token:1.0.0'
-    implementation 'org.example:ast:1.0.0'
-    implementation 'print-script:lexer:1.0.0'
-    implementation 'print-script:interpreter:1.0.0'
-    implementation 'org.example:cli:1.0.0'
-    implementation 'print-script:linter:1.0.0'
-    implementation 'print-script:parser:1.0.0'
-    implementation 'print-script:runner:1.0.0'
+    implementation 'com.google.code.gson:gson:2.8.9'
+    implementation 'com.printscript:formatter:1.1.8'
+    implementation 'com.printscript:token:1.1.8'
+    implementation 'com.printscript:ast:1.1.8'
+    implementation 'com.printscript:lexer:1.1.8'
+    implementation 'com.printscript:interpreter:1.1.8'
+    implementation 'com.printscript:cli:1.1.8'
+    implementation 'com.printscript:linter:1.1.8'
+    implementation 'com.printscript:parser:1.1.8'
+    implementation 'com.printscript:runner:1.1.8'
 }
 
 test {
+    environment "BEST_FOOTBALL_CLUB", "San Lorenzo"
     useJUnit()
 }
