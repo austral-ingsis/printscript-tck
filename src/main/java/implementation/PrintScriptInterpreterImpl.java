@@ -20,10 +20,6 @@ public class PrintScriptInterpreterImpl implements PrintScriptInterpreter {
       EnvProvider envProv = new EnvProvider();
       envProv.getEnv("BEST_FOOTBALL_CLUB");
 
-
-      PrintEmitterObs emitterObs = new PrintEmitterObs(emitter);
-
-
       final Runner runner = new Runner(inputProvider, outPutProvider, envProvider);
 
       if (!version.equals("1.0") && !version.equals("1.1")) {
