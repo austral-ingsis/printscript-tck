@@ -9,9 +9,11 @@ public class ErrorHandlerObs {
     this.handler = handler;
   }
 
-  public void notifyChange (InterpreterResult result) {
-    if (result instanceof InterpreterFailure) {
-      handler.reportError(((InterpreterFailure) result).getErrorMessage());
-    }
+  public void notifyChange (String result) {
+    handler.reportError(result);
+
+//    if (result instanceof InterpreterFailure) {
+//      handler.reportError(((InterpreterFailure) result).getErrorMessage());
+//    }
   }
 }

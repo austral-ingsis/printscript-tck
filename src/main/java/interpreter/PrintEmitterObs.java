@@ -1,18 +1,15 @@
 package interpreter;
 
-import com.printscript.interpreter.interfaces.InterpreterResult;
 import com.printscript.interpreter.results.InterpreterSuccess;
 
 public class PrintEmitterObs {
-  private final PrintEmitter emmiter;
+  private final PrintEmitter emitter;
 
-  public PrintEmitterObs(PrintEmitter emmiter) {
-    this.emmiter = emmiter;
+  public PrintEmitterObs(PrintEmitter emitter) {
+    this.emitter = emitter;
   }
 
-  public void notifyChange(InterpreterResult result) {
-    if (result instanceof InterpreterSuccess) {
-      emmiter.print(((InterpreterSuccess) result).getOriginalValue().toString().strip()); //!!USE .getIntValue() WHEN UPDATED VERSION
-    }
+  public void notifyChange(InterpreterSuccess result) {
+      emitter.print(result.getIntValue().toString());
   }
 }

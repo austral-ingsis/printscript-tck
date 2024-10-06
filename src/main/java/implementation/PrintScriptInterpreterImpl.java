@@ -17,33 +17,44 @@ import java.util.Map;
 public class PrintScriptInterpreterImpl implements PrintScriptInterpreter {
     @Override
     public void execute(InputStream src, String version, PrintEmitter emitter, ErrorHandler handler, InputProvider provider) {
+      final InputProvAdapter inputProvider = new InputProvAdapter(provider);
+      final OutPutAdapter outPutProvider = new OutPutAdapter(emitter);
+      final DefaultEnvProvider envProvider = new DefaultEnvProvider();
+      final ErrorHandlerObs errorHandlerObs = new ErrorHandlerObs(handler);
+
+      EnvProvider envProv = new EnvProvider();
+      String envVAR = envProv.getEnv("BEST_FOOTBALL_CLUB");
+
+
+      PrintEmitterObs emitterObs = new PrintEmitterObs(emitter);
+
+
+      final Runner runner = new Runner(inputProvider, outPutProvider, envProvider);
+
       try {
         if (!version.equals("1.0") && !version.equals("1.1")) {
           handler.reportError("Unsupported version: " + version);
         } else {
           try {
-            DefaultInputProvider inputProvider = new DefaultInputProvider();
-            DefaultOutPutProvider outPutProvider = new DefaultOutPutProvider();
-            DefaultEnvProvider envProvider = new DefaultEnvProvider();
-            Runner runner = new Runner(inputProvider, outPutProvider, envProvider);
+            InterpreterResult result =  runner.run(src, version);
 
-            ErrorHandlerObs errorHandlerObs = new ErrorHandlerObs(handler);
-            PrintEmitterObs emitterObs = new PrintEmitterObs(emitter);
-            InterpreterResult results = runner.run(src, version);
-            EnvProvider envProv = new EnvProvider();
-            String envVAR = envProv.getEnv("BEST_FOOTBALL_CLUB");
-            System.out.println(envVAR);
-            if (results instanceof InterpreterFailure) {
-                errorHandlerObs.notifyChange(results);
-            } else if (results instanceof InterpreterSuccess) {
-                emitterObs.notifyChange(results);
+            if (result instanceof InterpreterFailure) {
+              String errorMessage = ((InterpreterFailure) result).getErrorMessage();
+              errorHandlerObs.notifyChange(errorMessage);
             }
-          } catch (Exception e) {
-            throw new RuntimeException(e);
+          } catch (Exception | Error  e) {
+            errorHandlerObs.notifyChange(e.getMessage());
           }
         }
-      } catch (Exception e) {
-        throw new RuntimeException(e);
+      } catch (Exception | Error e) {
+        errorHandlerObs.notifyChange(e.getMessage());
       }
     }
 }
+
+
+//            if (results instanceof InterpreterFailure) {
+//                errorHandlerObs.notifyChange(results);
+//            } else if (results instanceof InterpreterSuccess) {
+//                emitterObs.notifyChange((InterpreterSuccess) results);
+//            }
