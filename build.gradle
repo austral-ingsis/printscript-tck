@@ -22,22 +22,22 @@ java {
 }
 
 test {
-    minHeapSize = "5m" // initial heap size
-    maxHeapSize = "7m" // maximum heap size
+    minHeapSize = "4m" // initial heap size
+    maxHeapSize = "5m" // maximum heap size
 }
 
 dependencies {
     testImplementation 'junit:junit:4.13.1'
-    implementation 'com.printscript:formatter:1.1.6'
-    implementation 'com.printscript:token:1.1.6'
-    implementation 'com.printscript:ast:1.1.6'
-    implementation 'com.printscript:lexer:1.1.6'
-    implementation 'com.printscript:interpreter:1.1.6'
-    implementation 'com.printscript:cli:1.1.6'
-    implementation 'com.printscript:linter:1.1.6'
-    implementation 'com.printscript:parser:1.1.6'
-    implementation 'com.printscript:runner:1.1.6'
     implementation 'com.google.code.gson:gson:2.8.9'
+    implementation 'com.printscript:formatter:1.1.7'
+    implementation 'com.printscript:token:1.1.7'
+    implementation 'com.printscript:ast:1.1.7'
+    implementation 'com.printscript:lexer:1.1.7'
+    implementation 'com.printscript:interpreter:1.1.7'
+    implementation 'com.printscript:cli:1.1.7'
+    implementation 'com.printscript:linter:1.1.7'
+    implementation 'com.printscript:parser:1.1.7'
+    implementation 'com.printscript:runner:1.1.7'
 }
 
 test {

@@ -15,10 +15,10 @@ public class PrintScriptInterpreterImpl implements PrintScriptInterpreter {
       final InputProvAdapter inputProvider = new InputProvAdapter(provider);
       final OutPutAdapter outPutProvider = new OutPutAdapter(emitter);
       final DefaultEnvProvider envProvider = new DefaultEnvProvider();
-      final ErrorHandlerObs errorHandlerObs = new ErrorHandlerObs(handler);
+      final ErrorHandlerAdapter errorHandlerAdapter = new ErrorHandlerAdapter(handler);
 
       EnvProvider envProv = new EnvProvider();
-      String envVAR = envProv.getEnv("BEST_FOOTBALL_CLUB");
+      envProv.getEnv("BEST_FOOTBALL_CLUB");
 
 
       PrintEmitterObs emitterObs = new PrintEmitterObs(emitter);
@@ -26,22 +26,18 @@ public class PrintScriptInterpreterImpl implements PrintScriptInterpreter {
 
       final Runner runner = new Runner(inputProvider, outPutProvider, envProvider);
 
-      try {
-        if (!version.equals("1.0") && !version.equals("1.1")) {
-          handler.reportError("Unsupported version: " + version);
+      if (!version.equals("1.0") && !version.equals("1.1")) {
+        errorHandlerAdapter.notifyChange("Unsupported version: " + version);
         } else {
-          try {
-            InterpreterResult result =  runner.run(src, version);
-            if (result instanceof InterpreterFailure) {
-              String errorMessage = ((InterpreterFailure) result).getErrorMessage();
-              errorHandlerObs.notifyChange(errorMessage);
-            }
-          } catch (Exception | Error  e) {
-            errorHandlerObs.notifyChange(e.getMessage());
+        try {
+          InterpreterResult result =  runner.run(src, version);
+          if (result instanceof InterpreterFailure) {
+            String errorMessage = ((InterpreterFailure) result).getErrorMessage();
+            errorHandlerAdapter.notifyChange(errorMessage);
           }
+        } catch (OutOfMemoryError e) {
+          errorHandlerAdapter.notifyChange(e.getMessage());
         }
-      } catch (Exception | Error e) {
-        errorHandlerObs.notifyChange(e.getMessage());
       }
     }
 }
