@@ -2,17 +2,12 @@ package implementation;
 
 import com.printscript.interpreter.interfaces.InterpreterResult;
 import com.printscript.interpreter.providers.DefaultEnvProvider;
-import com.printscript.interpreter.providers.DefaultInputProvider;
-import com.printscript.interpreter.providers.DefaultOutPutProvider;
 import com.printscript.interpreter.results.InterpreterFailure;
-import com.printscript.interpreter.results.InterpreterSuccess;
 import com.printscript.runner.Runner;
 import interpreter.*;
 
 
 import java.io.InputStream;
-import java.util.List;
-import java.util.Map;
 
 public class PrintScriptInterpreterImpl implements PrintScriptInterpreter {
     @Override
@@ -37,7 +32,6 @@ public class PrintScriptInterpreterImpl implements PrintScriptInterpreter {
         } else {
           try {
             InterpreterResult result =  runner.run(src, version);
-
             if (result instanceof InterpreterFailure) {
               String errorMessage = ((InterpreterFailure) result).getErrorMessage();
               errorHandlerObs.notifyChange(errorMessage);
@@ -51,10 +45,3 @@ public class PrintScriptInterpreterImpl implements PrintScriptInterpreter {
       }
     }
 }
-
-
-//            if (results instanceof InterpreterFailure) {
-//                errorHandlerObs.notifyChange(results);
-//            } else if (results instanceof InterpreterSuccess) {
-//                emitterObs.notifyChange((InterpreterSuccess) results);
-//            }
