@@ -29,7 +29,6 @@ public class PrintScriptLinterImpl implements PrintScriptLinter {
             .registerTypeAdapter(IdentifierFormat.class, new CaseConfigurationDeserializer())
             .create();
     Configuration configuration = gson.fromJson(configContent, Configuration.class);
-    System.out.println(configuration);
     StaticCodeAnalyzer staticCodeAnalyzer = new StaticCodeAnalyzer(configuration, version);
     List<Token> tokens = new ArrayList<>();
     Lexer lexer = new Lexer(version);
