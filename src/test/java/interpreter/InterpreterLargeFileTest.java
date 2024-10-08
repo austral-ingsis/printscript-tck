@@ -18,7 +18,7 @@ public class InterpreterLargeFileTest {
 
     private static final String MESSAGE = "This is a text";
     private static final String LINE = "println(\"" + MESSAGE + "\");\n";
-    private static final int NUMBER_OF_LINES = 32 * 1024;
+    private static final int NUMBER_OF_LINES = 64 * 1024;
     private final PrintScriptInterpreter interpreter = new CustomImplementationFactory().interpreter();
 
     @Test
@@ -38,6 +38,6 @@ public class InterpreterLargeFileTest {
         final var inputStream = new MockInputStream(LINE, NUMBER_OF_LINES);
         interpreter.execute(inputStream, "1.0", printCollector, errorCollector, (ignored) -> "");
 
-        assertThat(errorCollector.getErrors(), is(singletonList("Java heap space")));
+        assertThat(errorCollector.getErrors(), is(singletonList("Java heap space: failed reallocation of scalar replaced objects")));
     }
 }
