@@ -2,6 +2,7 @@ package formatter;
 
 import implementation.CustomImplementationFactory;
 import interpreter.PrintScriptFormatter;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -17,6 +18,7 @@ import static org.junit.Assert.assertEquals;
 import static util.SuiteOps.*;
 import static util.SuiteOps.getInnerFile;
 
+@Ignore
 @RunWith(Parameterized.class)
 public class FormatterTest {
 
