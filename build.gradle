@@ -5,15 +5,14 @@ plugins {
 repositories {
     mavenLocal()
     mavenCentral()
-// TODO: uncomment to be able to fetch packages in your own repository
-//    maven {
-//        name = "GitHubPackages"
-//        url = uri("https://maven.pkg.github.com/<your-username>/printscript")
-//        credentials {
-//            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-//            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
-//        }
-//    }
+    maven {
+        name = "GitHubPackages"
+        url = uri("https://maven.pkg.github.com/IngsisPrintScript2026/PrintScript")
+        credentials {
+            username = project.findProperty("gprUser") ?: project.findProperty("gpr.user") ?: System.getenv("USERNAME") ?: System.getenv("GITHUB_ACTOR")
+            password = project.findProperty("gprToken") ?: project.findProperty("gpr.key") ?: System.getenv("TOKEN") ?: System.getenv("GITHUB_TOKEN")
+        }
+    }
 }
 
 java {
@@ -23,11 +22,19 @@ java {
 }
 
 test {
-    minHeapSize = "5m" // initial heap size
-    maxHeapSize = "7m" // maximum heap size
+    minHeapSize = "4m" // initial heap size
+    maxHeapSize = "6m" // maximum heap size
 }
 
 dependencies {
+    implementation 'org.example:com.ingsis.engine:1.0-SNAPSHOT'
+    implementation 'org.example:com.ingsis.common:1.0-SNAPSHOT'
+    implementation 'org.example:com.ingsis.charstream:1.0-SNAPSHOT'
+    implementation 'org.example:com.ingsis.lexer:1.0-SNAPSHOT'
+    implementation 'org.example:com.ingsis.parser:1.0-SNAPSHOT'
+    implementation 'org.example:com.ingsis.interpreter:1.0-SNAPSHOT'
+    implementation 'org.example:com.ingsis.formatter:1.0-SNAPSHOT'
+    implementation 'org.example:com.ingsis.sca:1.0-SNAPSHOT'
     testImplementation 'junit:junit:4.13.1'
 }
 
