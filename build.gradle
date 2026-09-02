@@ -1,37 +1,100 @@
 plugins {
     id 'java'
+    id 'maven-publish'
+    id 'application'
 }
 
+// Versión con timestamp
+def timestamp = new Date().format("yyyyMMddHHmmss")
+version = "1.0.${timestamp}"
+group = "com.printscript"
+
+// --- Cargar .env si existe ---
+def dotenvFile = file("$rootDir/.env")
+def dotenvProps = new Properties()
+if (dotenvFile.exists()) {
+    dotenvFile.withReader { reader ->
+        reader.eachLine { line ->
+            line = line.trim()
+            if (!line.startsWith("#") && line.contains("=")) {
+                def (key, value) = line.split("=", 2)
+                dotenvProps.setProperty(key.trim(), value.trim())
+            }
+        }
+    }
+}
+
+// --- Repositorios ---
 repositories {
     mavenLocal()
     mavenCentral()
-// TODO: uncomment to be able to fetch packages in your own repository
-//    maven {
-//        name = "GitHubPackages"
-//        url = uri("https://maven.pkg.github.com/<your-username>/printscript")
-//        credentials {
-//            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-//            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
-//        }
-//    }
+    maven {
+        name = 'GitHubPackages'
+        url = uri("https://maven.pkg.github.com/Grupo-14-INGSIS/PrintScript-Tools")
+        credentials {
+            username = dotenvProps.getProperty("GITHUB_USER") ?: dotenvProps.getProperty("USERNAME") ?: System.getenv("GITHUB_USER") ?: System.getenv("USERNAME") ?: ""
+            password = dotenvProps.getProperty("GITHUB_TOKEN") ?: dotenvProps.getProperty("TOKEN") ?: System.getenv("GITHUB_TOKEN") ?: System.getenv("TOKEN") ?: ""
+        }
+    }
 }
 
+// --- Dependencias ---
+dependencies {
+    // Core PrintScript modules desde GitHub Packages
+    // Version 86 passes everything
+    implementation 'IngsisTP:interpreter:2.0.1'
+    implementation 'IngsisTP:lexer:2.0.1'
+    implementation 'IngsisTP:linter:2.0.1'
+    implementation 'IngsisTP:parser:2.0.1'
+    implementation 'IngsisTP:formatter:2.0.1'
+    implementation 'IngsisTP:ast:2.0.1'
+    implementation 'IngsisTP:token:2.0.1'
+    //antes la 86
+    //más nueva funcional: 91
+    //refactor: 94
+
+    // Test dependencies
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.hamcrest:hamcrest:2.2'
+    testImplementation 'org.hamcrest:hamcrest-library:2.2'
+
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.15.2'
+
+    // Agregar dependencias de test del TCK si existen
+    testImplementation fileTree(dir: 'lib', include: '*.jar')
+
+    // Kotlin (por si hace falta interoperabilidad)
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:2.0.0'
+}
+
+// --- Configuración de Java ---
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
     }
 }
 
+// --- Configuración de tests mejorada ---
 test {
-    minHeapSize = "5m" // initial heap size
-    maxHeapSize = "7m" // maximum heap size
-}
-
-dependencies {
-    testImplementation 'junit:junit:4.13.1'
-}
-
-test {
-    environment "BEST_FOOTBALL_CLUB", "San Lorenzo"
+    // Usar JUnit 4
     useJUnit()
+
+    // Variables de entorno
+    environment "BEST_FOOTBALL_CLUB", "San Lorenzo"
+
+    minHeapSize = "5m"
+    maxHeapSize = "7m"
+
+    // Agregar el directorio de tests si existe
+    if (file('src/test/java').exists()) {
+        include '**/*Test.class'
+        include '**/*Tests.class'
+    }
+
+    // Continuar ejecutando tests aunque fallen algunos
+    ignoreFailures = false
+
+    // Configurar classpath de tests
+    classpath = sourceSets.test.runtimeClasspath
 }
