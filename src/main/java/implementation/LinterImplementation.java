@@ -13,8 +13,12 @@ import java.util.List;
 public class LinterImplementation implements PrintScriptLinter {
 
     @Override
-    public void lint(InputStream src, String version, InputStream
-            config, ErrorHandler handler) {
+    public void lint(
+            InputStream src,
+            String version,
+            InputStream config,
+            ErrorHandler handler
+    ) {
         try {
             String sourceCode = new String(src.readAllBytes(),
                     StandardCharsets.UTF_8);
