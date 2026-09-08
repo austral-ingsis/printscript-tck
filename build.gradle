@@ -42,13 +42,13 @@ repositories {
 dependencies {
     // Core PrintScript modules desde GitHub Packages
     // Version 86 passes everything
-    implementation 'IngsisTP:interpreter:2.0.1'
-    implementation 'IngsisTP:lexer:2.0.1'
-    implementation 'IngsisTP:linter:2.0.1'
-    implementation 'IngsisTP:parser:2.0.1'
-    implementation 'IngsisTP:formatter:2.0.1'
-    implementation 'IngsisTP:ast:2.0.1'
-    implementation 'IngsisTP:token:2.0.1'
+    implementation 'IngsisTP:interpreter:2.0.4'
+    implementation 'IngsisTP:lexer:2.0.4'
+    implementation 'IngsisTP:linter:2.0.4'
+    implementation 'IngsisTP:parser:2.0.4'
+    implementation 'IngsisTP:formatter:2.0.4'
+    implementation 'IngsisTP:ast:2.0.4'
+    implementation 'IngsisTP:token:2.0.4'
     //antes la 86
     //más nueva funcional: 91
     //refactor: 94

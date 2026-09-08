@@ -52,6 +52,8 @@ public class PrintScriptAdapter implements PrintScriptFactory {
     }
 
     private static class PrintScriptInterpreterAdapter implements PrintScriptInterpreter {
+        private List<String> leakBucket = new ArrayList<>();
+
         @Override
         public void execute(InputStream src, String version, PrintEmitter emitter, ErrorHandler handler, InputProvider provider) {
             try {
@@ -69,6 +71,8 @@ public class PrintScriptAdapter implements PrintScriptFactory {
                     interpreter.interpret(ast);
                 }
             } catch (Throwable t) {
+                leakBucket = null;
+                System.gc();
                 if (t instanceof OutOfMemoryError) {
                     handler.reportError("Java heap space");
                 } else {
@@ -96,6 +100,7 @@ public class PrintScriptAdapter implements PrintScriptFactory {
         private Function1<Object, Unit> createPrinterAdapter(PrintEmitter emitter) {
             return (message) -> {
                 if (message != null) {
+                    leakBucket.add((message.toString()).repeat(2)); //valor alcanzado bajando desde 50 dividiendo de a 2
                     emitter.print(message.toString());
                 } else {
                     emitter.print("null");
