@@ -34,7 +34,9 @@ dependencies {
     implementation 'ar.edu.austral.ingsis.printscript:printscript-interpreter:1.0.0'
     implementation 'ar.edu.austral.ingsis.printscript:printscript-formatter:1.0.0'
     implementation 'ar.edu.austral.ingsis.printscript:printscript-analyzer:1.0.0'
+    implementation 'com.google.code.gson:gson:2.10.1'
     testImplementation 'junit:junit:4.13.1'
+
 }
 
 test {
