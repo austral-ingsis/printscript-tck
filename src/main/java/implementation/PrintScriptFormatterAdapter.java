@@ -25,7 +25,7 @@ final class PrintScriptFormatterAdapter implements PrintScriptFormatter {
         Objects.requireNonNull(configuration, "configuration");
         Objects.requireNonNull(writer, "writer");
 
-        final TokenSource tokens = PrintScriptPipeline.formattingTokensFrom(source, version);
+        final TokenSource tokens = PrintScriptPipeline.tokensFrom(source, version);
         final String configurationJson = readUtf8(configuration);
         final FormattedSource formattedSource = formattedSourceFrom(
                 version,

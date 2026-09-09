@@ -4,14 +4,16 @@ plugins {
 
 repositories {
     mavenCentral()
-    
+
     maven {
         name = 'GitHubPackages'
         url = uri('https://maven.pkg.github.com/JJT-INGSIS/printscript')
 
         credentials {
             username = project.findProperty('gpr.user') ?: System.getenv('GITHUB_ACTOR')
-            password = project.findProperty('gpr.key') ?: System.getenv('GITHUB_TOKEN')
+            password = project.findProperty('gpr.key')
+                    ?: System.getenv('GITHUB_TOKEN')
+                    ?: System.getenv('TOKEN')
         }
     }
 }
@@ -27,9 +29,13 @@ dependencies {
     testImplementation 'junit:junit:4.13.1'
 }
 
+configurations.configureEach {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
 test {
-    minHeapSize = '6144k'
-    maxHeapSize = '6145k'
+    minHeapSize = '3m'
+    maxHeapSize = '5m'
 
     environment 'BEST_FOOTBALL_CLUB', 'San Lorenzo'
     useJUnit()

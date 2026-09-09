@@ -21,17 +21,12 @@ final class PrintScriptPipeline {
     }
 
     static StatementSource statementsFrom(InputStream source, String version) {
-        Objects.requireNonNull(source, "source");
-        LanguageVersion.requireSupported(version);
+        final TokenSource tokens = tokensFrom(source, version);
 
-        final SourceReader sourceReader = sourceReaderFrom(source);
-        final Lexer lexer = lexerFor(version);
-        final Parser parser = parserFor(version);
-
-        return parser.parse(lexer.tokenize(sourceReader));
+        return parserFor(version).parse(tokens);
     }
 
-    static TokenSource formattingTokensFrom(InputStream source, String version) {
+    static TokenSource tokensFrom(InputStream source, String version) {
         Objects.requireNonNull(source, "source");
         LanguageVersion.requireSupported(version);
 
