@@ -3,12 +3,8 @@ plugins {
 }
 
 repositories {
-    mavenLocal()
     mavenCentral()
-
-    // Se habilitará para la entrega final cuando el TCK consuma
-    // una versión publicada remotamente en GitHub Packages.
-    /*
+    
     maven {
         name = 'GitHubPackages'
         url = uri('https://maven.pkg.github.com/JJT-INGSIS/printscript')
@@ -18,7 +14,6 @@ repositories {
             password = project.findProperty('gpr.key') ?: System.getenv('GITHUB_TOKEN')
         }
     }
-    */
 }
 
 java {
