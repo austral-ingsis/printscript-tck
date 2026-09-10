@@ -27,7 +27,11 @@ test {
 }
 
 ext {
-    printscript = '1.0.0'
+    printscript = 'latest.release'
+}
+
+configurations.all {
+    resolutionStrategy.cacheDynamicVersionsFor 0, 'seconds'
 }
 
 dependencies {
