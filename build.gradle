@@ -27,7 +27,23 @@ test {
     maxHeapSize = "7m" // maximum heap size
 }
 
+ext {
+    printscript = '1.0-SNAPSHOT'
+}
+
 dependencies {
+    implementation "com.printscript:lexer:$printscript"
+    implementation "com.printscript:parser:$printscript"
+    implementation "com.printscript:pipeline:$printscript"
+    implementation "com.printscript:interpreter:$printscript"
+    implementation "com.printscript:formatter:$printscript"
+    implementation "com.printscript:linter:$printscript"
+    implementation "com.printscript:report:$printscript"
+    implementation "com.printscript:ast:$printscript"
+    implementation "com.printscript:token:$printscript"
+    implementation "com.printscript:common:$printscript"
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:2.3.10'
+
     testImplementation 'junit:junit:4.13.1'
 }
 
