@@ -12,12 +12,13 @@ public class PrintScriptFormatterAdapter implements PrintScriptFormatter {
 
     @Override
     public void format(InputStream src, String version, InputStream config, Writer writer) {
-        if (!Pipeline.supports(version)) {
+        final var dialect = Pipeline.dialect(version);
+        if (dialect == null) {
             throw new IllegalArgumentException("Unsupported version: " + version);
         }
 
         final var settings = Config.Companion.read(config);
 
-        new Formatter(settings).format(Pipeline.lexer(src).tokens(), writer);
+        new Formatter(settings).format(Pipeline.lexer(src, dialect).tokens(), writer);
     }
 }

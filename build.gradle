@@ -35,6 +35,8 @@ configurations.all {
 }
 
 dependencies {
+    implementation "com.printscript:app:$printscript"
+    implementation "com.printscript:language:$printscript"
     implementation "com.printscript:lexer:$printscript"
     implementation "com.printscript:parser:$printscript"
     implementation "com.printscript:pipeline:$printscript"

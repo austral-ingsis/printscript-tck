@@ -1,10 +1,12 @@
 package implementation;
 
+import com.printscript.app.Dialect;
 import com.printscript.ast.Statement;
-import com.printscript.interpreter.Environment;
 import com.printscript.interpreter.Interpreter;
+import com.printscript.interpreter.SystemEnvironment;
+import com.printscript.interpreter.Value;
 import com.printscript.interpreter.ValueOps;
-import com.printscript.interpreter.executor.StatementExecutors;
+import com.printscript.language.Environment;
 import com.printscript.pipeline.StatementStream;
 import com.printscript.report.ErrorRenderer;
 import com.printscript.report.Failure;
@@ -34,21 +36,27 @@ public class PrintScriptInterpreterAdapter implements PrintScriptInterpreter {
             ErrorHandler handler,
             InputProvider provider) {
 
-        if (!Pipeline.supports(version)) {
+        final var dialect = Pipeline.dialect(version);
+        if (dialect == null) {
             handler.reportError("Unsupported version: " + version);
             return;
         }
 
+        final var functions = dialect.getFunctions().invoke(
+                () -> provider.input(""),
+                SystemEnvironment.INSTANCE);
+
         final var interpreter = new Interpreter(
-                new Environment(),
+                new Environment<Value>(),
                 emitter::print,
                 new ValueOps(),
-                StatementExecutors.INSTANCE.getDEFAULT());
+                dialect.getExecutors(),
+                functions);
 
         reserve = new byte[RESERVE_BYTES];
 
         try {
-            run(Pipeline.statements(src), interpreter, handler);
+            run(Pipeline.statements(src, dialect), interpreter, handler);
         } catch (OutOfMemoryError | StackOverflowError error) {
             reserve = null;
             handler.reportError(error.getMessage());
