@@ -19,23 +19,23 @@ class FormatterAdapter : PrintScriptFormatter {
         config: InputStream,
         writer: Writer,
     ) {
-        if (Version.of(version) != Version.V10) return
-
+        val parsed = Version.of(version) ?: return
         val loaded = loadFormatterConfig(config.reader().readText())
 
         if (loaded is Result.Success) {
-            write(src, loaded.value, writer)
+            write(parsed, src, loaded.value, writer)
         }
     }
 
     // Se escribe trozo por trozo, sin juntar la salida: la Sequence es perezosa y el
     // Writer va recibiendo. Con 7 MB de heap, un archivo entero en un String no entra.
     private fun write(
+        version: Version,
         src: InputStream,
         config: FormatterConfig,
         writer: Writer,
     ) {
-        for (formatted in FormatRunner(config).format({ StreamSourceReader.of(src) })) {
+        for (formatted in FormatRunner(config, version).format({ StreamSourceReader.of(src) })) {
             when (formatted) {
                 is Result.Success -> writer.write(formatted.value.text)
                 is Result.Failure -> return

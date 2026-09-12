@@ -17,10 +17,9 @@ class InterpreterAdapter : PrintScriptInterpreter {
         handler: ErrorHandler,
         provider: InputProvider,
     ) {
-        when (Version.of(version)) {
+        when (val parsed = Version.of(version)) {
             null -> handler.reportError("Version desconocida: $version")
-            Version.V10 -> run(src, emitter, handler, provider)
-            Version.V11 -> handler.reportError("PrintScript 1.1 todavia no esta implementado")
+            else -> run(parsed, src, emitter, handler, provider)
         }
     }
 
@@ -28,13 +27,15 @@ class InterpreterAdapter : PrintScriptInterpreter {
     // que acumula los mensajes tiene que quedarse sin memoria, y el TCK espera ver
     // "Java heap space" reportado como error. Es el borde, igual que el try de Jackson.
     private fun run(
+        version: Version,
         src: InputStream,
         emitter: PrintEmitter,
         handler: ErrorHandler,
         provider: InputProvider,
     ) {
         try {
-            val result = ExecuteRunner(EmitterIO(emitter, provider)).execute { StreamSourceReader.of(src) }
+            val io = EmitterIO(emitter, provider)
+            val result = ExecuteRunner(version, io).execute { StreamSourceReader.of(src) }
 
             if (result is Result.Failure) {
                 handler.reportError(result.error.message)

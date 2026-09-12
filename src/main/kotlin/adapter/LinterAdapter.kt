@@ -16,14 +16,14 @@ class LinterAdapter : PrintScriptLinter {
         config: InputStream,
         handler: ErrorHandler,
     ) {
-        when (Version.of(version)) {
+        when (val parsed = Version.of(version)) {
             null -> handler.reportError("Version desconocida: $version")
-            Version.V11 -> handler.reportError("PrintScript 1.1 todavia no esta implementado")
-            Version.V10 -> run(src, config, handler)
+            else -> run(parsed, src, config, handler)
         }
     }
 
     private fun run(
+        version: Version,
         src: InputStream,
         config: InputStream,
         handler: ErrorHandler,
@@ -31,7 +31,7 @@ class LinterAdapter : PrintScriptLinter {
         when (val loaded = loadAnalyzerConfig(config.reader().readText())) {
             is Result.Failure -> handler.reportError(loaded.error.message)
             is Result.Success ->
-                AnalyzeRunner(loaded.value).analyze({ StreamSourceReader.of(src) }) { diagnostic ->
+                AnalyzeRunner(loaded.value, version).analyze({ StreamSourceReader.of(src) }) { diagnostic ->
                     handler.reportError(line(diagnostic))
                 }
         }
