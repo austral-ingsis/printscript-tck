@@ -28,6 +28,7 @@ test {
 }
 
 dependencies {
+    implementation 'org.printscript:runner:0.0.1-SNAPSHOT'
     testImplementation 'junit:junit:4.13.1'
 }
 
@@ -35,3 +36,4 @@ test {
     environment "BEST_FOOTBALL_CLUB", "San Lorenzo"
     useJUnit()
 }
+
