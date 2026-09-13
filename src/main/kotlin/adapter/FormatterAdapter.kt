@@ -10,9 +10,7 @@ import org.printscript.runner.FormatRunner
 import org.printscript.runner.config.loadFormatterConfig
 
 class FormatterAdapter : PrintScriptFormatter {
-    // format() devuelve void y no recibe ErrorHandler: no hay donde reportar. Ante un
-    // problema no escribimos nada, que es lo unico honesto --escribir a medias dejaria
-    // al que llama con un archivo truncado sin saberlo--.
+
     override fun format(
         src: InputStream,
         version: String,

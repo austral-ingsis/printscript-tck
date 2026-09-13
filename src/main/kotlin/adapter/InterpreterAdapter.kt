@@ -23,9 +23,6 @@ class InterpreterAdapter : PrintScriptInterpreter {
         }
     }
 
-    // El OutOfMemoryError es parte del contrato del TCK, no un accidente: un emitter
-    // que acumula los mensajes tiene que quedarse sin memoria, y el TCK espera ver
-    // "Java heap space" reportado como error. Es el borde, igual que el try de Jackson.
     private fun run(
         version: Version,
         src: InputStream,
