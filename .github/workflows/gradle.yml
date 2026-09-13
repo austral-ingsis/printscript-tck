@@ -24,4 +24,4 @@ jobs:
         run: ./gradlew build
         env:
           USERNAME: EmmaBeni
-          TOKEN: ${{ secrets.TOKEN }} //cambio porque no me deja comenzar con GITHUB
+          TOKEN: ${{ secrets.TOKEN }}
