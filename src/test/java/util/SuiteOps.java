@@ -15,9 +15,9 @@ public class SuiteOps {
 
     public static List<Object[]> reversion(String version, List<Object[]> files) {
         return files.stream().map(obj -> {
-           var copy = Arrays.stream(obj).toArray(Object[]::new);
-           copy[0] = version;
-           return copy;
+            var copy = Arrays.stream(obj).toArray(Object[]::new);
+            copy[0] = version;
+            return copy;
         }).toList();
     }
 
