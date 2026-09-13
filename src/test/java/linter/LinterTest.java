@@ -64,11 +64,11 @@ public class LinterTest {
             var tests = getVersionSpecificPath(basePath, version);
             try {
                 return Files.list(tests).map(test -> List.of(
-                        version,
-                        test.getFileName().toString(),
-                        getInnerFile(test, "main.ps"),
-                        getInnerFile(test, "config.json"))
-                    .toArray()).toList();
+                                version,
+                                test.getFileName().toString(),
+                                getInnerFile(test, "main.ps"),
+                                getInnerFile(test, "config.json"))
+                        .toArray()).toList();
             } catch (IOException e) {
                 throw new UncheckedIOException(e);
             }
