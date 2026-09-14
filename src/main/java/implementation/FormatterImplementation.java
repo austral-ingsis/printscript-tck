@@ -6,9 +6,11 @@ import formatter.FormatResult;
 import formatter.FormatSuccess;
 import formatter.FormatterExecutor;
 import formatter.formatrules.EnsureNoSpaceAroundEquals;
+import formatter.formatrules.EnsureSingleSpace;
 import formatter.formatrules.EnsureSpaceAfterColon;
 import formatter.formatrules.EnsureSpaceAroundEquals;
 import formatter.formatrules.EnsureSpaceBeforeColon;
+import formatter.formatrules.EnsureSpacesSurroundingOperations;
 import formatter.formatrules.FormatRule;
 import formatter.formatrules.FormatRules;
 import formatter.formatrules.IfBraceBelowLine;
@@ -55,10 +57,14 @@ public class FormatterImplementation implements PrintScriptFormatter {
             if (result instanceof FormatSuccess) {
                 String formatted = ((FormatSuccess<String, String>) result).getValue();
                 // El tokenizer de cada statement termina en EOL, asi que el ultimo statement
-                // del programa tambien lo arrastra. El golden (leido con BufferedReader.lines())
-                // nunca tiene ese salto final, asi que se recorta para poder compararlos igual.
+                // del programa tambien lo arrastra. Ademas, LineBreaksAfterPrintLn no tiene forma
+                // de saber si el println que esta formateando es el ultimo statement del programa
+                // (cada AST se formatea por separado y se concatena despues), asi que si el ultimo
+                // statement es un println con "lines-after-println" > 0, puede agregar varios saltos
+                // de mas al final. El golden (leido con BufferedReader.lines()) nunca tiene saltos
+                // finales, asi que se recortan todos, no solo uno.
                 String lineSeparator = System.lineSeparator();
-                if (formatted.endsWith(lineSeparator)) {
+                while (formatted.endsWith(lineSeparator)) {
                     formatted = formatted.substring(0, formatted.length() - lineSeparator.length());
                 }
                 writer.write(formatted);
@@ -119,15 +125,17 @@ public class FormatterImplementation implements PrintScriptFormatter {
 
     /**
      * Reglas con gate "activated" (EnsureNoSpaceAroundEquals, EnsureSpaceBeforeColon,
-     * IfBraceSameLine, IfBraceBelowLine) quedan en false: ese es su estado neutro real,
-     * tal como espera applyJsonConfig (lo que el json del TCK no active queda "apagado").
+     * IfBraceSameLine, IfBraceBelowLine, EnsureSingleSpace, EnsureSpacesSurroundingOperations)
+     * quedan en false: ese es su estado neutro real, tal como espera applyJsonConfig (lo
+     * que el json del TCK no active queda "apagado").
      *
      * IndentsInsideIf y LineBreaksAfterPrintLn son distintas: no tienen gate "activated"
-     * en FormatRule.kt, se aplican siempre (0 no es "apagado", es un valor real que
-     * colapsa el output: sin indentación / sin salto de línea). Y EnsureSpaceAroundEquals /
-     * EnsureSpaceAfterColon, aunque sí tienen gate, se esperan activas por defecto
-     * (evidencia repetida en varias familias de fixtures del TCK: goldens con "=" y ":
-     * " espaciados sin que ningún config lo pida).
+     * en FormatRule.kt, se aplican siempre. LineBreaksAfterPrintLn ahora hace "lines + 1"
+     * internamente (0 = separación normal, no colapso), así que su default vuelve a ser 0.
+     * IndentsInsideIf sigue necesitando 2 (0 borraría toda la indentación por defecto). Y
+     * EnsureSpaceAroundEquals / EnsureSpaceAfterColon, aunque sí tienen gate, se esperan
+     * activas por defecto (evidencia repetida en varias familias de fixtures del TCK:
+     * goldens con "=" y ": " espaciados sin que ningún config lo pida).
      */
     private FormatRules defaultFormatRules() {
         List<FormatRule> rules = new ArrayList<>();
@@ -135,10 +143,12 @@ public class FormatterImplementation implements PrintScriptFormatter {
         rules.add(new EnsureNoSpaceAroundEquals(false));
         rules.add(new EnsureSpaceBeforeColon(false));
         rules.add(new EnsureSpaceAfterColon(true));
+        rules.add(new EnsureSpacesSurroundingOperations(false));
+        rules.add(new EnsureSingleSpace(false));
         rules.add(new IfBraceSameLine(false));
         rules.add(new IfBraceBelowLine(false));
         rules.add(new IndentsInsideIf(2));
-        rules.add(new LineBreaksAfterPrintLn(1));
+        rules.add(new LineBreaksAfterPrintLn(0));
         return new FormatRules(rules);
     }
 }
