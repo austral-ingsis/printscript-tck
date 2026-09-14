@@ -1,9 +1,6 @@
 package implementation;
 
-import engine.Engine;
-import engine.ExecutionContext;
-import engine.EngineResult;
-import engine.ExitCode;
+import engine.*;
 import interpreter.ErrorHandler;
 import interpreter.InputProvider;
 import interpreter.PrintEmitter;
@@ -29,7 +26,16 @@ public class InterpreterImplementation implements PrintScriptInterpreter {
             Engine engine = new Engine();
             LoggerAdapter logger = new LoggerAdapter();
 
-            EngineResult result = engine.execute(sourceCode, logger, new ExecutionContext(), version);
+            EngineResult result = engine.execute(
+                    sourceCode,
+                    new EngineIO(
+                            new PrintEmitterAdapter(),
+                            new InputProviderAdapter(),
+                            new EnvProviderAdapter()
+                            ),
+                    logger,
+                    new ExecutionContext(),
+                    version);
             List<String> logs = logger.getLogs();
 
             if (result.getExitCode() == ExitCode.FAILURE) {
