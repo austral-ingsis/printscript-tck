@@ -31,6 +31,7 @@ dependencies {
     testImplementation 'junit:junit:4.13.1'
     implementation("printscript.grupo1:linter:1.0.0")
     implementation("printscript.grupo1:engine:1.0.0")
+    implementation("printscript.grupo1:formatter:1.0.0")
 }
 
 test {
