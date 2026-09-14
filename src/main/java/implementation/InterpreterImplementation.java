@@ -31,7 +31,7 @@ public class InterpreterImplementation implements PrintScriptInterpreter {
                     sourceCode,
                     new EngineIO(
                             printEmitter,
-                            new InputProviderAdapter(),
+                            new InputProviderAdapter(printEmitter, provider),
                             new EnvProviderAdapter()
                             ),
                     logger,
