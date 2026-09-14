@@ -1,7 +1,9 @@
 package implementation;
 
-import executor.Engine;
-import executor.ExecutionContext;
+import engine.Engine;
+import engine.ExecutionContext;
+import engine.EngineResult;
+import engine.ExitCode;
 import interpreter.ErrorHandler;
 import interpreter.InputProvider;
 import interpreter.PrintEmitter;
@@ -20,27 +22,38 @@ public class InterpreterImplementation implements PrintScriptInterpreter {
             ErrorHandler handler,
             InputProvider provider
     ) {
-        try{
+        try {
             String sourceCode = new String(src.readAllBytes(),
                     StandardCharsets.UTF_8);
 
             Engine engine = new Engine();
             LoggerAdapter logger = new LoggerAdapter();
 
-            engine.execute(sourceCode, logger, new ExecutionContext());
-            List<String> logs = logger.getLogs(); //queda puenteado nuestros logs con los logs de ellos
+            EngineResult result = engine.execute(sourceCode, logger, new ExecutionContext(), version);
+            List<String> logs = logger.getLogs();
 
-            logs.remove(logs.getLast());
-
-            for(String log: logs){
-                 emitter.print(log);
+            if (result.getExitCode() == ExitCode.FAILURE) {
+                if (!logs.isEmpty()) {
+                    logs.remove(logs.getLast());
+                }
+                if (logs.isEmpty()) {
+                    handler.reportError("Execution failed");
+                } else {
+                    for (String error : logs) {
+                        handler.reportError(error);
+                    }
+                }
+            } else {
+                if (!logs.isEmpty()) {
+                    logs.remove(logs.getLast());
+                    for (String log : logs) {
+                        emitter.print(log);
+                    }
+                }
             }
 
+        } catch (Exception e) {
+            handler.reportError(e.getMessage() != null ? e.getMessage() : "Error executing script");
         }
-        catch (Exception e){
-            throw new RuntimeException("Could not read InputStream");
-        }
-
-
     }
 }

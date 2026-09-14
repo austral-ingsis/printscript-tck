@@ -70,7 +70,7 @@ public class TckLinterConfigAdapter {
             } else if (key.equalsIgnoreCase("mandatory-variable-or-literal-in-readInput")
                     || key.equalsIgnoreCase("mandatory_variable_or_literal_in_readInput")) {
                 if (Boolean.parseBoolean(value) || value.equalsIgnoreCase("true")) {
-                    rulesJson.add("{\"name\":\"read-input-no-expression\",\"enabled\":true,\"params\":{}}");
+                    rulesJson.add("{\"name\":\"readInput-no-expression\",\"enabled\":true,\"params\":{}}");
                 }
             }
         }

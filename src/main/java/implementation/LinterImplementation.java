@@ -25,7 +25,7 @@ public class LinterImplementation implements PrintScriptLinter {
 
             TckLinterConfigAdapter adapter = new TckLinterConfigAdapter();
             String internalConfigJson = adapter.adapt(config);
-            Linter linter = Linter.Companion.fromJson(internalConfigJson);
+            Linter linter = Linter.Companion.fromJson(internalConfigJson, version);
             List<Warning> warningList = linter.analyse(sourceCode);
             for(Warning warning: warningList){
                 handler.reportError(warning.getMessage());
