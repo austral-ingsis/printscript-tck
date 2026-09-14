@@ -1,19 +1,18 @@
 plugins {
     id 'java'
+    id 'org.jetbrains.kotlin.jvm' version '2.4.10'
 }
 
 repositories {
-    mavenLocal()
     mavenCentral()
-// TODO: uncomment to be able to fetch packages in your own repository
-//    maven {
-//        name = "GitHubPackages"
-//        url = uri("https://maven.pkg.github.com/<your-username>/printscript")
-//        credentials {
-//            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-//            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
-//        }
-//    }
+    maven {
+        name = "GitHubPackages"
+        url = uri("https://maven.pkg.github.com/ing-sis-PrintScript/printscript")
+        credentials {
+            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+        }
+    }
 }
 
 java {
@@ -22,12 +21,25 @@ java {
     }
 }
 
+kotlin {
+    jvmToolchain(21)
+}
+
 test {
     minHeapSize = "5m" // initial heap size
     maxHeapSize = "7m" // maximum heap size
+
+    forkEvery = 1
 }
 
 dependencies {
+    implementation 'printscript:runner:1.1.0'
+    implementation 'printscript:common:1.1.0'
+    implementation 'printscript:lexer:1.1.0'
+    implementation 'printscript:interpreter:1.1.0'
+    implementation 'printscript:formatter:1.1.0'
+    implementation 'printscript:analyzer:1.1.0'
+
     testImplementation 'junit:junit:4.13.1'
 }
 
