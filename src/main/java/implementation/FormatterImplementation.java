@@ -54,6 +54,13 @@ public class FormatterImplementation implements PrintScriptFormatter {
 
             if (result instanceof FormatSuccess) {
                 String formatted = ((FormatSuccess<String, String>) result).getValue();
+                // El tokenizer de cada statement termina en EOL, asi que el ultimo statement
+                // del programa tambien lo arrastra. El golden (leido con BufferedReader.lines())
+                // nunca tiene ese salto final, asi que se recorta para poder compararlos igual.
+                String lineSeparator = System.lineSeparator();
+                if (formatted.endsWith(lineSeparator)) {
+                    formatted = formatted.substring(0, formatted.length() - lineSeparator.length());
+                }
                 writer.write(formatted);
                 writer.flush();
             } else if (result instanceof FormatError) {
@@ -85,10 +92,6 @@ public class FormatterImplementation implements PrintScriptFormatter {
         }
     }
 
-    /**
-     * Config por defecto con todas las reglas desactivadas (false/0), tal como espera
-     * applyJsonConfig: lo que el json del TCK no active queda en su default "apagado".
-     */
     private ConfigProvider defaultConfigFor(String version) {
         DeclarationFormatTokenizer declarationTokenizer = new DeclarationFormatTokenizer();
         AssignmentFormatTokenizer assignmentTokenizer = new AssignmentFormatTokenizer();
@@ -99,7 +102,7 @@ public class FormatterImplementation implements PrintScriptFormatter {
         ruleSet.put(assignmentTokenizer, defaultFormatRules());
         ruleSet.put(expressionTokenizer, defaultFormatRules());
 
-        if ("1.1".equals(version)) {
+        if ("1.1".equals(version)) { //le agrego el conditional tokenizer
             Set<FormatTokenizer> statementFormatters = new LinkedHashSet<>();
             statementFormatters.add(declarationTokenizer);
             statementFormatters.add(assignmentTokenizer);
@@ -114,16 +117,28 @@ public class FormatterImplementation implements PrintScriptFormatter {
         return new ConfigProvider(ruleSet);
     }
 
+    /**
+     * Reglas con gate "activated" (EnsureNoSpaceAroundEquals, EnsureSpaceBeforeColon,
+     * IfBraceSameLine, IfBraceBelowLine) quedan en false: ese es su estado neutro real,
+     * tal como espera applyJsonConfig (lo que el json del TCK no active queda "apagado").
+     *
+     * IndentsInsideIf y LineBreaksAfterPrintLn son distintas: no tienen gate "activated"
+     * en FormatRule.kt, se aplican siempre (0 no es "apagado", es un valor real que
+     * colapsa el output: sin indentación / sin salto de línea). Y EnsureSpaceAroundEquals /
+     * EnsureSpaceAfterColon, aunque sí tienen gate, se esperan activas por defecto
+     * (evidencia repetida en varias familias de fixtures del TCK: goldens con "=" y ":
+     * " espaciados sin que ningún config lo pida).
+     */
     private FormatRules defaultFormatRules() {
         List<FormatRule> rules = new ArrayList<>();
-        rules.add(new EnsureSpaceAroundEquals(false));
+        rules.add(new EnsureSpaceAroundEquals(true));
         rules.add(new EnsureNoSpaceAroundEquals(false));
         rules.add(new EnsureSpaceBeforeColon(false));
-        rules.add(new EnsureSpaceAfterColon(false));
+        rules.add(new EnsureSpaceAfterColon(true));
         rules.add(new IfBraceSameLine(false));
         rules.add(new IfBraceBelowLine(false));
-        rules.add(new IndentsInsideIf(0));
-        rules.add(new LineBreaksAfterPrintLn(0));
+        rules.add(new IndentsInsideIf(2));
+        rules.add(new LineBreaksAfterPrintLn(1));
         return new FormatRules(rules);
     }
 }
