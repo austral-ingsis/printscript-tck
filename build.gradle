@@ -27,7 +27,7 @@ test {
 }
 
 dependencies {
-    implementation 'org.printscript:runner:0.0.1-SNAPSHOT'
+    implementation 'org.printscript:runner:1.0.0'
     testImplementation 'junit:junit:4.13.1'
 }
 
