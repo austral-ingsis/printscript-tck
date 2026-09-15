@@ -4,12 +4,12 @@ import interpreter.PrintScriptFormatter;
 import printscript.formatter.FormattedChunkReadResult;
 import printscript.formatter.FormattedSource;
 import printscript.token.TokenSource;
-import printscript.v1.formatter.PrintScriptV11FormatterConfiguration;
-import printscript.v1.formatter.PrintScriptV11FormatterConfigurationResult;
 import printscript.v1.formatter.PrintScriptV11FormatterFactory;
-import printscript.v1.formatter.PrintScriptV1FormatterConfiguration;
-import printscript.v1.formatter.PrintScriptV1FormatterConfigurationResult;
 import printscript.v1.formatter.PrintScriptV1FormatterFactory;
+import printscript.v1.formatter.configuration.PrintScriptV11FormatterConfiguration;
+import printscript.v1.formatter.configuration.PrintScriptV11FormatterConfigurationResult;
+import printscript.v1.formatter.configuration.PrintScriptV1FormatterConfiguration;
+import printscript.v1.formatter.configuration.PrintScriptV1FormatterConfigurationResult;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -54,7 +54,7 @@ final class PrintScriptFormatterAdapter implements PrintScriptFormatter {
 
     private PrintScriptV1FormatterConfiguration versionOneConfigurationFrom(String json) {
         final PrintScriptV1FormatterConfigurationResult result =
-                PrintScriptV1FormatterFactory.configurationFrom(json);
+                PrintScriptV1FormatterConfiguration.fromJson(json);
 
         if (result instanceof PrintScriptV1FormatterConfigurationResult.Success success) {
             return success.getConfiguration();
@@ -69,7 +69,7 @@ final class PrintScriptFormatterAdapter implements PrintScriptFormatter {
 
     private PrintScriptV11FormatterConfiguration versionOneOneConfigurationFrom(String json) {
         final PrintScriptV11FormatterConfigurationResult result =
-                PrintScriptV11FormatterFactory.configurationFrom(json);
+                PrintScriptV11FormatterConfiguration.fromJson(json);
 
         if (result instanceof PrintScriptV11FormatterConfigurationResult.Success success) {
             return success.getConfiguration();
