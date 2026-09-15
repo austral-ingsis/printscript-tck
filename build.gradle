@@ -7,7 +7,7 @@ repositories {
     mavenCentral()
     maven {
         name = "GitHubPackages"
-        url = uri("https://maven.pkg.github.com/ingsis-ua/ingsis-interpreter")
+        url = uri("https://maven.pkg.github.com/Vontk/ingsis-interpreter")
         credentials {
             username = project.findProperty("gpr.user") ?: System.getenv("USERNAME") ?: System.getenv("GITHUB_ACTOR")
             password = project.findProperty("gpr.key") ?: System.getenv("TOKEN") ?: System.getenv("GITHUB_TOKEN")
@@ -27,7 +27,7 @@ test {
 }
 
 dependencies {
-    def printscriptVersion = '0.2.0-ci.53.1b108bcd34a0'
+    def printscriptVersion = '0.2.0-ci.1.f1b702d47899'
     implementation "org.printscript:runner:${printscriptVersion}"
     implementation "org.printscript:runtime-api:${printscriptVersion}"
     implementation "org.printscript:common:${printscriptVersion}"
