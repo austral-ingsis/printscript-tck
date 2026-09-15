@@ -23,5 +23,5 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build
         env:
-          USERNAME: ${{ vars.USERNAME }}
-          TOKEN: ${{ secrets.TOKEN }}
+          USERNAME: ${{ vars.GPR_USERNAME }}
+          TOKEN: ${{ secrets.GPR_TOKEN }}
