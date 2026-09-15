@@ -5,7 +5,8 @@ plugins {
 repositories {
     // mavenLocal() only mattered while developing/testing this adapter offline against a
     // `./gradlew publishToMavenLocal` build - the real dependency comes from GitHubPackages below.
-    mavenLocal()
+    // Temporarily commented out to verify resolution against the published GitHub Packages release.
+    // mavenLocal()
     mavenCentral()
     maven {
         name = "GitHubPackages"
@@ -33,16 +34,16 @@ test {
 dependencies {
     testImplementation 'junit:junit:4.13.1'
 
-    implementation 'edu.austral.ingsis.printscript:interpreter:1.1.0'
-    implementation 'edu.austral.ingsis.printscript:formatter:1.1.0'
-    implementation 'edu.austral.ingsis.printscript:analyzer:1.1.0'
+    implementation 'edu.austral.ingsis.printscript:interpreter:1.1.1'
+    implementation 'edu.austral.ingsis.printscript:formatter:1.1.1'
+    implementation 'edu.austral.ingsis.printscript:analyzer:1.1.1'
     // common/ast/config come along transitively (interpreter/formatter/analyzer depend on them
     // via Gradle's `api`, which maven-publish maps to Maven's "compile" scope). lexer/parser
     // don't - interpreter/formatter/analyzer only ever consume an already-parsed
     // Iterator<Statement>, they don't depend on how it got built - so this adapter, which builds
     // that pipeline itself from raw source text, needs both explicitly.
-    implementation 'edu.austral.ingsis.printscript:lexer:1.1.0'
-    implementation 'edu.austral.ingsis.printscript:parser:1.1.0'
+    implementation 'edu.austral.ingsis.printscript:lexer:1.1.1'
+    implementation 'edu.austral.ingsis.printscript:parser:1.1.1'
 
     // Jackson is only `implementation`-scoped in our own formatter/analyzer modules (an internal
     // detail, not part of their public API), so it isn't visible at compile time here just by

@@ -46,13 +46,21 @@ final class TckConfig {
                 node.path("line-breaks-after-println").asInt(defaults.newLinesBeforePrintln());
         int indentSize = node.path("indent-inside-if").asInt(defaults.indentSize());
 
+        boolean ifBraceBelowLine = defaults.ifBraceBelowLine();
+        if (node.has("if-brace-below-line")) {
+            ifBraceBelowLine = node.get("if-brace-below-line").asBoolean();
+        } else if (node.has("if-brace-same-line")) {
+            ifBraceBelowLine = !node.get("if-brace-same-line").asBoolean();
+        }
+
         return new FormatterConfig(
                 spaceBeforeColon,
                 spaceAfterColon,
                 spaceAroundEquals,
                 newLinesBeforePrintln,
                 indentSize,
-                singleSpaceSeparation);
+                singleSpaceSeparation,
+                ifBraceBelowLine);
     }
 
     static AnalyzerConfig analyzerConfigFrom(InputStream config) {
