@@ -46,9 +46,7 @@ public final class TckInterpreterAdapter implements PrintScriptInterpreter {
             Iterator<Statement> statements =
                     parser.parse(lexer.tokenize(new StringPositionalSource(source)));
 
-            // The TCK has no equivalent of readEnv's provider - its tests set real OS environment
-            // variables instead (see build.gradle's `test { environment ... }`), so we back this
-            // with the real System.getenv, same as the CLI's own SystemEnvironmentReader.
+            // The TCK has no equivalent of readEnv's provider
             EnvironmentReader environmentReader = name -> Optional.ofNullable(System.getenv(name));
 
             // The TCK's InputProvider is purely a value source - unlike our own StdInInputProvider

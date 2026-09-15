@@ -17,12 +17,6 @@ import java.util.Set;
 
 /**
  * Adapts our real formatter to the TCK's {@code interpreter.PrintScriptFormatter} contract.
- *
- * <p>One detail the golden fixtures require: our {@code PrintScriptFormatter} always ends its
- * output with a trailing newline (one {@code '\n'} per statement, including the last); the TCK's
- * {@code golden.ps} files don't have one. That trailing newline is trimmed here, right before
- * writing — the real formatter's own output/tests are unaffected, this is purely an adapter-level
- * concern.
  */
 public final class TckFormatterAdapter implements interpreter.PrintScriptFormatter {
 

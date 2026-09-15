@@ -21,9 +21,7 @@ import interpreter.PrintScriptLinter;
 
 /**
  * Adapts our style analyzer to the TCK's {@link PrintScriptLinter} contract. This is purely style
- * checking (naming convention, println/readInput argument shape) — full semantic validation (is
- * every variable declared, are types consistent) is {@code execute}'s concern, not {@code lint}'s,
- * matching how the TCK's own fixtures separate the two.
+ * checking (naming convention, println/readInput argument shape).
  */
 public final class TckLinterAdapter implements PrintScriptLinter {
 
