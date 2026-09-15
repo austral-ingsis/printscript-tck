@@ -3,17 +3,19 @@ plugins {
 }
 
 repositories {
-    mavenLocal()
     mavenCentral()
-// TODO: uncomment to be able to fetch packages in your own repository
-//    maven {
-//        name = "GitHubPackages"
-//        url = uri("https://maven.pkg.github.com/<your-username>/printscript")
-//        credentials {
-//            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-//            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
-//        }
-//    }
+
+    maven {
+        name = 'GitHubPackages'
+        url = uri('https://maven.pkg.github.com/JJT-INGSIS/printscript')
+
+        credentials {
+            username = project.findProperty('gpr.user') ?: System.getenv('GITHUB_ACTOR')
+            password = project.findProperty('gpr.key')
+                    ?: System.getenv('GITHUB_TOKEN')
+                    ?: System.getenv('TOKEN')
+        }
+    }
 }
 
 java {
@@ -22,16 +24,19 @@ java {
     }
 }
 
-test {
-    minHeapSize = "5m" // initial heap size
-    maxHeapSize = "7m" // maximum heap size
-}
-
 dependencies {
+    implementation 'io.github.jjt-ingsis.printscript:printscript-v1:1.1.0'
     testImplementation 'junit:junit:4.13.1'
 }
 
+configurations.configureEach {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
 test {
-    environment "BEST_FOOTBALL_CLUB", "San Lorenzo"
+    minHeapSize = '3m'
+    maxHeapSize = '5m'
+
+    environment 'BEST_FOOTBALL_CLUB', 'San Lorenzo'
     useJUnit()
 }
