@@ -1,23 +1,24 @@
 package implementation;
 
-import engine.InputProvider;
+import engine.EngineInputProvider;
+import interpreter.InputProvider;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Scanner;
 
-public class InputProviderAdapter implements InputProvider {
+public class InputProviderAdapter implements EngineInputProvider {
 
-    private final Scanner scanner;
+    private final InputProvider provider;
+    private final PrintEmitterAdapter emitter;
 
-    public InputProviderAdapter() {
-        this.scanner = new Scanner(System.in);
+    public InputProviderAdapter(PrintEmitterAdapter emmiter,InputProvider realProvider) {
+        this.emitter = emmiter;
+        this.provider = realProvider;
     }
 
     @NotNull
     @Override
     public String readInput(@NotNull String s) {
-        System.out.print(s);
-        String input = scanner.nextLine();
-        return input != null ? input : "";
+        emitter.print(s);
+        return provider.input(s);
     }
 }

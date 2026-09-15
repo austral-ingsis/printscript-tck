@@ -25,23 +25,21 @@ public class InterpreterImplementation implements PrintScriptInterpreter {
 
             Engine engine = new Engine();
             LoggerAdapter logger = new LoggerAdapter();
+            PrintEmitterAdapter printEmitter = new PrintEmitterAdapter();
 
             EngineResult result = engine.execute(
                     sourceCode,
                     new EngineIO(
-                            new PrintEmitterAdapter(),
-                            new InputProviderAdapter(),
+                            printEmitter,
+                            new InputProviderAdapter(printEmitter, provider),
                             new EnvProviderAdapter()
                             ),
                     logger,
                     new ExecutionContext(),
                     version);
-            List<String> logs = logger.getLogs();
+            List<String> logs = printEmitter.getPrints();
 
             if (result.getExitCode() == ExitCode.FAILURE) {
-                if (!logs.isEmpty()) {
-                    logs.remove(logs.getLast());
-                }
                 if (logs.isEmpty()) {
                     handler.reportError("Execution failed");
                 } else {
@@ -51,7 +49,6 @@ public class InterpreterImplementation implements PrintScriptInterpreter {
                 }
             } else {
                 if (!logs.isEmpty()) {
-                    logs.remove(logs.getLast());
                     for (String log : logs) {
                         emitter.print(log);
                     }
