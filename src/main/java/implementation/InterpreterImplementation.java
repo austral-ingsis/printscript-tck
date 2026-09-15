@@ -6,7 +6,10 @@ import interpreter.InputProvider;
 import interpreter.PrintEmitter;
 import interpreter.PrintScriptInterpreter;
 
+import java.io.BufferedReader;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
@@ -19,27 +22,27 @@ public class InterpreterImplementation implements PrintScriptInterpreter {
             ErrorHandler handler,
             InputProvider provider
     ) {
-        try {
-            String sourceCode = new String(src.readAllBytes(),
-                    StandardCharsets.UTF_8);
-
+        try (Reader reader = new BufferedReader(new InputStreamReader(src, StandardCharsets.UTF_8))) {
             Engine engine = new Engine();
             LoggerAdapter logger = new LoggerAdapter();
-            PrintEmitterAdapter printEmitter = new PrintEmitterAdapter();
 
             EngineResult result = engine.execute(
-                    sourceCode,
+                    reader,
                     new EngineIO(
-                            printEmitter,
-                            new InputProviderAdapter(printEmitter, provider),
+                            emitter::print,
+                            prompt -> {
+                                emitter.print(prompt);
+                                return provider.input(prompt);
+                            },
                             new EnvProviderAdapter()
-                            ),
+                    ),
                     logger,
                     new ExecutionContext(),
-                    version);
-            List<String> logs = printEmitter.getPrints();
+                    version
+            );
 
             if (result.getExitCode() == ExitCode.FAILURE) {
+                List<String> logs = logger.getLogs();
                 if (logs.isEmpty()) {
                     handler.reportError("Execution failed");
                 } else {
@@ -47,16 +50,11 @@ public class InterpreterImplementation implements PrintScriptInterpreter {
                         handler.reportError(error);
                     }
                 }
-            } else {
-                if (!logs.isEmpty()) {
-                    for (String log : logs) {
-                        emitter.print(log);
-                    }
-                }
             }
 
-        } catch (Exception e) {
-            handler.reportError(e.getMessage() != null ? e.getMessage() : "Error executing script");
+        } catch (Throwable t) {
+            handler.reportError(t.getMessage() != null ? t.getMessage() : "Error executing script");
         }
     }
 }
+
