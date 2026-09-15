@@ -18,13 +18,13 @@ import java.io.UncheckedIOException;
  * its own test fixtures, not by us, so this translation lives here rather than reusing our own
  * {@code FormatterConfigLoader}/{@code AnalyzerConfigLoader}, which read <em>our</em> schema.
  *
- * <p>Three formatter keys have no field to map onto at all: {@code
- * mandatory-single-space-separation}, {@code mandatory-space-surrounding-operations} and {@code
- * mandatory-line-break-after-statement} are all things our formatter already does unconditionally
- * (see {@code ExpressionFormatter}/{@code PrintScriptFormatter}) — there's nothing to toggle, and
- * every TCK fixture that sets them to {@code true} already gets that behavior for free. A fourth,
- * {@code if-brace-below-line}, has no field on purpose: the consigna requires the opening brace of
- * an {@code if} to stay on the same line as the keyword, unconditionally — it's deliberately not
+ * <p>Two formatter keys have no field to map onto at all: {@code
+ * mandatory-space-surrounding-operations} and {@code mandatory-line-break-after-statement} are
+ * things our formatter already does unconditionally (see {@code
+ * ExpressionFormatter}/{@code PrintScriptFormatter}) — there's nothing to toggle, and every TCK
+ * fixture that sets them to {@code true} already gets that behavior for free. A third, {@code
+ * if-brace-below-line}, has no field on purpose: the consigna requires the opening brace of an
+ * {@code if} to stay on the same line as the keyword, unconditionally — it's deliberately not
  * configurable in this implementation, so a fixture requesting Allman-style braces cannot pass.
  */
 final class TckConfig {
@@ -37,6 +37,12 @@ final class TckConfig {
         JsonNode node = readTree(config);
         FormatterConfig defaults = FormatterConfig.defaultConfig();
 
+        // "mandatory-single-space-separation" is the TCK's own "force everything spaced out"
+        // flag - its one fixture expects a space before the colon too, even though that fixture's
+        // config.json never sets enforce-spacing-before-colon-in-declaration on its own, so this
+        // key forces spaceBeforeColon on as well as spaceAroundParens (see below).
+        boolean singleSpaceSeparation = node.path("mandatory-single-space-separation").asBoolean(false);
+
         // Colon spacing: fall back to our own default when the key is absent. The TCK's own
         // formatter fixtures disagree with each other on the implicit baseline here (some expect
         // "x:number", others "x: number", for a key neither fixture's config.json even mentions) -
@@ -44,8 +50,9 @@ final class TckConfig {
         // consistent with our own test suite, rather than chasing one fixture's assumption at the
         // cost of another's.
         boolean spaceBeforeColon =
-                node.path("enforce-spacing-before-colon-in-declaration")
-                        .asBoolean(defaults.spaceBeforeColon());
+                singleSpaceSeparation
+                        || node.path("enforce-spacing-before-colon-in-declaration")
+                                .asBoolean(defaults.spaceBeforeColon());
         boolean spaceAfterColon =
                 node.path("enforce-spacing-after-colon-in-declaration")
                         .asBoolean(defaults.spaceAfterColon());
@@ -66,7 +73,8 @@ final class TckConfig {
                 spaceAfterColon,
                 spaceAroundEquals,
                 newLinesBeforePrintln,
-                indentSize);
+                indentSize,
+                singleSpaceSeparation);
     }
 
     static AnalyzerConfig analyzerConfigFrom(InputStream config) {
