@@ -5,15 +5,14 @@ plugins {
 repositories {
     mavenLocal()
     mavenCentral()
-// TODO: uncomment to be able to fetch packages in your own repository
-//    maven {
-//        name = "GitHubPackages"
-//        url = uri("https://maven.pkg.github.com/<your-username>/printscript")
-//        credentials {
-//            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-//            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
-//        }
-//    }
+    maven {
+        name = "GitHubPackages"
+        url = uri("https://maven.pkg.github.com/GarroteSantiago/printscript")
+        credentials {
+            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+        }
+    }
 }
 
 java {
@@ -25,10 +24,18 @@ java {
 test {
     minHeapSize = "5m" // initial heap size
     maxHeapSize = "7m" // maximum heap size
+    forkEvery=1
 }
 
 dependencies {
     testImplementation 'junit:junit:4.13.1'
+
+    implementation 'org.printscript:application:1.1.0'
+    implementation 'org.printscript:interpreter:1.1.0'
+    implementation 'org.printscript:formatter:1.1.0'
+    implementation 'org.printscript:analyzer:1.1.0'
+    implementation 'org.printscript:diagnostics:1.1.0'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.17.2'
 }
 
 test {
