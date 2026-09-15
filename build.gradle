@@ -26,8 +26,8 @@ java {
 }
 
 test {
-    minHeapSize = "5m" // initial heap size
-    maxHeapSize = "7m" // maximum heap size
+    minHeapSize = "8m" // initial heap size
+    maxHeapSize = "10m" // maximum heap size
 }
 
 dependencies {
