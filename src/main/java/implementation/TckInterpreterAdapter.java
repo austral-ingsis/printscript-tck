@@ -32,6 +32,15 @@ import interpreter.PrintScriptInterpreter;
  */
 public final class TckInterpreterAdapter implements PrintScriptInterpreter {
 
+    // Some TCK fixtures deliberately run the JVM out of heap while collecting output, so by the
+    // time OutOfMemoryError is thrown, every collected message is still live (reachable) - GC
+    // can't reclaim any of it. Reporting the error back through ErrorHandler needs a bit of fresh
+    // heap of its own (the message String, the ArrayList node...), which can fail with a second,
+    // uncatchable OutOfMemoryError right when we're trying to recover from the first. Reserving
+    // this buffer upfront and dropping it the moment we catch the error frees just enough headroom
+    // for that recovery path - the classic "emergency pool" trick for handling OOM gracefully.
+    private static final int OOM_RECOVERY_RESERVE_BYTES = 512 * 1024;
+
     @Override
     public void execute(
             InputStream src,
@@ -39,6 +48,7 @@ public final class TckInterpreterAdapter implements PrintScriptInterpreter {
             PrintEmitter emitter,
             ErrorHandler handler,
             InputProvider provider) {
+        byte[] oomRecoveryReserve = new byte[OOM_RECOVERY_RESERVE_BYTES];
         Path tempFile = Sources.spoolToTempFile(src);
         try {
             Version parsedVersion = Version.fromLabel(version);
@@ -72,9 +82,7 @@ public final class TckInterpreterAdapter implements PrintScriptInterpreter {
         } catch (PrintScriptException e) {
             handler.reportError(describe(e));
         } catch (OutOfMemoryError e) {
-            // Some TCK fixtures deliberately run the JVM out of heap to check that even that gets
-            // reported through ErrorHandler instead of crashing the test - execute() is expected to
-            // always return normally.
+            oomRecoveryReserve = null; // free the reserve before allocating anything to recover
             handler.reportError(e.getMessage());
         } catch (RuntimeException | IOException e) {
             handler.reportError(e.getMessage() != null ? e.getMessage() : e.toString());
