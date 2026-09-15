@@ -12,16 +12,21 @@ import printscript.common.result.Failure;
 import printscript.common.result.Result;
 import printscript.interpreter.handler.AssignmentHandler;
 import printscript.interpreter.handler.HandlerRegistry;
+import printscript.interpreter.handler.IfStatementHandler;
 import printscript.interpreter.handler.PrintlnStatementHandler;
+import printscript.interpreter.handler.StatementHandler;
 import printscript.interpreter.handler.VariableDeclarationHandler;
 import printscript.interpreter.runtime.Environment;
 import printscript.interpreter.runtime.ExpressionEvaluator;
 import printscript.interpreter.runtime.GlobalEnvironment;
+import printscript.interpreter.runtime.InputSource;
 import printscript.lexer.PrintScriptLexer;
 import printscript.parser.AssignmentParser;
+import printscript.parser.IfStatementParser;
 import printscript.parser.PrecedenceClimbingExpressionParser;
 import printscript.parser.PrintScriptParser;
 import printscript.parser.PrintlnStatementParser;
+import printscript.parser.StatementParser;
 import printscript.parser.VariableDeclarationParser;
 
 import java.io.InputStream;
@@ -31,6 +36,7 @@ import java.io.PrintStream;
 import java.io.Reader;
 import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MyPrintScriptLinter implements PrintScriptLinter {
@@ -41,21 +47,27 @@ public class MyPrintScriptLinter implements PrintScriptLinter {
         AnalyzerRules rules = new AnalyzerRulesLoader().load(new StringReader(translate(original).toString()));
 
         Reader reader = new InputStreamReader(src, StandardCharsets.UTF_8);
+        InputSource inputSource = prompt -> prompt;
+
+        List<StatementParser> statementParsers = new ArrayList<>();
+        statementParsers.add(new VariableDeclarationParser());
+        statementParsers.add(new AssignmentParser());
+        statementParsers.add(new PrintlnStatementParser());
+        statementParsers.add(new IfStatementParser(() -> statementParsers));
+
         var parser = new PrintScriptParser(
-                new PrintScriptLexer(reader),
-                List.of(
-                        new VariableDeclarationParser(),
-                        new AssignmentParser(),
-                        new PrintlnStatementParser()),
+                new PrintScriptLexer(reader, version),
+                statementParsers,
                 new PrecedenceClimbingExpressionParser());
 
-        var evaluator = new ExpressionEvaluator();
+        var evaluator = new ExpressionEvaluator(inputSource);
         PrintStream silentOut = new PrintStream(OutputStream.nullOutputStream());
-        var handlers = new HandlerRegistry(
-                List.of(
-                        new VariableDeclarationHandler(evaluator),
-                        new AssignmentHandler(evaluator),
-                        new PrintlnStatementHandler(evaluator, silentOut)));
+        List<StatementHandler> statementHandlers = new ArrayList<>();
+        HandlerRegistry handlers = new HandlerRegistry(statementHandlers);
+        statementHandlers.add(new VariableDeclarationHandler(evaluator));
+        statementHandlers.add(new AssignmentHandler(evaluator));
+        statementHandlers.add(new PrintlnStatementHandler(evaluator, silentOut));
+        statementHandlers.add(new IfStatementHandler(evaluator, () -> handlers));
 
         Environment environment = new GlobalEnvironment();
         var interpreter = new printscript.interpreter.PrintScriptInterpreter(parser, environment, handlers);
@@ -85,6 +97,12 @@ public class MyPrintScriptLinter implements PrintScriptLinter {
             translated.addProperty(
                     "println_identifier_or_literal_only",
                     original.get("mandatory-variable-or-literal-in-println").getAsBoolean());
+        }
+
+        if (original.has("mandatory-variable-or-literal-in-readInput")) {
+            translated.addProperty(
+                    "read_input_identifier_or_literal_only",
+                    original.get("mandatory-variable-or-literal-in-readInput").getAsBoolean());
         }
 
         return translated;
