@@ -6,11 +6,14 @@ import edu.austral.ingsis.printscript.common.Version;
 import edu.austral.ingsis.printscript.common.ast.Statement;
 import edu.austral.ingsis.printscript.interpreter.EnvironmentReader;
 import edu.austral.ingsis.printscript.interpreter.ExecutionContext;
+import edu.austral.ingsis.printscript.lexer.FilePositionalSource;
 import edu.austral.ingsis.printscript.lexer.PrintScriptLexer;
-import edu.austral.ingsis.printscript.lexer.StringPositionalSource;
 import edu.austral.ingsis.printscript.parser.PrintScriptParser;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Iterator;
 import java.util.Optional;
 import java.util.Set;
@@ -36,33 +39,36 @@ public final class TckInterpreterAdapter implements PrintScriptInterpreter {
             PrintEmitter emitter,
             ErrorHandler handler,
             InputProvider provider) {
+        Path tempFile = Sources.spoolToTempFile(src);
         try {
-            String source = Sources.readAll(src);
             Version parsedVersion = Version.fromLabel(version);
             Set<OperatorDefinition> noPlugins = Set.of();
 
-            var lexer = new PrintScriptLexer(noPlugins);
-            var parser = new PrintScriptParser(noPlugins, parsedVersion);
-            Iterator<Statement> statements =
-                    parser.parse(lexer.tokenize(new StringPositionalSource(source)));
+            try (FilePositionalSource source = new FilePositionalSource(tempFile)) {
+                var lexer = new PrintScriptLexer(noPlugins);
+                var parser = new PrintScriptParser(noPlugins, parsedVersion);
+                Iterator<Statement> statements = parser.parse(lexer.tokenize(source));
 
-            // The TCK has no equivalent of readEnv's provider
-            EnvironmentReader environmentReader = name -> Optional.ofNullable(System.getenv(name));
+                // The TCK has no equivalent of readEnv's provider
+                EnvironmentReader environmentReader =
+                        name -> Optional.ofNullable(System.getenv(name));
 
-            // The TCK's InputProvider is purely a value source - unlike our own StdInInputProvider
-            // (which prints the prompt itself as part of reading), it never displays anything. The
-            // TCK's fixtures expect the prompt to show up as a print message regardless, so this
-            // adapter does that half explicitly before asking the provider for the value.
-            edu.austral.ingsis.printscript.interpreter.InputProvider inputProvider =
-                    prompt -> {
-                        emitter.print(prompt);
-                        return provider.input(prompt);
-                    };
+                // The TCK's InputProvider is purely a value source - unlike our own
+                // StdInInputProvider (which prints the prompt itself as part of reading), it never
+                // displays anything. The TCK's fixtures expect the prompt to show up as a print
+                // message regardless, so this adapter does that half explicitly before asking the
+                // provider for the value.
+                edu.austral.ingsis.printscript.interpreter.InputProvider inputProvider =
+                        prompt -> {
+                            emitter.print(prompt);
+                            return provider.input(prompt);
+                        };
 
-            var context = new ExecutionContext(emitter::print, inputProvider, environmentReader);
+                var context = new ExecutionContext(emitter::print, inputProvider, environmentReader);
 
-            new edu.austral.ingsis.printscript.interpreter.PrintScriptInterpreter()
-                    .interpret(statements, context);
+                new edu.austral.ingsis.printscript.interpreter.PrintScriptInterpreter()
+                        .interpret(statements, context);
+            }
         } catch (PrintScriptException e) {
             handler.reportError(describe(e));
         } catch (OutOfMemoryError e) {
@@ -70,8 +76,18 @@ public final class TckInterpreterAdapter implements PrintScriptInterpreter {
             // reported through ErrorHandler instead of crashing the test - execute() is expected to
             // always return normally.
             handler.reportError(e.getMessage());
-        } catch (RuntimeException e) {
+        } catch (RuntimeException | IOException e) {
             handler.reportError(e.getMessage() != null ? e.getMessage() : e.toString());
+        } finally {
+            deleteQuietly(tempFile);
+        }
+    }
+
+    static void deleteQuietly(Path tempFile) {
+        try {
+            Files.deleteIfExists(tempFile);
+        } catch (IOException ignored) {
+            // best-effort cleanup; deleteOnExit (set when the file was created) is the fallback
         }
     }
 
