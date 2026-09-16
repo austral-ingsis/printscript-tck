@@ -47,11 +47,11 @@ public class TckLinterConfigAdapter {
                         simpleArgumentCallee = callee(simpleArgumentCallee, "println");
                     }
                 }
-                /*case READ_INPUT_SIMPLE_ARGUMENT -> {
+                case READ_INPUT_SIMPLE_ARGUMENT -> {
                     if (Boolean.parseBoolean(value)) {
                         simpleArgumentCallee = callee(simpleArgumentCallee, "readInput");
                     }
-                }*/
+                }
                 default -> throw new IllegalArgumentException(
                         "Unmapped TCK linter rule: '" + key + "'. Add it to TckLinterConfigAdapter.");
             }

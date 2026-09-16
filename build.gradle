@@ -23,9 +23,9 @@ java {
 
 test {
     minHeapSize = "5m" // initial heap size
-    maxHeapSize = "15m" // maximum heap size
+    maxHeapSize = "22m" // maximum heap size
 }
-def version = "0.9.0"
+def version = "pepe1"
 dependencies {
     testImplementation 'junit:junit:4.13.1'
     implementation("com.g16is.printscript:interpreter:$version")
