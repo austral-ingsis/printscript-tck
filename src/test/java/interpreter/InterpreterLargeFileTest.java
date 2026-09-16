@@ -23,16 +23,22 @@ public class InterpreterLargeFileTest {
 
     @Test
     public void testWithCounter() {
-        final PrintCounter printCounter = new PrintCounter(message -> Objects.equals(message, MESSAGE));
-        final ErrorCollector errorCollector = new ErrorCollector();
-        interpreter.execute(new MockInputStream(LINE, NUMBER_OF_LINES), "1.0", printCounter, errorCollector, (ignored) -> "");
+        final PrintCounter printCounter;
+        final ErrorCollector errorCollector;
+        printCounter = new PrintCounter(message -> Objects.equals(message, MESSAGE));
+        errorCollector = new ErrorCollector();
+        try {
+            interpreter.execute(new MockInputStream(LINE, NUMBER_OF_LINES), "1.0", printCounter, errorCollector, (ignored) -> "");
+        } catch (Exception e) {
+            errorCollector.reportError(e.getMessage());
+        }
 
         assertThat(errorCollector.getErrors(), is(emptyList()));
         assertThat(printCounter.getCount(), is(NUMBER_OF_LINES));
     }
 
     @Test
-    public void testWithCollector()  {
+    public void testWithCollector() {
         final PrintCollector printCollector = new PrintCollector();
         final ErrorCollector errorCollector = new ErrorCollector();
         final var inputStream = new MockInputStream(LINE, NUMBER_OF_LINES);
