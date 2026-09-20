@@ -19,13 +19,21 @@ public class PrintScriptInterpreterImpl implements PrintScriptInterpreter {
     public void execute(InputStream src, String version, PrintEmitter emitter, ErrorHandler handler, InputProvider provider) {
         try {
             CodeReader codeReaderAdapted = new InputStreamCodeReader(src);
-            PrintChannel channelAdapter = new AdaptedPrintChannel(emitter);
-            printscript.ErrorHandler errorHandlerAdapted = new AdaptedErrorHandler(handler);
+            PrintChannel channelAdapter =
+                    new AdaptedPrintChannel(emitter);
+            printscript.ErrorHandler errorHandlerAdapted =
+                    new AdaptedErrorHandler(handler);
             InputChannel inputChannelAdapted = new AdaptedInputChannel(provider);
-            PrintScript.INSTANCE.execute(version, codeReaderAdapted, channelAdapter, errorHandlerAdapted, inputChannelAdapted);
+
+            PrintScript.INSTANCE.execute(
+                    version,
+                    codeReaderAdapted,
+                    channelAdapter,
+                    errorHandlerAdapted,
+                    inputChannelAdapted
+            );
         } catch (OutOfMemoryError e) {
             handler.reportError(e.toString());
         }
-
     }
 }
