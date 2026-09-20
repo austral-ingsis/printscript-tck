@@ -25,14 +25,15 @@ test {
     minHeapSize = "5m" // initial heap size
     maxHeapSize = "22m" // maximum heap size
 }
-def version = "pepe1"
+
+def version = "1.3.0" // X.X.X -> NO vX.X.X
+
 dependencies {
     testImplementation 'junit:junit:4.13.1'
     implementation("com.g16is.printscript:interpreter:$version")
     implementation("com.g16is.printscript:application:$version")
     implementation("com.g16is.printscript:common:$version")
     implementation("com.g16is.printscript:infrastructure:$version")
-
 }
 
 test {
