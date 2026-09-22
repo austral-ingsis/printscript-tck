@@ -3,7 +3,7 @@ package adapter;
 import interpreter.ErrorHandler;
 import org.jetbrains.annotations.NotNull;
 
-public class AdaptedErrorHandler implements printscript.ErrorHandler {
+public class AdaptedErrorHandler implements printscript.definitions.ErrorHandler {
     private final ErrorHandler errorHandler;
 
     public AdaptedErrorHandler(ErrorHandler errorHandler) {

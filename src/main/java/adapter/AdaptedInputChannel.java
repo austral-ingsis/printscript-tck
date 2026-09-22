@@ -2,7 +2,7 @@ package adapter;
 
 import interpreter.InputProvider;
 import org.jetbrains.annotations.NotNull;
-import printscript.InputChannel;
+import printscript.definitions.InputChannel;
 
 public class AdaptedInputChannel implements InputChannel {
     private final InputProvider inputProvider;

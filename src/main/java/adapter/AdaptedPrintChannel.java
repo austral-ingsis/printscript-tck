@@ -2,7 +2,7 @@ package adapter;
 
 import interpreter.PrintEmitter;
 import org.jetbrains.annotations.NotNull;
-import printscript.PrintChannel;
+import printscript.definitions.PrintChannel;
 
 public class AdaptedPrintChannel implements PrintChannel {
     private final PrintEmitter printEmitter;

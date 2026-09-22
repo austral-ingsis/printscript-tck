@@ -9,6 +9,8 @@ import interpreter.InputProvider;
 import interpreter.PrintEmitter;
 import interpreter.PrintScriptInterpreter;
 import printscript.*;
+import printscript.definitions.InputChannel;
+import printscript.definitions.PrintChannel;
 import printscript.reader.CodeReader;
 import printscript.tck.PrintScript;
 
@@ -21,7 +23,7 @@ public class PrintScriptInterpreterImpl implements PrintScriptInterpreter {
             CodeReader codeReaderAdapted = new InputStreamCodeReader(src);
             PrintChannel channelAdapter =
                     new AdaptedPrintChannel(emitter);
-            printscript.ErrorHandler errorHandlerAdapted =
+            printscript.definitions.ErrorHandler errorHandlerAdapted =
                     new AdaptedErrorHandler(handler);
             InputChannel inputChannelAdapted = new AdaptedInputChannel(provider);
 

@@ -15,7 +15,7 @@ public class PrintScriptLinterImpl implements PrintScriptLinter {
     public void lint(InputStream src, String version, InputStream config, ErrorHandler handler) {
         CodeReader codeReader = new InputStreamCodeReader(src);
         InputStream configAdapted = new TckLinterConfigAdapter().adapt(config);
-        printscript.ErrorHandler adaptedHandler = new AdaptedErrorHandler(handler);
+        printscript.definitions.ErrorHandler adaptedHandler = new AdaptedErrorHandler(handler);
         PrintScript.INSTANCE.lint(version, codeReader,configAdapted, adaptedHandler);
     }
 }
