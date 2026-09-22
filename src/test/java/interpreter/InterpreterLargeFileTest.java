@@ -16,27 +16,40 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class InterpreterLargeFileTest {
 
-    private static final String MESSAGE = "This is a text";
+    private static final String MESSAGE = "This is a very long long text!!! Hello World!!";
     private static final String LINE = "println(\"" + MESSAGE + "\");\n";
-    private static final int NUMBER_OF_LINES = 32 * 1024;
+    private static final int NUMBER_OF_LINES = 32 * 2056;
     private final PrintScriptInterpreter interpreter = new CustomImplementationFactory().interpreter();
 
     @Test
     public void testWithCounter() {
-        final PrintCounter printCounter = new PrintCounter(message -> Objects.equals(message, MESSAGE));
-        final ErrorCollector errorCollector = new ErrorCollector();
-        interpreter.execute(new MockInputStream(LINE, NUMBER_OF_LINES), "1.0", printCounter, errorCollector, (ignored) -> "");
+        final PrintCounter printCounter;
+        final ErrorCollector errorCollector;
+        printCounter = new PrintCounter(message -> Objects.equals(message, MESSAGE));
+        errorCollector = new ErrorCollector();
+        try {
+            interpreter.execute(new MockInputStream(LINE, NUMBER_OF_LINES), "1.0", printCounter, errorCollector, (ignored) -> "");
+        } catch (Exception e) {
+            errorCollector.reportError(e.getMessage());
+        }
 
         assertThat(errorCollector.getErrors(), is(emptyList()));
         assertThat(printCounter.getCount(), is(NUMBER_OF_LINES));
     }
 
     @Test
-    public void testWithCollector()  {
+    public void testWithCollector() {
         final PrintCollector printCollector = new PrintCollector();
         final ErrorCollector errorCollector = new ErrorCollector();
         final var inputStream = new MockInputStream(LINE, NUMBER_OF_LINES);
-        interpreter.execute(inputStream, "1.0", printCollector, errorCollector, (ignored) -> "");
+
+        interpreter.execute(
+                inputStream,
+                "1.0",
+                printCollector,
+                errorCollector,
+                (ignored) -> ""
+        );
 
         assertThat(errorCollector.getErrors(), is(singletonList("Java heap space")));
     }
