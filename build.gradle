@@ -3,17 +3,15 @@ plugins {
 }
 
 repositories {
-    mavenLocal()
     mavenCentral()
-// TODO: uncomment to be able to fetch packages in your own repository
-//    maven {
-//        name = "GitHubPackages"
-//        url = uri("https://maven.pkg.github.com/<your-username>/printscript")
-//        credentials {
-//            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-//            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
-//        }
-//    }
+    maven {
+        name = "GitHubPackages"
+        url = uri("https://maven.pkg.github.com/IngsisPrintScript2026/PrintScript")
+        credentials {
+            username = project.findProperty("gprUser") ?: project.findProperty("gpr.user") ?: System.getenv("USERNAME") ?: System.getenv("GITHUB_ACTOR")
+            password = project.findProperty("gprToken") ?: project.findProperty("gpr.key") ?: System.getenv("TOKEN") ?: System.getenv("GITHUB_TOKEN")
+        }
+    }
 }
 
 java {
@@ -23,11 +21,22 @@ java {
 }
 
 test {
-    minHeapSize = "5m" // initial heap size
-    maxHeapSize = "7m" // maximum heap size
+    minHeapSize = "4m" // initial heap size
+    maxHeapSize = "6m" // maximum heap size
 }
 
+// Newest release of PrintScript in GitHub Packages; pin one with -PprintscriptVersion=<version>
+def printscriptVersion = project.findProperty("printscriptVersion") ?: "latest.release"
+
 dependencies {
+    implementation "org.example:com.ingsis.engine:${printscriptVersion}"
+    implementation "org.example:com.ingsis.common:${printscriptVersion}"
+    implementation "org.example:com.ingsis.charstream:${printscriptVersion}"
+    implementation "org.example:com.ingsis.lexer:${printscriptVersion}"
+    implementation "org.example:com.ingsis.parser:${printscriptVersion}"
+    implementation "org.example:com.ingsis.interpreter:${printscriptVersion}"
+    implementation "org.example:com.ingsis.formatter:${printscriptVersion}"
+    implementation "org.example:com.ingsis.sca:${printscriptVersion}"
     testImplementation 'junit:junit:4.13.1'
 }
 
