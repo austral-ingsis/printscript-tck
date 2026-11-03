@@ -4,33 +4,77 @@ import interpreter.PrintScriptFormatter;
 import interpreter.PrintScriptInterpreter;
 import interpreter.PrintScriptLinter;
 
-import java.io.BufferedInputStream;
-import java.util.Arrays;
+import cnc.common.ContentManager;
+import cnc.common.Failure;
+import cnc.common.Result;
+import cnc.language.InterpreterIO;
+import cnc.language.LanguageFacade;
+import cnc.printscript.PrintScriptEngine;
+import kotlin.Unit;
+
+import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 public class CustomImplementationFactory implements PrintScriptFactory {
 
     @Override
     public PrintScriptInterpreter interpreter() {
-        // your PrintScript implementation should be returned here.
-        // make sure to ADAPT your implementation to PrintScriptInterpreter interface.
-        throw new NotImplementedException("Needs implementation"); // TODO: implement
-
-        // Dummy impl: return (src, version, emitter, handler) -> { };
+        return (src, version, emitter, handler, provider) -> {
+            try {
+                LanguageFacade printScript = PrintScriptEngine.INSTANCE.from(version);
+                InterpreterIO io = new InterpreterIO(
+                        prompt -> {
+                            if (prompt != null && !prompt.isEmpty()) {
+                                emitter.print(prompt);
+                            }
+                            return provider.input(prompt);
+                        },
+                        System::getenv,
+                        msg -> {
+                            emitter.print(msg);
+                            return Unit.INSTANCE;
+                        }
+                );
+                Result<Unit> result = printScript.execute(ContentManager.Companion.of(src), io);
+                if (result instanceof Failure) {
+                    handler.reportError(((Failure<Unit>) result).getMsg());
+                }
+            } catch (Throwable t) {
+                if (t instanceof OutOfMemoryError) {
+                    System.gc();
+                }
+                handler.reportError(t.getMessage() != null ? t.getMessage() : t.toString());
+            }
+        };
     }
 
     @Override
     public PrintScriptFormatter formatter() {
-        // your PrintScript formatter should be returned here.
-        // make sure to ADAPT your formatter to PrintScriptFormatter interface.
-        throw new NotImplementedException("Needs implementation"); // TODO: implement
-
-        // Dummy impl: return (src, version, config, writer) -> { };
+        return (src, version, config, writer) -> {
+            try {
+                LanguageFacade printScript = PrintScriptEngine.INSTANCE.from(version);
+                String configJson = new String(config.readAllBytes(), StandardCharsets.UTF_8);
+                String formatted = printScript.format(ContentManager.Companion.of(src), configJson);
+                writer.write(formatted);
+            } catch (Throwable t) {
+                // handle error
+            }
+        };
     }
 
     @Override
     public PrintScriptLinter linter() {
-        // your PrintScript linter should be returned here.
-        // make sure to ADAPT your linter to PrintScriptLinter interface.
-        throw new NotImplementedException("Needs implementation"); // TODO: implement
+        return (src, version, config, handler) -> {
+            try {
+                LanguageFacade printScript = PrintScriptEngine.INSTANCE.from(version);
+                String configJson = new String(config.readAllBytes(), StandardCharsets.UTF_8);
+                List<String> warnings = printScript.lint(ContentManager.Companion.of(src), configJson);
+                for (String warning : warnings) {
+                    handler.reportError(warning);
+                }
+            } catch (Throwable t) {
+                handler.reportError(t.getMessage() != null ? t.getMessage() : t.toString());
+            }
+        };
     }
 }
