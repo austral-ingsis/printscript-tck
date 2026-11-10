@@ -28,12 +28,9 @@ test {
 
 dependencies {
     testImplementation 'junit:junit:4.13.1'
-    implementation 'org.printscript:common:2.0.0-SNAPSHOT'
-    implementation 'org.printscript:lexer:2.0.0-SNAPSHOT'
-    implementation 'org.printscript:parser:2.0.0-SNAPSHOT'
-    implementation 'org.printscript:interpreter:2.0.0-SNAPSHOT'
-    implementation 'org.printscript:formatter:2.0.0-SNAPSHOT'
-    implementation 'org.printscript:analyzer:2.0.0-SNAPSHOT'
+    // Desde la 2.0.0 los adapters solo usan los servicios de runner (igual que la CLI);
+    // common/lexer/parser/interpreter/formatter/analyzer ya no se declaran sueltos.
+    implementation 'org.printscript:runner:2.0.0-SNAPSHOT'
 }
 
 test {
