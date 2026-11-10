@@ -37,7 +37,7 @@ dependencies {
 
 test {
     minHeapSize = "5m"
-    maxHeapSize = "25m"
+    maxHeapSize = "7m"
     environment "BEST_FOOTBALL_CLUB", "San Lorenzo"
     useJUnit()
 }
